@@ -49,6 +49,16 @@ class XiangqiGame:
                 self._red_move = True
 
         def make_move(self, begin_coord, end_coord):
+            begin_coord = begin_coord
+            end_coord = end_coord
+            begin_coord_lst = self.convert_coord(begin_coord)
+            end_coord_lst = self.convert_coord(end_coord)
+            x_0 = begin_coord_lst[0]
+            y_0 = begin_coord_lst[1]
+            x_1 = end_coord_lst[0]
+            y_1 = end_coord_lst[1]
+
+
 
 
         #####We now initialize the piece objects and place on Board##############
