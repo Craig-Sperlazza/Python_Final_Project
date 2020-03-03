@@ -48,15 +48,6 @@ class XiangqiGame:
             else:
                 self._red_move = True
 
-        def make_move(self, begin_coord, end_coord):
-            begin_coord = begin_coord
-            end_coord = end_coord
-            begin_coord_lst = self.convert_coord(begin_coord)
-            end_coord_lst = self.convert_coord(end_coord)
-            x_0 = begin_coord_lst[0]
-            y_0 = begin_coord_lst[1]
-            x_1 = end_coord_lst[0]
-            y_1 = end_coord_lst[1]
 
 
 
@@ -68,7 +59,7 @@ class XiangqiGame:
         ########################################################################
 
         ####################   RED ROOKS   #####################################
-        red_rook1 = Piece('RR', 'red', 'rook', 'a1')
+        red_rook1 = Rook('RR', 'red', 'rook', 'a1')
         str_coord = 'a1'
         list_coord = self.convert_coord(str_coord)
         x = list_coord[0]
@@ -81,6 +72,8 @@ class XiangqiGame:
         x = list_coord[0]
         y = list_coord[1]
         self._board[y][x] = red_rook2  #have to do y first because nested list
+
+        #print(red_rook2.get_type())
 
         ####################   RED KNIGHTS/HORSES  #############################
         red_knight1 = Piece('RN', 'red', 'knight', 'b1')
@@ -136,20 +129,20 @@ class XiangqiGame:
         self._board[y][x] = red_king  # have to do y first because nested list
 
 
-        ####################   RED CANONS   ####################################
-        red_canon1 = Piece('RC', 'red', 'canon', 'b3')
+        ####################   RED CANNONS   ####################################
+        red_cannon1 = Piece('RC', 'red', 'cannon', 'b3')
         str_coord = 'b3'
         list_coord = self.convert_coord(str_coord)
         x = list_coord[0]
         y = list_coord[1]
-        self._board[y][x] = red_canon1  # have to do y first because nested list
+        self._board[y][x] = red_cannon1  # have to do y first because nested list
 
-        red_canon2 = Piece('RC', 'red', 'canon', 'h3')
+        red_cannon2 = Piece('RC', 'red', 'cannon', 'h3')
         str_coord = 'h3'
         list_coord = self.convert_coord(str_coord)
         x = list_coord[0]
         y = list_coord[1]
-        self._board[y][x] = red_canon2  # have to do y first because nested list
+        self._board[y][x] = red_cannon2  # have to do y first because nested list
 
         ####################   RED PAWNS   #####################################
         red_pawn1 = Piece('RP', 'red', 'pawn', 'a4')
@@ -259,20 +252,20 @@ class XiangqiGame:
         y = list_coord[1]
         self._board[y][x] = black_king  # have to do y first because nested list
 
-        ####################   BLACK CANONS   ####################################
-        black_canon1 = Piece('BC', 'black', 'canon', 'b8')
+        ####################   BLACK CANNONS   ####################################
+        black_cannon1 = Piece('BC', 'black', 'cannon', 'b8')
         str_coord = 'b8'
         list_coord = self.convert_coord(str_coord)
         x = list_coord[0]
         y = list_coord[1]
-        self._board[y][x] = black_canon1  # have to do y first because nested list
+        self._board[y][x] = black_cannon1  # have to do y first because nested list
 
-        black_canon2 = Piece('BC', 'black', 'canon', 'h8')
+        black_cannon2 = Piece('BC', 'black', 'cannon', 'h8')
         str_coord = 'h8'
         list_coord = self.convert_coord(str_coord)
         x = list_coord[0]
         y = list_coord[1]
-        self._board[y][x] = black_canon2  # have to do y first because nested list
+        self._board[y][x] = black_cannon2  # have to do y first because nested list
 
         ####################   BLACK PAWNS   #####################################
         black_pawn1 = Piece('BP', 'black', 'pawn', 'a7')
@@ -376,37 +369,86 @@ class XiangqiGame:
     #def set_board(self, x_coord, y_coord, piece):
 
 
+    def make_move(self, begin_coord, end_coord):
+        begin_coord = begin_coord
+        end_coord = end_coord
+        begin_coord_lst = self.convert_coord(begin_coord)
+        end_coord_lst = self.convert_coord(end_coord)
+        x = begin_coord_lst[0]
+        y = begin_coord_lst[1]
+        x_1 = end_coord_lst[0]
+        y_1 = end_coord_lst[1]
 
+        piece = self._board[y][x]
+        print(piece.get_color())
+        print(piece.get_name())
+        print(piece.get_type())
+        print(piece.get_read())
 
+        #no piece on the coordinates
+        if piece == "":
+            print(False)
+            return False
+
+        #black is trying to move a red piece
+        if piece.get_color() == "red" and self._red_move == False:
+            return False
+        # red is trying to move a black piece
+        elif piece.get_color() == "black" and self._red_move == True:
+            return False
+            #print(False)
+
+        elif piece.get_type() == "rook":
+            pass
+
+        elif piece.get_type() == "pawn":
+            pass
+
+        elif piece.get_type() == "cannon":
+            pass
+
+        elif piece.get_type() == "king":
+            pass
+
+        elif piece.get_type() == "bishop":
+            pass
+
+        elif piece.get_type() == "guard":
+            pass
+
+        elif piece.get_type() == "knight":
+            pass
 
 class Piece:
-    def __init__(self, title, color, type, position = None):
-        self._title = title
+    def __init__(self, name, color, type, position = None):
+        self._name = name
         self._color = color
         self._type = type
         self._position = position
 
     def __repr__(self):   #print piece on board instead of object reference
-        return self._title
+        return self._name
 
-    def get_title(self):
-        return self._title
+    def get_name(self):
+        return self._name
 
     def get_color(self):
         return self._color
 
     def get_type(self):
-        return self._color
+        return self._type
 
     def get_position(self):
         return self._position
 
-class Cannon(Piece):
-    def __init__(self, title, color, type, position = None, board = XiangqiGame.get_board):
-        super().__init__(title, color, type, position)
-        self._board = board
+class Rook(Piece):
+    def __init__(self, name, color, type, position = None, read=None): #board = XiangqiGame.get_board,
+        super().__init__(name, color, type, position)
+        #self._board = board
+        self._read = read
 
-    #def
+    def get_read(self):
+        print(33)
 
 
 # red = Piece('red')
@@ -418,5 +460,5 @@ game = XiangqiGame()
 # print(game.get_board())
 game.get_board()
 
-new = Cannon()
-new.get_board()
+game.make_move("A1", "A2")
+
