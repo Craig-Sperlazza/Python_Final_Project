@@ -26,9 +26,32 @@ class XiangqiGame:
         self._game_state = "UNFINISHED"
         self._is_in_check = False
         self._black_is_in_check = False
-        self._white_is_in_check = False
+        self._red_is_in_check = False
 
-        #####We now initialize the piece objects and place on list##############
+        def get_game_state(self):
+            """Method that returns the current state of the game,
+            which is one of three states RED_WON, BLACK_WON, or UNFINISHED"""
+            return self._game_state
+
+        def set_game_state(self, color):
+            if color == "BLACK":
+                self._game_state = "BLACK_WON"
+            elif color == "RED":
+                self._game_state = "RED_WON"
+
+        def get_red_move(self):
+            return self.get_red_move()
+
+        def set_red_move(self):
+            if self._red_move == True:
+                self._red_move = False
+            else:
+                self._red_move = True
+
+        def make_move(self, begin_coord, end_coord):
+
+
+        #####We now initialize the piece objects and place on Board##############
 
         ########################################################################
         ####################   RED PIECES  #####################################
@@ -277,14 +300,6 @@ class XiangqiGame:
         y = list_coord[1]
         self._board[y][x] = black_pawn5  # have to do y first because nested list
 
-    def get_red_move(self):
-        return self.get_red_move()
-
-    def set_red_move(self):
-        if self._red_move == True:
-            self._red_move = False
-        else:
-            self._red_move = True
 
     def convert_coord(self, str_pos):
         """
@@ -349,6 +364,8 @@ class XiangqiGame:
         print("   A   B   C   D   E   F   G   H   I")
 
     #def set_board(self, x_coord, y_coord, piece):
+
+
 
 
 
