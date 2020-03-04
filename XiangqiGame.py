@@ -388,9 +388,7 @@ class XiangqiGame:
         print(piece.get_color())
         print(piece.get_name())
         print(piece.get_type())
-        print(piece.get_read())
-
-
+        #print(piece.get_read())
 
         #no piece on the coordinates
         if piece == "":
@@ -406,7 +404,7 @@ class XiangqiGame:
             #print(False)
 
         elif piece.get_type() == "rook":
-            pass
+            piece.get_read()
 
         elif piece.get_type() == "pawn":
             pass
@@ -454,18 +452,16 @@ class Rook(Piece):
         #self._board = XiangqiGame.get_board(self)
         self._read = read
 
-
-    """
     def get_read(self):
         print(33)
-        print(self._board(self))
+        #print(self._board(self))
 
-    def __repr__(self):   #print piece on board instead of object reference
-        return self._board
+    #def __repr__(self):   #print piece on board instead of object reference
+        #return self._board
 
     #def get_board_A1(self):
         #print(self._board[0][1], "XYZ")
-    """
+
 
 class Pawn(Piece):
     def __init__(self, name, color, type, position = None): #board = XiangqiGame.get_board,
@@ -497,6 +493,7 @@ class Cannon(Piece):
         super().__init__(name, color, type, position)
         #self._board = board
 
+
 # red = Piece('red')
 # cannon1 = Cannon(red, 'b3')
 # cannon2 = Cannon(red, 'h3')
@@ -510,6 +507,6 @@ print(game.get_board())
 
 game.make_move("A1", "A2")
 
-test = Rook()
+#test = Rook()
 #test.get_board_A1()
 
