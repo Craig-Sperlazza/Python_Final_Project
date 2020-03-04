@@ -6,7 +6,44 @@ from typing import List, Optional, Any
 # Description: Creates
 
 class XiangqiGame:
-    """Class named..."""
+    """Class named XiangiGame which initializes the Game and Board. INSERT
+    DESCRIPTION HERE.
+    Data Members:
+        The board which is initialized as a list with 10 nested lists and
+            each nested list is initialized as 9 empty strings.
+            This creates the 10x9 board
+        A move data member. This will track whose turn it is (red or black)
+        A game state data member initialized to UNFINISHED and the possible
+            states of RED_WON, BLACK_WON, or UNFINISHED"
+        A data member named is_in_check which is set to False
+            and updated if the King is in check.
+        A count data member initialized to one.
+            This will be used to keep track of the count of moves.
+    Methods:
+        Get and set methods for each of the data members
+        The Game class also calls the subclasses to initialize
+            each piece object into the board.
+        Convert coordinates method:
+            This will take the string coordinates given and convert them to
+            integers to use as list coordinates.
+        Print board method: prints the board in readable format.
+
+        Make move method
+            Takes a current location and next location as parameter
+            Converts this to integers to use as list coordinates
+            Validate that it is a legal move
+            Check that the position has a piece
+            That if it is red’s turn, red is moving a red piece, etc.
+            Then it will call a method in the piece subclass to
+                make sure that is a valid move for the piece
+            If that returns True
+                It will then call various sub-methods within the Game class
+                to further analyze if that is a legal move
+            If all of these returns True
+                It will then call a final method to make the move which
+                will update the board with the piece in the new position
+                and update the old position to empty. It will also change
+                game state if necessary and update turn and count. """
 
     def __init__(self):
         """Initializes a board as a list made of ten list elements, all of
@@ -34,22 +71,24 @@ class XiangqiGame:
             return self._game_state
 
         def set_game_state(self, color):
+            """Method that sets the current state of the game,
+            which is one of three states RED_WON, BLACK_WON, or UNFINISHED"""
             if color == "BLACK":
                 self._game_state = "BLACK_WON"
             elif color == "RED":
                 self._game_state = "RED_WON"
 
         def get_red_move(self):
+            """Method that returns True if it is Red's move"""
             return self.get_red_move()
 
         def set_red_move(self):
+            """Method to set whether it is red's move (True) or blacks
+            This will be called after every successful move"""
             if self._red_move == True:
                 self._red_move = False
             else:
                 self._red_move = True
-
-
-
 
 
         #####We now initialize the piece objects and place on Board##############
@@ -375,6 +414,27 @@ class XiangqiGame:
 
 
     def make_move(self, begin_coord, end_coord):
+        """
+
+        :param begin_coord: This will be a string representation of a coordinate
+        move using algebraic notation. This will be the position of the piece
+        the player wishes to move
+        :param end_coord: This will be a string representation of a coordinate
+        move using algebraic notation. This will be the position the player
+        wishes to move to
+        :return:
+        If the game has been won, it will Return False
+        If there is no piece at the coordinates, it will return False
+        If Red tries to move Black (and vice versa), it will return False
+        If the desired move is illegal for that piece type, it will return False
+        If the desired move violates a principal of the game, such as generals
+        facing each other or move into check, it will return False
+        Otherwise, it will
+            make the move by updating the board
+            update game state if applicable
+            update players turn
+            and Return True
+        """
         begin_coord = begin_coord
         end_coord = end_coord
         begin_coord_lst = self.convert_coord(begin_coord)
@@ -390,41 +450,44 @@ class XiangqiGame:
         print(piece.get_type())
         #print(piece.get_read())
 
-        #no piece on the coordinates
-        if piece == "":
-            print(False)
-            return False
+        if self._game_state == "UNFINISHED":
+            #no piece on the coordinates
+            if piece == "":
+                print(False)
+                return False
 
-        #black is trying to move a red piece
-        if piece.get_color() == "red" and self._red_move == False:
-            return False
-        # red is trying to move a black piece
-        elif piece.get_color() == "black" and self._red_move == True:
-            return False
-            #print(False)
+            #black is trying to move a red piece
+            if piece.get_color() == "red" and self._red_move == False:
+                return False
+            # red is trying to move a black piece
+            elif piece.get_color() == "black" and self._red_move == True:
+                return False
+                #print(False)
 
-        elif piece.get_type() == "rook":
-            piece.get_read()
+            elif piece.get_type() == "rook":
+                piece.get_read() #throwaway test function
+                #piece.validate_move(x, y, x_1, y_1, piece)
 
-        elif piece.get_type() == "pawn":
-            pass
+            elif piece.get_type() == "pawn":
+                pass
 
-        elif piece.get_type() == "cannon":
-            pass
+            elif piece.get_type() == "cannon":
+                pass
 
-        elif piece.get_type() == "king":
-            pass
+            elif piece.get_type() == "king":
+                pass
 
-        elif piece.get_type() == "bishop":
-            pass
+            elif piece.get_type() == "bishop":
+                pass
 
-        elif piece.get_type() == "guard":
-            pass
+            elif piece.get_type() == "guard":
+                pass
 
-        elif piece.get_type() == "knight":
-            pass
+            elif piece.get_type() == "knight":
+                pass
 
 class Piece:
+    """NEED TO UPDATE--WORK IN PROGRESS"""
     def __init__(self, name, color, type, position = None):
         self._name = name
         self._color = color
@@ -447,14 +510,27 @@ class Piece:
         return self._position
 
 class Rook(Piece):
-    def __init__(self, name, color, type, position = None, read=None): #board = XiangqiGame.get_board):
+    """NEED TO UPDATE--WORK IN PROGRESS"""
+    def __init__(self, name, color, type, position = None, read=None,):
         super().__init__(name, color, type, position)
-        #self._board = XiangqiGame.get_board(self)
+        self._board = XiangqiGame.get_board
         self._read = read
 
     def get_read(self):
         print(33)
         #print(self._board(self))
+
+    def validate_move(self, x1, y1, x2, y2):
+        #self._board[y1][x1] = piece
+
+
+
+        """
+        new_position = self._game.rev_coord(x_to, y_to)
+        self._board[y_to][x_to] = self  # Insert piece in new position
+        self._board[y_from][x_from] = ""  # Clear old position
+        self.__board[y_to][x_to]._piece_position = new_position
+        """
 
     #def __repr__(self):   #print piece on board instead of object reference
         #return self._board
@@ -464,31 +540,37 @@ class Rook(Piece):
 
 
 class Pawn(Piece):
+    """NEED TO UPDATE--WORK IN PROGRESS"""
     def __init__(self, name, color, type, position = None): #board = XiangqiGame.get_board,
         super().__init__(name, color, type, position)
         #self._board = board
 
 class Knight(Piece):
+    """NEED TO UPDATE--WORK IN PROGRESS"""
     def __init__(self, name, color, type, position = None): #board = XiangqiGame.get_board,
         super().__init__(name, color, type, position)
         #self._board = board
 
 class Bishop(Piece):
+    """NEED TO UPDATE--WORK IN PROGRESS"""
     def __init__(self, name, color, type, position = None): #board = XiangqiGame.get_board,
         super().__init__(name, color, type, position)
         #self._board = board
 
 class King(Piece):
+    """NEED TO UPDATE--WORK IN PROGRESS"""
     def __init__(self, name, color, type, position = None): #board = XiangqiGame.get_board,
         super().__init__(name, color, type, position)
         #self._board = board
 
 class Guard(Piece):
+    """NEED TO UPDATE--WORK IN PROGRESS"""
     def __init__(self, name, color, type, position = None): #board = XiangqiGame.get_board,
         super().__init__(name, color, type, position)
         #self._board = board
 
 class Cannon(Piece):
+    """NEED TO UPDATE--WORK IN PROGRESS"""
     def __init__(self, name, color, type, position = None): #board = XiangqiGame.get_board,
         super().__init__(name, color, type, position)
         #self._board = board
