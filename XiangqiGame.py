@@ -66,7 +66,7 @@ class XiangqiGame:
         y = list_coord[1]
         self._board[y][x] = red_rook1 #have to do y first because nested list
 
-        red_rook2 = Piece('RR', 'red', 'rook', 'i1')
+        red_rook2 = Rook('RR', 'red', 'rook', 'i1')
         str_coord = 'i1'
         list_coord = self.convert_coord(str_coord)
         x = list_coord[0]
@@ -76,14 +76,14 @@ class XiangqiGame:
         #print(red_rook2.get_type())
 
         ####################   RED KNIGHTS/HORSES  #############################
-        red_knight1 = Piece('RN', 'red', 'knight', 'b1')
+        red_knight1 = Knight('RN', 'red', 'knight', 'b1')
         str_coord = 'b1'
         list_coord = self.convert_coord(str_coord)
         x = list_coord[0]
         y = list_coord[1]
         self._board[y][x] = red_knight1  #have to do y first because nested list
 
-        red_knight2 = Piece('RN', 'red', 'knight', 'h1')
+        red_knight2 = Knight('RN', 'red', 'knight', 'h1')
         str_coord = 'h1'
         list_coord = self.convert_coord(str_coord)
         x = list_coord[0]
@@ -91,14 +91,14 @@ class XiangqiGame:
         self._board[y][x] = red_knight2  #have to do y first because nested list
 
         ####################   RED BISHOPS/ELEPHANTS  ##########################
-        red_bishop1 = Piece('RB', 'red', 'bishop', 'c1')
+        red_bishop1 = Bishop('RB', 'red', 'bishop', 'c1')
         str_coord = 'c1'
         list_coord = self.convert_coord(str_coord)
         x = list_coord[0]
         y = list_coord[1]
         self._board[y][x] = red_bishop1  #have to do y first because nested list
 
-        red_bishop2 = Piece('RB', 'red', 'bishop', 'g1')
+        red_bishop2 = Bishop('RB', 'red', 'bishop', 'g1')
         str_coord = 'g1'
         list_coord = self.convert_coord(str_coord)
         x = list_coord[0]
@@ -106,14 +106,14 @@ class XiangqiGame:
         self._board[y][x] = red_bishop2  #have to do y first because nested list
 
         ####################   RED GUARDS   ####################################
-        red_guard1 = Piece('RG', 'red', 'guard', 'd1')
+        red_guard1 = Guard('RG', 'red', 'guard', 'd1')
         str_coord = 'd1'
         list_coord = self.convert_coord(str_coord)
         x = list_coord[0]
         y = list_coord[1]
         self._board[y][x] = red_guard1  # have to do y first because nested list
 
-        red_guard2 = Piece('RG', 'red', 'guard', 'f1')
+        red_guard2 = Guard('RG', 'red', 'guard', 'f1')
         str_coord = 'f1'
         list_coord = self.convert_coord(str_coord)
         x = list_coord[0]
@@ -121,7 +121,7 @@ class XiangqiGame:
         self._board[y][x] = red_guard2  # have to do y first because nested list
 
         ####################   RED KING    #####################################
-        red_king = Piece('RK', 'red', 'king', 'e1')
+        red_king = King('RK', 'red', 'king', 'e1')
         str_coord = 'e1'
         list_coord = self.convert_coord(str_coord)
         x = list_coord[0]
@@ -130,14 +130,14 @@ class XiangqiGame:
 
 
         ####################   RED CANNONS   ####################################
-        red_cannon1 = Piece('RC', 'red', 'cannon', 'b3')
+        red_cannon1 = Cannon('RC', 'red', 'cannon', 'b3')
         str_coord = 'b3'
         list_coord = self.convert_coord(str_coord)
         x = list_coord[0]
         y = list_coord[1]
         self._board[y][x] = red_cannon1  # have to do y first because nested list
 
-        red_cannon2 = Piece('RC', 'red', 'cannon', 'h3')
+        red_cannon2 = Cannon('RC', 'red', 'cannon', 'h3')
         str_coord = 'h3'
         list_coord = self.convert_coord(str_coord)
         x = list_coord[0]
@@ -145,35 +145,35 @@ class XiangqiGame:
         self._board[y][x] = red_cannon2  # have to do y first because nested list
 
         ####################   RED PAWNS   #####################################
-        red_pawn1 = Piece('RP', 'red', 'pawn', 'a4')
+        red_pawn1 = Pawn('RP', 'red', 'pawn', 'a4')
         str_coord = 'a4'
         list_coord = self.convert_coord(str_coord)
         x = list_coord[0]
         y = list_coord[1]
         self._board[y][x] = red_pawn1  # have to do y first because nested list
 
-        red_pawn2 = Piece('RP', 'red', 'pawn', 'c4')
+        red_pawn2 = Pawn('RP', 'red', 'pawn', 'c4')
         str_coord = 'c4'
         list_coord = self.convert_coord(str_coord)
         x = list_coord[0]
         y = list_coord[1]
         self._board[y][x] = red_pawn2  # have to do y first because nested list
 
-        red_pawn3 = Piece('RP', 'red', 'pawn', 'e4')
+        red_pawn3 = Pawn('RP', 'red', 'pawn', 'e4')
         str_coord = 'e4'
         list_coord = self.convert_coord(str_coord)
         x = list_coord[0]
         y = list_coord[1]
         self._board[y][x] = red_pawn3  # have to do y first because nested list
 
-        red_pawn4 = Piece('RP', 'red', 'pawn', 'g4')
+        red_pawn4 = Pawn('RP', 'red', 'pawn', 'g4')
         str_coord = 'g4'
         list_coord = self.convert_coord(str_coord)
         x = list_coord[0]
         y = list_coord[1]
         self._board[y][x] = red_pawn4  # have to do y first because nested list
 
-        red_pawn5 = Piece('RP', 'red', 'pawn', 'i4')
+        red_pawn5 = Pawn('RP', 'red', 'pawn', 'i4')
         str_coord = 'i4'
         list_coord = self.convert_coord(str_coord)
         x = list_coord[0]
@@ -185,14 +185,14 @@ class XiangqiGame:
         ########################################################################
 
         ####################   BLACK ROOKS   #####################################
-        black_rook1 = Piece('BR', 'black', 'rook', 'a10')
+        black_rook1 = Rook('BR', 'black', 'rook', 'a10')
         str_coord = 'a10'
         list_coord = self.convert_coord(str_coord)
         x = list_coord[0]
         y = list_coord[1]
         self._board[y][x] = black_rook1  # have to do y first because nested list
 
-        black_rook2 = Piece('BR', 'black', 'rook', 'i10')
+        black_rook2 = Rook('BR', 'black', 'rook', 'i10')
         str_coord = 'i10'
         list_coord = self.convert_coord(str_coord)
         x = list_coord[0]
@@ -200,14 +200,14 @@ class XiangqiGame:
         self._board[y][x] = black_rook2  # have to do y first because nested list
 
         ####################   BLACK KNIGHTS/HORSES  #############################
-        black_knight1 = Piece('BN', 'black', 'knight', 'b10')
+        black_knight1 = Knight('BN', 'black', 'knight', 'b10')
         str_coord = 'b10'
         list_coord = self.convert_coord(str_coord)
         x = list_coord[0]
         y = list_coord[1]
         self._board[y][x] = black_knight1  # have to do y first because nested list
 
-        black_knight2 = Piece('BN', 'black', 'knight', 'h10')
+        black_knight2 = Knight('BN', 'black', 'knight', 'h10')
         str_coord = 'h10'
         list_coord = self.convert_coord(str_coord)
         x = list_coord[0]
@@ -215,14 +215,14 @@ class XiangqiGame:
         self._board[y][x] = black_knight2  # have to do y first because nested list
 
         ####################   BLACK BISHOPS/ELEPHANTS  ##########################
-        black_bishop1 = Piece('BB', 'black', 'bishop', 'c10')
+        black_bishop1 = Bishop('BB', 'black', 'bishop', 'c10')
         str_coord = 'c10'
         list_coord = self.convert_coord(str_coord)
         x = list_coord[0]
         y = list_coord[1]
         self._board[y][x] = black_bishop1  # have to do y first because nested list
 
-        black_bishop2 = Piece('BB', 'black', 'bishop', 'g10')
+        black_bishop2 = Bishop('BB', 'black', 'bishop', 'g10')
         str_coord = 'g10'
         list_coord = self.convert_coord(str_coord)
         x = list_coord[0]
@@ -230,14 +230,14 @@ class XiangqiGame:
         self._board[y][x] = black_bishop2  # have to do y first because nested list
 
         ####################   BLACK GUARDS   ####################################
-        black_guard1 = Piece('BG', 'black', 'guard', 'd10')
+        black_guard1 = Guard('BG', 'black', 'guard', 'd10')
         str_coord = 'd10'
         list_coord = self.convert_coord(str_coord)
         x = list_coord[0]
         y = list_coord[1]
         self._board[y][x] = black_guard1  # have to do y first because nested list
 
-        black_guard2 = Piece('BG', 'black', 'guard', 'f10')
+        black_guard2 = Guard('BG', 'black', 'guard', 'f10')
         str_coord = 'f10'
         list_coord = self.convert_coord(str_coord)
         x = list_coord[0]
@@ -245,7 +245,7 @@ class XiangqiGame:
         self._board[y][x] = black_guard2  # have to do y first because nested list
 
         ####################   BLACK KING    #####################################
-        black_king = Piece('BK', 'black', 'king', 'e10')
+        black_king = King('BK', 'black', 'king', 'e10')
         str_coord = 'e10'
         list_coord = self.convert_coord(str_coord)
         x = list_coord[0]
@@ -253,14 +253,14 @@ class XiangqiGame:
         self._board[y][x] = black_king  # have to do y first because nested list
 
         ####################   BLACK CANNONS   ####################################
-        black_cannon1 = Piece('BC', 'black', 'cannon', 'b8')
+        black_cannon1 = Cannon('BC', 'black', 'cannon', 'b8')
         str_coord = 'b8'
         list_coord = self.convert_coord(str_coord)
         x = list_coord[0]
         y = list_coord[1]
         self._board[y][x] = black_cannon1  # have to do y first because nested list
 
-        black_cannon2 = Piece('BC', 'black', 'cannon', 'h8')
+        black_cannon2 = Cannon('BC', 'black', 'cannon', 'h8')
         str_coord = 'h8'
         list_coord = self.convert_coord(str_coord)
         x = list_coord[0]
@@ -268,35 +268,35 @@ class XiangqiGame:
         self._board[y][x] = black_cannon2  # have to do y first because nested list
 
         ####################   BLACK PAWNS   #####################################
-        black_pawn1 = Piece('BP', 'black', 'pawn', 'a7')
+        black_pawn1 = Pawn('BP', 'black', 'pawn', 'a7')
         str_coord = 'a7'
         list_coord = self.convert_coord(str_coord)
         x = list_coord[0]
         y = list_coord[1]
         self._board[y][x] = black_pawn1  # have to do y first because nested list
 
-        black_pawn2 = Piece('BP', 'black', 'pawn', 'c7')
+        black_pawn2 = Pawn('BP', 'black', 'pawn', 'c7')
         str_coord = 'c7'
         list_coord = self.convert_coord(str_coord)
         x = list_coord[0]
         y = list_coord[1]
         self._board[y][x] = black_pawn2  # have to do y first because nested list
 
-        black_pawn3 = Piece('BP', 'black', 'pawn', 'e7')
+        black_pawn3 = Pawn('BP', 'black', 'pawn', 'e7')
         str_coord = 'e7'
         list_coord = self.convert_coord(str_coord)
         x = list_coord[0]
         y = list_coord[1]
         self._board[y][x] = black_pawn3  # have to do y first because nested list
 
-        black_pawn4 = Piece('BP', 'black', 'pawn', 'g7')
+        black_pawn4 = Pawn('BP', 'black', 'pawn', 'g7')
         str_coord = 'g7'
         list_coord = self.convert_coord(str_coord)
         x = list_coord[0]
         y = list_coord[1]
         self._board[y][x] = black_pawn4  # have to do y first because nested list
 
-        black_pawn5 = Piece('BP', 'black', 'pawn', 'i7')
+        black_pawn5 = Pawn('BP', 'black', 'pawn', 'i7')
         str_coord = 'i7'
         list_coord = self.convert_coord(str_coord)
         x = list_coord[0]
@@ -357,7 +357,12 @@ class XiangqiGame:
         # new = [x, y]
         # print(new)
 
+
     def get_board(self):
+        """return the board in list form in its current position"""
+        return self._board
+
+    def print_board(self):
         """return the board in a 9x10 grid"""
         x = 10
         for item in self._board:
@@ -384,6 +389,7 @@ class XiangqiGame:
         print(piece.get_name())
         print(piece.get_type())
         print(piece.get_read())
+        print(piece.get_boardA1())
 
         #no piece on the coordinates
         if piece == "":
@@ -442,14 +448,52 @@ class Piece:
         return self._position
 
 class Rook(Piece):
-    def __init__(self, name, color, type, position = None, read=None): #board = XiangqiGame.get_board,
+    def __init__(self, name, color, type, position = None, read=None, board = XiangqiGame.get_board):
         super().__init__(name, color, type, position)
-        #self._board = board
+        self._board = board
         self._read = read
 
+    """
     def get_read(self):
         print(33)
+        print(self._board(self))
 
+    def __repr__(self):   #print piece on board instead of object reference
+        return self._board
+
+    #def get_board_A1(self):
+        #print(self._board[0][1], "XYZ")
+    """
+
+class Pawn(Piece):
+    def __init__(self, name, color, type, position = None): #board = XiangqiGame.get_board,
+        super().__init__(name, color, type, position)
+        #self._board = board
+
+class Knight(Piece):
+    def __init__(self, name, color, type, position = None): #board = XiangqiGame.get_board,
+        super().__init__(name, color, type, position)
+        #self._board = board
+
+class Bishop(Piece):
+    def __init__(self, name, color, type, position = None): #board = XiangqiGame.get_board,
+        super().__init__(name, color, type, position)
+        #self._board = board
+
+class King(Piece):
+    def __init__(self, name, color, type, position = None): #board = XiangqiGame.get_board,
+        super().__init__(name, color, type, position)
+        #self._board = board
+
+class Guard(Piece):
+    def __init__(self, name, color, type, position = None): #board = XiangqiGame.get_board,
+        super().__init__(name, color, type, position)
+        #self._board = board
+
+class Cannon(Piece):
+    def __init__(self, name, color, type, position = None): #board = XiangqiGame.get_board,
+        super().__init__(name, color, type, position)
+        #self._board = board
 
 # red = Piece('red')
 # cannon1 = Cannon(red, 'b3')
@@ -458,7 +502,12 @@ game = XiangqiGame()
 # game._board[2][3]=cannon1
 # print(game._board[2][3])
 # print(game.get_board())
-game.get_board()
+game.print_board()
+
+print(game.get_board())
 
 game.make_move("A1", "A2")
+
+test = Rook()
+#test.get_board_A1()
 
