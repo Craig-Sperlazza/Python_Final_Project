@@ -389,7 +389,8 @@ class XiangqiGame:
         print(piece.get_name())
         print(piece.get_type())
         print(piece.get_read())
-        print(piece.get_boardA1())
+
+
 
         #no piece on the coordinates
         if piece == "":
@@ -448,10 +449,11 @@ class Piece:
         return self._position
 
 class Rook(Piece):
-    def __init__(self, name, color, type, position = None, read=None, board = XiangqiGame.get_board):
+    def __init__(self, name, color, type, position = None, read=None): #board = XiangqiGame.get_board):
         super().__init__(name, color, type, position)
-        self._board = board
+        #self._board = XiangqiGame.get_board(self)
         self._read = read
+
 
     """
     def get_read(self):
