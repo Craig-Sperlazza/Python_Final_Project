@@ -401,6 +401,10 @@ class XiangqiGame:
         """return the board in list form in its current position"""
         return self._board
 
+    def set_board(self, x, y, x1, y1, piece):
+        self._board[y1][x1] = piece
+        self._board[y][x] = ""
+
     def print_board(self):
         """return the board in a 9x10 grid"""
         x = 10
@@ -445,15 +449,19 @@ class XiangqiGame:
         y_end = end_coord_lst[1]
 
         piece = self._board[y][x]
-        print(piece.get_color())
-        print(piece.get_name())
-        print(piece.get_type())
+        #print(piece.get_color())
+        #print(piece.get_name())
+        #print(piece.get_type())
         #print(piece.get_read())
 
         if self._game_state == "UNFINISHED":
             #no piece on the coordinates
             if piece == "":
-                print(False)
+                #print(False)
+                return False
+
+            #no actual movement
+            if x == x_end and y == y_end:
                 return False
 
             #black is trying to move a red piece
@@ -469,13 +477,19 @@ class XiangqiGame:
                 if valid == False:
                     return False
                 else:
-                    print(piece.get_color())
+                    print(piece.get_color(), "rook valid move")
+                    self.set_board(x, y, x_end, y_end, piece)
 
                 #throwaway test function
                 #piece.validate_move(x, y, x_1, y_1, piece)
 
             elif piece.get_type() == "pawn":
-                pass
+                valid = piece.pawn_valid_move(x, y, x_end, y_end, piece)
+                if valid == False:
+                    return False
+                else:
+                    print(piece.get_color(), "pawn valid move")
+                    self.set_board(x, y, x_end, y_end, piece)
 
             elif piece.get_type() == "cannon":
                 pass
@@ -517,47 +531,51 @@ class Piece:
 
 class Rook(Piece):
     """NEED TO UPDATE--WORK IN PROGRESS"""
-    def __init__(self, name, color, type, position = None, read=None):
+    def __init__(self, name, color, type, position = None):
         super().__init__(name, color, type, position)
-        self._read = read
-
-    def get_read(self):
-        print(33)
-        #print(get_color())
-        #print(self._board(self))
 
     def rook_valid_move(self, x1, y1, x2, y2, piece):
-        #if piece.get_color() == "red":
-            #print(piece.get_color())
-            #print(x1, y1, x2, y2)
+        #print(piece.get_color())
+        #print(x1, y1, x2, y2)
         if x1 != x2 and y1 != y2:
-            print("cant move")
+            #print("cant move")
             return False
-        else:
-            print("ok move")
+        elif x1 == x2 and y1 == y2:
+            #print("not ok")
+            return False
+        return
 
-
-
-
-        """
-        new_position = self._game.rev_coord(x_to, y_to)
-        self._board[y_to][x_to] = self  # Insert piece in new position
-        self._board[y_from][x_from] = ""  # Clear old position
-        self.__board[y_to][x_to]._piece_position = new_position
-        """
-
-    #def __repr__(self):   #print piece on board instead of object reference
-        #return self._board
-
-    #def get_board_A1(self):
-        #print(self._board[0][1], "XYZ")
 
 
 class Pawn(Piece):
     """NEED TO UPDATE--WORK IN PROGRESS"""
-    def __init__(self, name, color, type, position = None): #board = XiangqiGame.get_board,
+
+    def __init__(self, name, color, type, position=None):
         super().__init__(name, color, type, position)
-        #self._board = board
+
+    def pawn_valid_move(self, x1, y1, x2, y2, piece):
+        if piece.get_color() == "red":
+            print(x1, y1, x2, y2)
+            if y1 == 6 or y2 == 5: #precrossing the river
+                if y2 != (y1 - 1) or x1 != x2:
+                    print("cant move preriver")
+                    return False
+                else:
+                    print("valid Pre-river")
+            else: #after the pawn crosses the river
+                if y2 == (y1 - 1) and x2 == x1:
+                    print("validpostY")
+                    return
+                elif x2 == (x1 - 1) and y2 == y1:
+                    print("validpostX-1")
+                    return
+                elif x2 == (x1 + 1) and y2 == y1:
+                    print("validpostX+1")
+                    return
+                else:
+                    print("cant move postriver")
+                    return False
+
 
 class Knight(Piece):
     """NEED TO UPDATE--WORK IN PROGRESS"""
@@ -594,15 +612,17 @@ class Cannon(Piece):
 # cannon1 = Cannon(red, 'b3')
 # cannon2 = Cannon(red, 'h3')
 game = XiangqiGame()
-# game._board[2][3]=cannon1
-# print(game._board[2][3])
-# print(game.get_board())
+game.print_board()
+#game.make_move("a1", "a2") #rook
+game.make_move("a4", "a5")
+game.make_move("a5", "a6")
+game.make_move("a6", "a7")
+game.make_move("a7", "b7")
+game.make_move("b7", "a7")
 game.print_board()
 
-print(game.get_board())
+#print(game.get_board()) #prints it as a list
 
-game.make_move("a1", "b1")
 
-#test = Rook()
-#test.get_board_A1()
+
 
