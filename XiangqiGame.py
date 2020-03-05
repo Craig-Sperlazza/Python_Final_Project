@@ -464,6 +464,7 @@ class XiangqiGame:
             if x == x_end and y == y_end:
                 return False
 
+            """ THIS IS WORKING BUT WE NEED A PORTION TO UPDATE THE MOVE
             #black is trying to move a red piece
             if piece.get_color() == "red" and self._red_move == False:
                 return False
@@ -471,13 +472,18 @@ class XiangqiGame:
             elif piece.get_color() == "black" and self._red_move == True:
                 return False
                 #print(False)
+            
+            #THis is just a throwaway to get the iff from above
+            if piece == piece:
+                red = "blue"
+            """
 
-            elif piece.get_type() == "rook":
+            if piece.get_type() == "rook":
                 valid = piece.rook_valid_move(x, y, x_end, y_end, piece)
                 if valid == False:
                     return False
                 else:
-                    print(piece.get_color(), "rook valid move")
+                    #print(piece.get_color(), "rook valid move")
                     self.set_board(x, y, x_end, y_end, piece)
 
                 #throwaway test function
@@ -488,11 +494,16 @@ class XiangqiGame:
                 if valid == False:
                     return False
                 else:
-                    print(piece.get_color(), "pawn valid move")
+                    #print(piece.get_color(), "pawn valid move")
                     self.set_board(x, y, x_end, y_end, piece)
 
             elif piece.get_type() == "cannon":
-                pass
+                valid = piece.cannon_valid_move(x, y, x_end, y_end, piece)
+                if valid == False:
+                    return False
+                else:
+                    # print(piece.get_color(), "rook valid move")
+                    self.set_board(x, y, x_end, y_end, piece)
 
             elif piece.get_type() == "king":
                 pass
@@ -555,8 +566,8 @@ class Pawn(Piece):
 
     def pawn_valid_move(self, x1, y1, x2, y2, piece):
         if piece.get_color() == "red":
-            print(x1, y1, x2, y2)
-            if y1 == 6 or y2 == 5: #precrossing the river
+            print(x1, y1, x2, y2, "red")
+            if y1 == 5 or y1 == 6: #precrossing the river
                 if y2 != (y1 - 1) or x1 != x2:
                     print("cant move preriver")
                     return False
@@ -575,54 +586,149 @@ class Pawn(Piece):
                 else:
                     print("cant move postriver")
                     return False
-
+        if piece.get_color() == "black":
+            print(x1, y1, x2, y2, "black")
+            if y1 == 3 or y1 == 4: #precrossing the river
+                if y2 != (y1 + 1) or x1 != x2:
+                    print("cant move preriver")
+                    return False
+                else:
+                    print("valid Pre-river")
+            else: #after the pawn crosses the river
+                if y2 == (y1 + 1) and x2 == x1:
+                    print("validpostY")
+                    return
+                elif x2 == (x1 - 1) and y2 == y1:
+                    print("validpostX-1")
+                    return
+                elif x2 == (x1 + 1) and y2 == y1:
+                    print("validpostX+1")
+                    return
+                else:
+                    print("cant move postriver")
+                    return False
 
 class Knight(Piece):
     """NEED TO UPDATE--WORK IN PROGRESS"""
-    def __init__(self, name, color, type, position = None): #board = XiangqiGame.get_board,
+    def __init__(self, name, color, type, position = None):
         super().__init__(name, color, type, position)
         #self._board = board
 
 class Bishop(Piece):
     """NEED TO UPDATE--WORK IN PROGRESS"""
-    def __init__(self, name, color, type, position = None): #board = XiangqiGame.get_board,
+    def __init__(self, name, color, type, position = None):
         super().__init__(name, color, type, position)
         #self._board = board
 
 class King(Piece):
     """NEED TO UPDATE--WORK IN PROGRESS"""
-    def __init__(self, name, color, type, position = None): #board = XiangqiGame.get_board,
+    def __init__(self, name, color, type, position = None):
         super().__init__(name, color, type, position)
         #self._board = board
 
 class Guard(Piece):
     """NEED TO UPDATE--WORK IN PROGRESS"""
-    def __init__(self, name, color, type, position = None): #board = XiangqiGame.get_board,
+    def __init__(self, name, color, type, position = None):
         super().__init__(name, color, type, position)
         #self._board = board
 
 class Cannon(Piece):
     """NEED TO UPDATE--WORK IN PROGRESS"""
-    def __init__(self, name, color, type, position = None): #board = XiangqiGame.get_board,
+    def __init__(self, name, color, type, position = None):
         super().__init__(name, color, type, position)
-        #self._board = board
+
+    def cannon_valid_move(self, x1, y1, x2, y2, piece):
+        print(piece.get_color())
+        print(x1, y1, x2, y2)
+        if x1 != x2 and y1 != y2:
+            #print("cant move")
+            return False
+        elif x1 == x2 and y1 == y2:
+            #print("not ok")
+            return False
+        return
 
 
-# red = Piece('red')
-# cannon1 = Cannon(red, 'b3')
-# cannon2 = Cannon(red, 'h3')
 game = XiangqiGame()
+game.print_board() #starting board
+
+
+############## RED CANNON TESTING ######################
+game.make_move("b3", "b4")
 game.print_board()
-#game.make_move("a1", "a2") #rook
-game.make_move("a4", "a5")
-game.make_move("a5", "a6")
+game.make_move("b4", "b8")
+game.print_board()
+game.make_move("b8", "g8")
+game.print_board()
+game.make_move("g8", "b8")
+game.print_board()
+game.make_move("b8", "b4")
+game.print_board()
+game.make_move("b4", "b1")
+game.print_board()
+
+"""
+############## RED CANNON TESTING ######################
+game.make_move("b3", "b4")
+game.print_board()
+game.make_move("b4", "b8")
+game.print_board()
+game.make_move("b8", "g8")
+game.print_board()
+game.make_move("g8", "b8")
+game.print_board()
+game.make_move("b8", "b4")
+game.print_board()
+game.make_move("b4", "b1")
+game.print_board()
+"""
+
+"""
+########BLACK PAWN TESTING##################################
+game.make_move("a7", "a6") #passes
+game.print_board()
+game.make_move("a6", "a5")
+game.print_board()
+game.make_move("a5", "a4")
+game.print_board()
+
+game.make_move("a4", "b4")
+game.print_board()
+
+game.make_move("b4", "a4")
+game.print_board()
+
 game.make_move("a6", "a7")
+game.print_board()
+game.make_move("a7", "b7")
+game.make_move("b7", "a7")
+
+#game.make_move("a7", "a6") #fails
+#game.print_board()
+"""
+
+"""
+########RED PAWN TESTING###################################
+game.make_move("a4", "a5")
+game.print_board()
+game.make_move("a5", "a6")
+game.print_board()
+game.make_move("a6", "a7")
+game.print_board()
 game.make_move("a7", "b7")
 game.make_move("b7", "a7")
 game.print_board()
 
-#print(game.get_board()) #prints it as a list
 
+##################ROOK#####################################
+#NOTE I DELETED MOST OF TESTING
+#game.make_move("a1", "a2") #rook
+
+
+
+
+#print(game.get_board()) #prints it as a list
+"""
 
 
 
