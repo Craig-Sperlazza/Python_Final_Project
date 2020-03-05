@@ -502,14 +502,19 @@ class XiangqiGame:
                 if valid == False:
                     return False
                 else:
-                    # print(piece.get_color(), "rook valid move")
+                    # print(piece.get_color(), "pawn valid move")
                     self.set_board(x, y, x_end, y_end, piece)
 
             elif piece.get_type() == "king":
                 pass
 
             elif piece.get_type() == "bishop":
-                pass
+                valid = piece.bishop_valid_move(x, y, x_end, y_end, piece)
+                if valid == False:
+                    return False
+                else:
+                    # print(piece.get_color(), "bishop valid move")
+                    self.set_board(x, y, x_end, y_end, piece)
 
             elif piece.get_type() == "guard":
                 pass
@@ -618,7 +623,34 @@ class Bishop(Piece):
     """NEED TO UPDATE--WORK IN PROGRESS"""
     def __init__(self, name, color, type, position = None):
         super().__init__(name, color, type, position)
-        #self._board = board
+
+    def bishop_valid_move(self, x1, y1, x2, y2, piece):
+        #print(piece.get_color())
+        print(x1, y1, x2, y2)
+        if piece.get_color() == "red":
+            print(x1, y1, x2, y2, "red")
+            if y2 <= 4:  # can not cross the river
+                print("can't cross river")
+                return False
+            else:
+                print(x1, y1, x2, y2, "diagonal")
+                if x2 == x1 or y2 == y1: #cant go stright in either direction
+                    print("cant go straight")
+                    return False
+                elif x2 == (x1 - 2) and y2 == (y1 - 2):
+                    print("TL")
+                    return
+                elif x2 == (x1 + 2) and y2 == (y1 - 2):
+                    print("TR")
+                    return
+                elif x2 == (x1 - 2) and y2 == (y1 + 2):
+                    print("BL")
+                    return
+                elif x2 == (x1 + 2) and y2 == (y1 + 2):
+                    print("BR")
+                    return
+                else:
+                    return False
 
 class King(Piece):
     """NEED TO UPDATE--WORK IN PROGRESS"""
@@ -653,19 +685,58 @@ game = XiangqiGame()
 game.print_board() #starting board
 
 
-############## RED CANNON TESTING ######################
-game.make_move("b3", "b4")
+"""
+#################   RED BISHOP TESTING  ############################
+
+game.make_move("c1", "d2") #cant go diagonal 1 spot
 game.print_board()
-game.make_move("b4", "b8")
+
+game.make_move("c1", "f4") #cant go diagonal 3 spot
 game.print_board()
-game.make_move("b8", "g8")
+
+game.make_move("c1", "e3") #will work
+game.print_board()
+
+game.make_move("e3", "e4") #cant go straight
+game.print_board()
+
+game.make_move("e3", "h3") #cant go straight
+game.print_board()
+
+game.make_move("e3", "a3") #cant go straight
+game.print_board()
+
+game.make_move("e3", "c1") #will work go back to start
+game.print_board()
+
+game.make_move("c1", "a3") #valid Top Left
+game.print_board()
+
+game.make_move("a3", "c5") #valid Top right
+game.print_board()
+
+game.make_move("c5", "e3") #valid bottom right
+game.print_board()
+
+game.make_move("e3", "c1") #valid bottom left
+game.print_board()
+"""
+
+"""
+############## BLACK CANNON TESTING ######################
+game.make_move("b8", "b7")
+game.print_board()
+game.make_move("b7", "b2")
+game.print_board()
+game.make_move("b2", "g2")
+game.print_board()
+game.make_move("g2", "g8")
 game.print_board()
 game.make_move("g8", "b8")
 game.print_board()
-game.make_move("b8", "b4")
+game.make_move("b8", "c7")
 game.print_board()
-game.make_move("b4", "b1")
-game.print_board()
+"""
 
 """
 ############## RED CANNON TESTING ######################
