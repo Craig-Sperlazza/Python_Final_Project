@@ -441,8 +441,8 @@ class XiangqiGame:
         end_coord_lst = self.convert_coord(end_coord)
         x = begin_coord_lst[0]
         y = begin_coord_lst[1]
-        x_1 = end_coord_lst[0]
-        y_1 = end_coord_lst[1]
+        x_end = end_coord_lst[0]
+        y_end = end_coord_lst[1]
 
         piece = self._board[y][x]
         print(piece.get_color())
@@ -465,7 +465,13 @@ class XiangqiGame:
                 #print(False)
 
             elif piece.get_type() == "rook":
-                piece.get_read() #throwaway test function
+                valid = piece.rook_valid_move(x, y, x_end, y_end, piece)
+                if valid == False:
+                    return False
+                else:
+                    print(piece.get_color())
+
+                #throwaway test function
                 #piece.validate_move(x, y, x_1, y_1, piece)
 
             elif piece.get_type() == "pawn":
@@ -511,17 +517,25 @@ class Piece:
 
 class Rook(Piece):
     """NEED TO UPDATE--WORK IN PROGRESS"""
-    def __init__(self, name, color, type, position = None, read=None,):
+    def __init__(self, name, color, type, position = None, read=None):
         super().__init__(name, color, type, position)
-        self._board = XiangqiGame.get_board
         self._read = read
 
     def get_read(self):
         print(33)
+        #print(get_color())
         #print(self._board(self))
 
-    def validate_move(self, x1, y1, x2, y2):
-        #self._board[y1][x1] = piece
+    def rook_valid_move(self, x1, y1, x2, y2, piece):
+        #if piece.get_color() == "red":
+            #print(piece.get_color())
+            #print(x1, y1, x2, y2)
+        if x1 != x2 and y1 != y2:
+            print("cant move")
+            return False
+        else:
+            print("ok move")
+
 
 
 
@@ -587,7 +601,7 @@ game.print_board()
 
 print(game.get_board())
 
-game.make_move("A1", "A2")
+game.make_move("a1", "b1")
 
 #test = Rook()
 #test.get_board_A1()
