@@ -651,6 +651,30 @@ class Bishop(Piece):
                     return
                 else:
                     return False
+        elif piece.get_color() == "black":
+            print(x1, y1, x2, y2, "black")
+            if y2 >= 5:  # can not cross the river
+                print("can't cross river")
+                return False
+            else:
+                print(x1, y1, x2, y2, "diagonal")
+                if x2 == x1 or y2 == y1: #cant go stright in either direction
+                    print("cant go straight")
+                    return False
+                elif x2 == (x1 - 2) and y2 == (y1 - 2):
+                    print("TL")
+                    return
+                elif x2 == (x1 + 2) and y2 == (y1 - 2):
+                    print("TR")
+                    return
+                elif x2 == (x1 - 2) and y2 == (y1 + 2):
+                    print("BL")
+                    return
+                elif x2 == (x1 + 2) and y2 == (y1 + 2):
+                    print("BR")
+                    return
+                else:
+                    return False
 
 class King(Piece):
     """NEED TO UPDATE--WORK IN PROGRESS"""
@@ -682,8 +706,32 @@ class Cannon(Piece):
 
 
 game = XiangqiGame()
-game.print_board() #starting board
+#game.print_board() #starting board
 
+"""
+#################   BLACK BISHOP TESTING  ############################
+#game.make_move("c10", "e5") #cant cross the river
+#game.print_board()
+
+#game.make_move("c10", "c9") #cant go straight
+#game.print_board()
+
+#game.make_move("c10", "d10") #cant go sideways
+#game.print_board()
+
+
+game.make_move("c10", "e8") #will work
+game.print_board()
+
+game.make_move("e8", "c6") #will work
+game.print_board()
+
+game.make_move("c6", "a8") #will work
+game.print_board()
+
+game.make_move("a8", "c10") #will work
+game.print_board()
+"""
 
 """
 #################   RED BISHOP TESTING  ############################
