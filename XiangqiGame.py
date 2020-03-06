@@ -522,7 +522,12 @@ class XiangqiGame:
                     self.set_board(x, y, x_end, y_end, piece)
 
             elif piece.get_type() == "guard":
-                pass
+                valid = piece.guard_valid_move(x, y, x_end, y_end, piece)
+                if valid == False:
+                    return False
+                else:
+                    # print(piece.get_color(), "guard valid move")
+                    self.set_board(x, y, x_end, y_end, piece)
 
             elif piece.get_type() == "knight":
                 valid = piece.knight_valid_move(x, y, x_end, y_end, piece)
@@ -769,7 +774,58 @@ class Guard(Piece):
     """NEED TO UPDATE--WORK IN PROGRESS"""
     def __init__(self, name, color, type, position = None):
         super().__init__(name, color, type, position)
-        #self._board = board
+
+    def guard_valid_move(self, x1, y1, x2, y2, piece):
+        print(x1, y1, x2, y2)
+        if piece.get_color() == "red":
+            print(x1, y1, x2, y2, "red guard")
+            if x2 <= 2 or x2 >= 6:  # can not leave palace left or right
+                print("can't leave palace x")
+                return False
+            elif y2 <= 6:  # can not leave palace up
+                print("can't leave palace y")
+                return False
+            else:
+                print(x1, y1, x2, y2, "valid move")
+                if x2 == (x1 - 1) and y2 == (y1 - 1):
+                    print("TL")
+                    return
+                elif x2 == (x1 + 1) and y2 == (y1 - 1):
+                    print("TR")
+                    return
+                elif x2 == (x1 - 1) and y2 == (y1 + 1):
+                    print("BL")
+                    return
+                elif x2 == (x1 + 1) and y2 == (y1 + 1):
+                    print("BR")
+                    return
+                else:
+                    return False
+
+        if piece.get_color() == "black":
+            print(x1, y1, x2, y2, "black guard")
+            if x2 <= 2 or x2 >= 6:  # can not leave palace left or right
+                print("can't leave palace x")
+                return False
+            elif y2 >= 3:  # can not leave palace down
+                print("can't leave palace y")
+                return False
+            else:
+                print(x1, y1, x2, y2, "valid move")
+                if x2 == (x1 - 1) and y2 == (y1 - 1):
+                    print("TL")
+                    return
+                elif x2 == (x1 + 1) and y2 == (y1 - 1):
+                    print("TR")
+                    return
+                elif x2 == (x1 - 1) and y2 == (y1 + 1):
+                    print("BL")
+                    return
+                elif x2 == (x1 + 1) and y2 == (y1 + 1):
+                    print("BR")
+                    return
+                else:
+                    return False
 
 class Cannon(Piece):
     """NEED TO UPDATE--WORK IN PROGRESS"""
@@ -790,6 +846,88 @@ class Cannon(Piece):
 
 game = XiangqiGame()
 #game.print_board() #starting board
+
+################################################################################
+################# ALL BOARD SPECIFIC PIECE TESTING BELOW  ######################
+################################################################################
+
+
+
+
+
+################################################################################
+#################### ALL SUBCLASS PIECE TESTING BELOW  #########################
+################################################################################
+"""
+#################   BLACK GUARD TESTING  ############################
+
+game.make_move("d10", "e9") #down right
+game.print_board()
+
+game.make_move("e9", "e10") #fail straight up
+game.print_board()
+
+game.make_move("e9", "f9") #fail right
+game.print_board()
+
+game.make_move("e9", "e8") #fail left
+game.print_board()
+
+game.make_move("e9", "e8") #fail straight down
+game.print_board()
+
+game.make_move("e9", "d8") #down left
+game.print_board()
+
+game.make_move("d8", "e9") #up right
+game.print_board()
+
+game.make_move("e9", "f8") #up left
+game.print_board()
+
+
+game.make_move("f8", "g7") #fail out of palace
+game.print_board()
+
+game.make_move("f8", "d10") #fail two spaces diagonal down right
+game.print_board()
+"""
+
+"""
+#################   RED GUARD TESTING  ############################
+
+game.make_move("d1", "e2") #up right
+game.print_board()
+
+game.make_move("e2", "e3") #fail straight up
+game.print_board()
+
+game.make_move("e2", "f2") #fail right
+game.print_board()
+
+game.make_move("e2", "d2") #fail left
+game.print_board()
+
+game.make_move("e2", "e1") #fail straight down
+game.print_board()
+
+game.make_move("e2", "f1") #down right
+game.print_board()
+
+game.make_move("f1", "e2") #up left
+game.print_board()
+
+game.make_move("e2", "d3") #up left
+game.print_board()
+
+game.make_move("d3", "c4") #fail out of palace
+game.print_board()
+
+game.make_move("d3", "f1") #fail two spaces diagonal down right
+game.print_board()
+"""
+
+
 
 """
 #################   BLACK KING TESTING  ############################
