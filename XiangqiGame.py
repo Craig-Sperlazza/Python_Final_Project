@@ -502,11 +502,16 @@ class XiangqiGame:
                 if valid == False:
                     return False
                 else:
-                    # print(piece.get_color(), "pawn valid move")
+                    # print(piece.get_color(), "cannon valid move")
                     self.set_board(x, y, x_end, y_end, piece)
 
             elif piece.get_type() == "king":
-                pass
+                valid = piece.king_valid_move(x, y, x_end, y_end, piece)
+                if valid == False:
+                    return False
+                else:
+                    # print(piece.get_color(), "king valid move")
+                    self.set_board(x, y, x_end, y_end, piece)
 
             elif piece.get_type() == "bishop":
                 valid = piece.bishop_valid_move(x, y, x_end, y_end, piece)
@@ -520,7 +525,12 @@ class XiangqiGame:
                 pass
 
             elif piece.get_type() == "knight":
-                pass
+                valid = piece.knight_valid_move(x, y, x_end, y_end, piece)
+                if valid == False:
+                    return False
+                else:
+                    # print(piece.get_color(), "pawn valid move")
+                    self.set_board(x, y, x_end, y_end, piece)
 
 class Piece:
     """NEED TO UPDATE--WORK IN PROGRESS"""
@@ -617,7 +627,38 @@ class Knight(Piece):
     """NEED TO UPDATE--WORK IN PROGRESS"""
     def __init__(self, name, color, type, position = None):
         super().__init__(name, color, type, position)
-        #self._board = board
+
+    def knight_valid_move(self, x1, y1, x2, y2, piece):
+        #print(piece.get_color())
+        print(x1, y1, x2, y2, "knight")
+        if x2 == (x1 - 1) and y2 == (y1 - 2):
+            print("UL")
+            return
+        elif x2 == (x1 + 1) and y2 == (y1 - 2):
+            print("UR")
+            return
+        elif x2 == (x1 + 2) and y2 == (y1 - 1):
+            print("RU")
+            return
+        elif x2 == (x1 + 2) and y2 == (y1 + 1):
+            print("RD")
+            return
+        ###########################
+        elif x2 == (x1 + 1) and y2 == (y1 + 2):
+            print("DR")
+            return
+        elif x2 == (x1 - 1) and y2 == (y1 + 2):
+            print("DL")
+            return
+        elif x2 == (x1 - 2) and y2 == (y1 + 1):
+            print("LD")
+            return
+        elif x2 == (x1 - 2) and y2 == (y1 - 1):
+            print("LU")
+            return
+        else:
+            return False
+
 
 class Bishop(Piece):
     """NEED TO UPDATE--WORK IN PROGRESS"""
@@ -680,7 +721,26 @@ class King(Piece):
     """NEED TO UPDATE--WORK IN PROGRESS"""
     def __init__(self, name, color, type, position = None):
         super().__init__(name, color, type, position)
-        #self._board = board
+
+    def king_valid_move(self, x1, y1, x2, y2, piece):
+        #print(piece.get_color())
+        print(x1, y1, x2, y2)
+        if piece.get_color() == "red":
+            print(x1, y1, x2, y2, "red king")
+            if x2 <= 2 or x2 >= 6:  # can not leave palace left or right
+                print("can't leave palace x")
+                return False
+            elif y2 <= 6:  # can not leave palace up
+                print("can't leave palace y")
+                return False
+            else:
+                print(x1, y1, x2, y2, "diagonal")
+                if x2 == x1 or y2 == y1: #cant go stright in either direction
+                    print("cant go straight")
+                    return False
+                elif x2 == (x1 - 2) and y2 == (y1 - 2):
+                    print("TL")
+                    return
 
 class Guard(Piece):
     """NEED TO UPDATE--WORK IN PROGRESS"""
@@ -707,6 +767,133 @@ class Cannon(Piece):
 
 game = XiangqiGame()
 #game.print_board() #starting board
+
+
+#################   RED KING TESTING  ############################
+
+########a few improper moves##################
+game.make_move("e1", "c8") #will work down right
+game.print_board()
+
+game.make_move("c8", "d7") #one diagonal fail
+game.print_board()
+
+"""
+#################   BLACK KNIGHT TESTING  ############################
+
+########a few improper moves##################
+game.make_move("b10", "c8") #will work down right
+game.print_board()
+
+game.make_move("c8", "d7") #one diagonal fail
+game.print_board()
+
+game.make_move("c8", "d8") #one right fail
+game.print_board()
+
+game.make_move("c8", "b8") #one left fail
+game.print_board()
+
+game.make_move("c8", "c9") #one up fail
+game.print_board()
+
+game.make_move("c8", "c7") #one down fail
+game.print_board()
+
+game.make_move("c8", "g5") #random
+game.print_board()
+
+game.make_move("c8", "a6") #random
+game.print_board()
+
+################# PROPER MOVES ALL WORK###########
+game.make_move("b10", "c8") #will work down right
+game.print_board()
+
+game.make_move("c8", "e9") #will work right up
+game.print_board()
+
+game.make_move("e9", "g8") #will work right down
+game.print_board()
+
+game.make_move("g8", "e9") #will work left up
+game.print_board()
+"""
+
+
+"""
+#################   RED KNIGHT TESTING  ############################
+########a few improper moves##################
+game.make_move("b1", "d2") #will work right up
+game.print_board()
+
+game.make_move("d2", "e3") #one diagonal fail
+game.print_board()
+
+game.make_move("d2", "e2") #one right fail
+game.print_board()
+
+game.make_move("d2", "c2") #one left fail
+game.print_board()
+
+game.make_move("d2", "d3") #one up fail
+game.print_board()
+
+game.make_move("d2", "d1") #one down fail
+game.print_board()
+
+game.make_move("d2", "g5") #random
+game.print_board()
+
+game.make_move("d2", "a7") #random
+game.print_board()
+
+
+################# PROPER MOVES ALL WORK###########
+game.make_move("b1", "d2") #will work right up
+game.print_board()
+
+game.make_move("d2", "f3") #will work right up
+game.print_board()
+
+game.make_move("f3", "d4") #will work left up
+game.print_board()
+
+game.make_move("d4", "e6") #will work up right
+game.print_board()
+
+game.make_move("e6", "c5") #will work  left down
+game.print_board()
+
+game.make_move("c5", "e6") #will work  right up
+game.print_board()
+
+game.make_move("e6", "g5") #will work  right down
+game.print_board()
+
+
+game.make_move("b1", "c3") #will work up right
+game.print_board()
+
+game.make_move("c3", "b5") #will work up left
+game.print_board()
+
+game.make_move("b5", "c3") #will work down right
+game.print_board()
+
+game.make_move("c3", "b1") #will work down left
+game.print_board()
+
+game.make_move("c3", "c6") #will work
+game.print_board()
+
+game.make_move("c6", "a8") #will work
+game.print_board()
+
+game.make_move("a8", "c10") #will work
+game.print_board()
+"""
+
 
 """
 #################   BLACK BISHOP TESTING  ############################
