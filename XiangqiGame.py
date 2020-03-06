@@ -561,7 +561,6 @@ class Rook(Piece):
         super().__init__(name, color, type, position)
 
     def rook_valid_move(self, x1, y1, x2, y2, piece):
-        #print(piece.get_color())
         #print(x1, y1, x2, y2)
         if x1 != x2 and y1 != y2:
             #print("cant move")
@@ -745,6 +744,26 @@ class King(Piece):
                     return
                 else:
                     return False
+        if piece.get_color() == "black":
+            print(x1, y1, x2, y2, "black king")
+            if x2 <= 2 or x2 >= 6:  # can not leave palace left or right
+                print("can't leave palace x")
+                return False
+            elif y2 >= 3:  # can not leave palace down
+                print("can't leave palace y")
+                return False
+            else:
+                print(x1, y1, x2, y2, "valid move")
+                if y2 == (y1 - 1) and x2 == x1:
+                    return
+                elif y2 == (y1 + 1) and x2 == x1:
+                    return
+                elif x2 == (x1 - 1) and y2 == y1:
+                    return
+                elif x2 == (x1 + 1) and y2 == y1:
+                    return
+                else:
+                    return False
 
 class Guard(Piece):
     """NEED TO UPDATE--WORK IN PROGRESS"""
@@ -771,6 +790,36 @@ class Cannon(Piece):
 
 game = XiangqiGame()
 #game.print_board() #starting board
+
+"""
+#################   BLACK KING TESTING  ############################
+game.make_move("e10", "e9") #down
+game.print_board()
+
+game.make_move("e9", "d9") #left
+game.print_board()
+
+game.make_move("d9", "c9") #fail---leave palace left
+game.print_board()
+
+game.make_move("d9", "e9") #right
+game.print_board()
+
+game.make_move("e9", "f9") #right
+game.print_board()
+
+game.make_move("f9", "g9") #fail leave palace right
+game.print_board()
+
+game.make_move("f9", "f8") #down
+game.print_board()
+
+game.make_move("f8", "f7") #fail leave palace down
+game.print_board()
+
+game.make_move("f8", "f9") #up
+game.print_board()
+"""
 
 """
 #################   RED KING TESTING  ############################
