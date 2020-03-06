@@ -734,13 +734,17 @@ class King(Piece):
                 print("can't leave palace y")
                 return False
             else:
-                print(x1, y1, x2, y2, "diagonal")
-                if x2 == x1 or y2 == y1: #cant go stright in either direction
-                    print("cant go straight")
-                    return False
-                elif x2 == (x1 - 2) and y2 == (y1 - 2):
-                    print("TL")
+                print(x1, y1, x2, y2, "valid move")
+                if y2 == (y1 - 1) and x2 == x1:
                     return
+                elif y2 == (y1 + 1) and x2 == x1:
+                    return
+                elif x2 == (x1 - 1) and y2 == y1:
+                    return
+                elif x2 == (x1 + 1) and y2 == y1:
+                    return
+                else:
+                    return False
 
 class Guard(Piece):
     """NEED TO UPDATE--WORK IN PROGRESS"""
@@ -768,15 +772,46 @@ class Cannon(Piece):
 game = XiangqiGame()
 #game.print_board() #starting board
 
-
+"""
 #################   RED KING TESTING  ############################
 
-########a few improper moves##################
-game.make_move("e1", "c8") #will work down right
+game.make_move("e1", "e2") #will work up
 game.print_board()
 
-game.make_move("c8", "d7") #one diagonal fail
+game.make_move("e2", "d2") #left
 game.print_board()
+
+game.make_move("d2", "c2") #fail---leave palace left
+game.print_board()
+
+game.make_move("d2", "e2") #right
+game.print_board()
+
+game.make_move("e2", "f2") #right
+game.print_board()
+
+game.make_move("f2", "g2") #fail leave the palace right
+game.print_board()
+
+game.make_move("f2", "f1") #down
+game.print_board()
+
+game.make_move("f1", "f3") #fail two spaces up
+game.print_board()
+
+game.make_move("f1", "d1") #fail two spaces left
+game.print_board()
+
+game.make_move("f1", "f2") #up
+game.print_board()
+
+game.make_move("f2", "f3") #up
+game.print_board()
+
+game.make_move("f3", "f4") #fail leave palace up
+game.print_board()
+"""
+
 
 """
 #################   BLACK KNIGHT TESTING  ############################
