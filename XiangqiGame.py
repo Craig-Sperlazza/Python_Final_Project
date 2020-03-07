@@ -438,8 +438,29 @@ class XiangqiGame:
             return False
         elif end.get_type() != "cannon" or end.get_type() != "knight":
             return False
+        ####RED SIDE####
+        #left side, red
+        elif x == 1 and y == 9 and x2 == 1 and y2 == 7:
+            return True
+        elif x == 1 and y == 7 and x2 == 1 and y2 == 9:
+            return True
+        #right side red
+        elif x == 7 and y == 9 and x2 == 7 and y2 == 7:
+            return True
+        elif x == 7 and y == 7 and x2 == 7 and y2 == 9:
+            return True
 
+        #left knight to right
+        elif x == 1 and y == 9 and x2 == 7 and y2 == 7:
+            return True
+        elif x == 7 and y == 7 and x2 == 1 and y2 == 9:
+            return True
 
+        # right knight to left
+        elif x == 7 and y == 9 and x2 == 1 and y2 == 7:
+            return True
+        elif x == 1 and y == 7 and x2 == 7 and y2 == 9:
+            return True
 
     def engage_special_move(self, start, end):
         pass
