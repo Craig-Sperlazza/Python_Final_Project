@@ -416,6 +416,33 @@ class XiangqiGame:
 
     #def set_board(self, x_coord, y_coord, piece):
 
+    def color_check(self, start, end):
+        if end == "":
+            print("OK")
+            return
+        elif start.get_color() == end.get_color():
+            print("same color")
+            return False
+        else:
+            return
+
+    def special_move_check(self, x, y, x2, y2, start, end):
+        """x, y, x_end, y_end, piece, end_spot"""
+        if start == "":
+            return False
+        elif end == "":
+            return False
+        elif start.get_color() != end.get_color():
+            return False
+        elif start.get_type() != "cannon" or start.get_type() != "knight":
+            return False
+        elif end.get_type() != "cannon" or end.get_type() != "knight":
+            return False
+
+
+
+    def engage_special_move(self, start, end):
+        pass
 
     def make_move(self, begin_coord, end_coord):
         """
@@ -449,6 +476,8 @@ class XiangqiGame:
         y_end = end_coord_lst[1]
 
         piece = self._board[y][x]
+        end_spot = self._board[y_end][x_end]
+
         #print(piece.get_color())
         #print(piece.get_name())
         #print(piece.get_type())
@@ -476,6 +505,19 @@ class XiangqiGame:
             #THis is just a throwaway to get the iff from above
             if piece == piece:
                 red = "blue"
+            """
+            #This will return False if the end coordinate is the same color as
+            #the piece. It will call the color_check function defined in this
+            #Game class
+            same_color = self.color_check(piece, end_spot)
+            if same_color == False:
+                return False
+            """
+            special_move = self.special_move_check(x, y, x_end, y_end, piece, end_spot)
+            if special_move_check == False:
+                continue
+            else:
+                engage_special_move(x, y, x_end, y_end, piece, end_spot,)
             """
 
             if piece.get_type() == "rook":
@@ -851,8 +893,11 @@ game = XiangqiGame()
 ################# ALL BOARD SPECIFIC PIECE TESTING BELOW  ######################
 ################################################################################
 
+game.make_move("a1", "a3") #down right
+game.print_board()
 
-
+game.make_move("a3", "a4") #down right
+game.print_board()
 
 
 ################################################################################
