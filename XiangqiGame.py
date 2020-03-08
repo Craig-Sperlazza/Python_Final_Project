@@ -513,26 +513,50 @@ class XiangqiGame:
     def special_bishop_move(self, x1, y1, x2, y2, piece):
         """Checks to ensure there is no intervening piece blocking the bishops
         desired move"""
-        print(x1, y1, x2, y2, "special bishop move")
+        #TOP LEFT
         if x2 == (x1 - 2) and y2 == (y1 - 2):
             print("TL")
             int_piece = self._board[y1-1][x1-1]
             print(int_piece, "piece")
             if int_piece != "":
-                print("empty good to go")
+                print("piece there cant do itTL")
                 return False
             else:
-                print("piece there cant do it")
+                print("empty good to goTL")
                 return
+        #Bishop is trying to move to the TOP RIGHT diagonal
         elif x2 == (x1 + 2) and y2 == (y1 - 2):
             print("TR")
-            return
+            int_piece = self._board[y1 - 1][x1 + 1]
+            print(int_piece, "piece")
+            if int_piece != "":
+                print("piece there cant do itTR")
+                return False
+            else:
+                print("empty good to goTR")
+                return
+        #BOTTOM LEFT
         elif x2 == (x1 - 2) and y2 == (y1 + 2):
             print("BL")
-            return
+            int_piece = self._board[y1 + 1][x1 - 1]
+            print(int_piece, "piece")
+            if int_piece != "":
+                print("piece there cant do itBL")
+                return False
+            else:
+                print("empty good to goBL")
+                return
+        #BOTTOM RIGHT
         elif x2 == (x1 + 2) and y2 == (y1 + 2):
             print("BR")
-            return
+            int_piece = self._board[y1 + 1][x1 + 1]
+            print(int_piece, "piece")
+            if int_piece != "":
+                print("piece there cant do itBR")
+                return False
+            else:
+                print("empty good to goBR")
+                return
         else:
             return False
 
@@ -998,6 +1022,83 @@ game = XiangqiGame()
 
 ###############  BISHOP INTERVENING PIECE ######################################
 
+###############   BLACK
+#NOTE: RED HAS FULLER TESTING BUT IT IS SAME CODE SO NO NEED.....ALL WORKING
+"""
+#BLACK TR
+game.make_move("g10", "e8") #red right side bishop TL
+game.print_board()
+
+game.make_move("e10", "e9") #move king in way
+game.print_board()
+
+game.make_move("e9", "f9") #move king in way
+game.print_board()
+
+game.make_move("e8", "g10") #red invalid
+game.print_board()
+
+
+#BLACK TL
+game.make_move("c10", "e8") #red right side bishop TL
+game.print_board()
+
+game.make_move("e10", "e9") #move king in way
+game.print_board()
+
+game.make_move("e9", "d9") #move king in way
+game.print_board()
+
+game.make_move("e8", "c10") #red invalid
+game.print_board()
+"""
+
+
+###############RED###########
+"""
+#RED BL
+
+game.make_move("c1", "e3") #move bishop
+game.print_board()
+
+game.make_move("e1", "e2") #move king in way
+game.print_board()
+
+game.make_move("e2", "d2")
+game.print_board()
+
+game.make_move("e3", "c1") #bishop back invalid
+game.print_board()
+"""
+"""
+#RED BR
+game.make_move("g1", "e3") #move bishop
+game.print_board()
+
+game.make_move("e1", "e2") #move king in way
+game.print_board()
+
+game.make_move("e2", "f2")
+game.print_board()
+
+game.make_move("e3", "g1") #bishop back invalid
+game.print_board()
+"""
+"""
+#RED TR
+game.make_move("e1", "e2") #move king in way
+game.print_board()
+
+game.make_move("e2", "d2") #move king in way
+game.print_board()
+
+game.make_move("c1", "e3") #red invalid
+game.print_board()
+"""
+
+
+"""
+#RED TL
 game.make_move("g1", "e3") #red right side bishop TL
 game.print_board()
 
@@ -1010,9 +1111,9 @@ game.print_board()
 game.make_move("e2", "f2") #move king in way
 game.print_board()
 
-game.make_move("h3", "h1") #red valid same side
+game.make_move("g1", "e3") #red invalid
 game.print_board()
-
+"""
 
 ###############  KNIGHT CANNON SWAP SPECIAL MOVE  ##############################
 """
