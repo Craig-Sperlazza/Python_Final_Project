@@ -402,6 +402,9 @@ class XiangqiGame:
         return self._board
 
     def set_board(self, x, y, x1, y1, piece):
+        """Updates the board once a move has been validated as legal
+        this will put the piece in the end spot and return the original spot
+        to an empty string"""
         self._board[y1][x1] = piece
         self._board[y][x] = ""
 
@@ -414,9 +417,10 @@ class XiangqiGame:
             x -= 1
         print("   A   B   C   D   E   F   G   H   I")
 
-    #def set_board(self, x_coord, y_coord, piece):
 
     def color_check(self, start, end):
+        """This method ensures that the player is not trying to move a
+        piece of one coloe to a spot that has the same color piece"""
         if end == "":
             print("OK")
             return
@@ -427,17 +431,30 @@ class XiangqiGame:
             return
 
     def special_move_check(self, x, y, x2, y2, start, end):
-        """x, y, x_end, y_end, piece, end_spot"""
+        """x, y, x_end, y_end, piece, end_spot
+        This is the function that will check to see if the knight cannon
+        is being called. IF it passes all the requirements (see comments below)
+        it will return True and the main code will call the engage_special_move
+        method to actually perform the swap"""
+        #check that there is a piece there
         if start == "":
+            #print("istart")
             return False
         elif end == "":
+            #print("iend")
             return False
+        #check that they are both the same color
         elif start.get_color() != end.get_color():
+            #print("Icolor")
             return False
-        elif start.get_type() != "cannon" or start.get_type() != "knight":
+        #check that one is a cannon and one is a knight
+        elif start.get_type() != "cannon" and start.get_type() != "knight":
+            #print("istartpiece")
             return False
-        elif end.get_type() != "cannon" or end.get_type() != "knight":
+        elif end.get_type() != "cannon" and end.get_type() != "knight":
+            #print("iendpiece")
             return False
+
         ####RED SIDE####
         #left side, red
         elif x == 1 and y == 9 and x2 == 1 and y2 == 7:
@@ -450,24 +467,78 @@ class XiangqiGame:
         elif x == 7 and y == 7 and x2 == 7 and y2 == 9:
             return True
 
-        #left knight to right
+        #left knight to right, red
         elif x == 1 and y == 9 and x2 == 7 and y2 == 7:
             return True
         elif x == 7 and y == 7 and x2 == 1 and y2 == 9:
             return True
 
-        # right knight to left
+        # right knight to left, red
         elif x == 7 and y == 9 and x2 == 1 and y2 == 7:
             return True
         elif x == 1 and y == 7 and x2 == 7 and y2 == 9:
             return True
 
-    def engage_special_move(self, start, end):
-        pass
+        ####BLACK SIDE####
+        # left side, black
+        elif x == 1 and y == 0 and x2 == 1 and y2 == 2:
+            return True
+        elif x == 1 and y == 2 and x2 == 1 and y2 == 0:
+            return True
+        # right side black
+        elif x == 7 and y == 0 and x2 == 7 and y2 == 2:
+            return True
+        elif x == 7 and y == 2 and x2 == 7 and y2 == 0:
+            return True
+
+        # left knight to right, black
+        elif x == 1 and y == 0 and x2 == 7 and y2 == 2:
+            return True
+        elif x == 7 and y == 2 and x2 == 1 and y2 == 0:
+            return True
+
+        # right knight to left, black
+        elif x == 7 and y == 0 and x2 == 1 and y2 == 2:
+            return True
+        elif x == 1 and y == 2 and x2 == 7 and y2 == 0:
+            return True
+
+    def engage_special_move(self, x, y, x2, y2, start, end):
+        """performs the knight cannon swap if it has been validated by the
+        special move check. This is slightly different from the normal move
+        because it is swapping the pieces, not eliminating the end piece"""
+        self._board[y2][x2] = start
+        self._board[y][x] = end
+
+    def special_bishop_move(self, x1, y1, x2, y2, piece):
+        """Checks to ensure there is no intervening piece blocking the bishops
+        desired move"""
+        print(x1, y1, x2, y2, "special bishop move")
+        if x2 == (x1 - 2) and y2 == (y1 - 2):
+            print("TL")
+            int_piece = self._board[y1-1][x1-1]
+            print(int_piece, "piece")
+            if int_piece != "":
+                print("empty good to go")
+                return False
+            else:
+                print("piece there cant do it")
+                return
+        elif x2 == (x1 + 2) and y2 == (y1 - 2):
+            print("TR")
+            return
+        elif x2 == (x1 - 2) and y2 == (y1 + 2):
+            print("BL")
+            return
+        elif x2 == (x1 + 2) and y2 == (y1 + 2):
+            print("BR")
+            return
+        else:
+            return False
+
 
     def make_move(self, begin_coord, end_coord):
         """
-
         :param begin_coord: This will be a string representation of a coordinate
         move using algebraic notation. This will be the position of the piece
         the player wishes to move
@@ -523,23 +594,28 @@ class XiangqiGame:
                 return False
                 #print(False)
             
-            #THis is just a throwaway to get the iff from above
+            #THis is just a throwaway to get the it from above
             if piece == piece:
                 red = "blue"
             """
+            # special elephant cannon exchange move
+            #have to run this before the color check below
+            special_move = self.special_move_check(x, y, x_end, y_end, piece, end_spot)
+            if special_move == False:
+                print("Hello")
+                pass
+            else:
+                print("step2")
+                self.engage_special_move(x, y, x_end, y_end, piece, end_spot)
+            #TODO: MUST ADD IN COLOR CHANGE FOR TURN
+
             #This will return False if the end coordinate is the same color as
             #the piece. It will call the color_check function defined in this
             #Game class
             same_color = self.color_check(piece, end_spot)
             if same_color == False:
                 return False
-            """
-            special_move = self.special_move_check(x, y, x_end, y_end, piece, end_spot)
-            if special_move_check == False:
-                continue
-            else:
-                engage_special_move(x, y, x_end, y_end, piece, end_spot,)
-            """
+
 
             if piece.get_type() == "rook":
                 valid = piece.rook_valid_move(x, y, x_end, y_end, piece)
@@ -548,9 +624,8 @@ class XiangqiGame:
                 else:
                     #print(piece.get_color(), "rook valid move")
                     self.set_board(x, y, x_end, y_end, piece)
+                    #TODO: NEED TO ACCOUNT FOR THE TURN CHANGE, BUT NEED TO DEAL WITH CHECK FIRST
 
-                #throwaway test function
-                #piece.validate_move(x, y, x_1, y_1, piece)
 
             elif piece.get_type() == "pawn":
                 valid = piece.pawn_valid_move(x, y, x_end, y_end, piece)
@@ -582,7 +657,14 @@ class XiangqiGame:
                     return False
                 else:
                     # print(piece.get_color(), "bishop valid move")
-                    self.set_board(x, y, x_end, y_end, piece)
+                    #Call this function to ensure there is no intervening piece
+                    special_bishop = self.special_bishop_move(x, y, x_end, y_end, piece)
+                    if special_bishop == False:
+                        print("coming back false")
+                        return False
+                    else:
+                        print("coming back valid")
+                        self.set_board(x, y, x_end, y_end, piece)
 
             elif piece.get_type() == "guard":
                 valid = piece.guard_valid_move(x, y, x_end, y_end, piece)
@@ -914,12 +996,58 @@ game = XiangqiGame()
 ################# ALL BOARD SPECIFIC PIECE TESTING BELOW  ######################
 ################################################################################
 
-game.make_move("a1", "a3") #down right
+###############  BISHOP INTERVENING PIECE ######################################
+
+game.make_move("g1", "e3") #red right side bishop TL
 game.print_board()
 
-game.make_move("a3", "a4") #down right
+game.make_move("e3", "g1") #red right side bishop back BR
 game.print_board()
 
+game.make_move("e1", "e2") #move king in way
+game.print_board()
+
+game.make_move("e2", "f2") #move king in way
+game.print_board()
+
+game.make_move("h3", "h1") #red valid same side
+game.print_board()
+
+
+###############  KNIGHT CANNON SWAP SPECIAL MOVE  ##############################
+"""
+###################Same Side####################################################
+game.make_move("b1", "b3") #red valid same side
+game.print_board()
+
+game.make_move("h3", "h1") #red valid same side
+game.print_board()
+
+game.make_move("b10", "b8") #black valid same side
+game.print_board()
+
+game.make_move("h8", "h10") #black valid same side
+game.print_board()
+
+###################Across the board############################################
+game.make_move("b1", "h3") #red valid across
+game.print_board()
+
+game.make_move("h8", "b10") #black valid across
+game.print_board()
+"""
+
+"""
+########WONT LET A COLOR RUN INTO THE SAME COLOR AT END POINT###################
+game.make_move("a1", "a3") #red valid
+game.print_board()
+
+game.make_move("a3", "a4") #red invalid
+game.print_board()
+
+game.make_move("a10", "a7") #black invalid
+game.print_board()
+"""
 
 ################################################################################
 #################### ALL SUBCLASS PIECE TESTING BELOW  #########################
