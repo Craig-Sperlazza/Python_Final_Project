@@ -560,6 +560,108 @@ class XiangqiGame:
         else:
             return False
 
+    def special_knight_move(self, x1, y1, x2, y2, piece):
+        """Checks to ensure there is no intervening piece blocking the knights
+        desired move"""
+        #TOP LEFT (Top left and top right depend on same intevening piece)
+        if x2 == (x1 - 1) and y2 == (y1 - 2):
+            int_piece = self._board[y1 - 1][x1]
+            print(int_piece, "piece")
+            if int_piece != "":
+                print("piece there cant do it UL")
+                return False
+            else:
+                print("empty good to go UL")
+                return
+        #Top Right
+        elif x2 == (x1 + 1) and y2 == (y1 - 2):
+            int_piece = self._board[y1 - 1][x1]
+            print(int_piece, "piece")
+            if int_piece != "":
+                print("piece there cant do it UR")
+                return False
+            else:
+                print("empty good to go UR")
+                return
+        #Right up and right down depend on same piece
+        #right up
+        elif x2 == (x1 + 2) and y2 == (y1 - 1):
+            int_piece = self._board[y1][x1+1]
+            print(int_piece, "piece")
+            if int_piece != "":
+                print("piece there cant do it RU")
+                return False
+            else:
+                print("empty good to go RU")
+                return
+        elif x2 == (x1 + 2) and y2 == (y1 + 1):
+            int_piece = self._board[y1][x1 + 1]
+            print(int_piece, "piece")
+            if int_piece != "":
+                print("piece there cant do it RD")
+                return False
+            else:
+                print("empty good to go RD")
+                return
+        ###########################
+        # down right and down left depend on same piece
+        # down right
+        elif x2 == (x1 + 1) and y2 == (y1 + 2):
+            int_piece = self._board[y1+1][x1]
+            print(int_piece, "piece")
+            if int_piece != "":
+                print("piece there cant do it DR")
+                return False
+            else:
+                print("empty good to go DR")
+                return
+        #down left
+        elif x2 == (x1 - 1) and y2 == (y1 + 2):
+            int_piece = self._board[y1 + 1][x1]
+            print(int_piece, "piece")
+            if int_piece != "":
+                print("piece there cant do it DR")
+                return False
+            else:
+                print("empty good to go DR")
+                return
+        #Left down and left up both depend on same piece
+        #left down
+        elif x2 == (x1 - 2) and y2 == (y1 + 1):
+            int_piece = self._board[y1][x1-1]
+            print(int_piece, "piece")
+            if int_piece != "":
+                print("piece there cant do it LD")
+                return False
+            else:
+                print("empty good to go LD")
+                return
+        #left up
+        elif x2 == (x1 - 2) and y2 == (y1 - 1):
+            int_piece = self._board[y1][x1 - 1]
+            print(int_piece, "piece")
+            if int_piece != "":
+                print("piece there cant do it LD")
+                return False
+            else:
+                print("empty good to go LD")
+                return
+        else:
+            return
+
+    def special_rook_move(self, x1, y1, x2, y2, piece):
+        """Checks to ensure there is no intervening piece blocking the rooks
+        desired move"""
+        #TOP LEFT (Top left and top right depend on same intevening piece)
+        if x2 == (x1 - 1) and y2 == (y1 - 2):
+            int_piece = self._board[y1 - 1][x1]
+            print(int_piece, "piece")
+            if int_piece != "":
+                print("piece there cant do it UL")
+                return False
+            else:
+                print("empty good to go UL")
+                return
 
     def make_move(self, begin_coord, end_coord):
         """
@@ -646,8 +748,14 @@ class XiangqiGame:
                 if valid == False:
                     return False
                 else:
-                    #print(piece.get_color(), "rook valid move")
-                    self.set_board(x, y, x_end, y_end, piece)
+                    # Call this function to ensure there is no intervening piece
+                    special_rook = self.special_rook_move(x, y, x_end, y_end, piece)
+                    if special_rook == False:
+                        print("coming back false")
+                        return False
+                    else:
+                        print("coming back valid")
+                        self.set_board(x, y, x_end, y_end, piece)
                     #TODO: NEED TO ACCOUNT FOR THE TURN CHANGE, BUT NEED TO DEAL WITH CHECK FIRST
 
 
@@ -703,8 +811,14 @@ class XiangqiGame:
                 if valid == False:
                     return False
                 else:
-                    # print(piece.get_color(), "pawn valid move")
-                    self.set_board(x, y, x_end, y_end, piece)
+                    # Call this function to ensure there is no intervening piece
+                    special_knight = self.special_knight_move(x, y, x_end, y_end, piece)
+                    if special_knight == False:
+                        print("coming back false")
+                        return False
+                    else:
+                        print("coming back valid")
+                        self.set_board(x, y, x_end, y_end, piece)
 
 class Piece:
     """NEED TO UPDATE--WORK IN PROGRESS"""
@@ -1019,6 +1133,48 @@ game = XiangqiGame()
 ################################################################################
 ################# ALL BOARD SPECIFIC PIECE TESTING BELOW  ######################
 ################################################################################
+
+
+
+
+
+################     KNIGHT INTERVENING PIECE  #################################
+"""
+#right and then up and down
+game.make_move("h1", "i3") #knight proper
+game.print_board()
+
+game.make_move("i3", "g2") #move but pawn in way left
+game.print_board()
+"""
+
+"""
+#right and then up and down
+game.make_move("b1", "a3") #knight proper
+game.print_board()
+
+game.make_move("a3", "c2") #move but pawn in way
+game.print_board()
+
+
+game.make_move("a3", "c5") #move
+game.print_board()
+"""
+
+"""
+#up to left and up to right
+game.make_move("b1", "c3") #knight proper
+game.print_board()
+
+game.make_move("c3", "b5") #move but pawn in way move left
+game.print_board()
+
+
+game.make_move("c3", "d5") #move king in way
+game.print_board()
+"""
+
+
 
 ###############  BISHOP INTERVENING PIECE ######################################
 
