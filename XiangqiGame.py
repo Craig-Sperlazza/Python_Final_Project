@@ -652,16 +652,68 @@ class XiangqiGame:
     def special_rook_move(self, x1, y1, x2, y2, piece):
         """Checks to ensure there is no intervening piece blocking the rooks
         desired move"""
-        #TOP LEFT (Top left and top right depend on same intevening piece)
-        if x2 == (x1 - 1) and y2 == (y1 - 2):
-            int_piece = self._board[y1 - 1][x1]
-            print(int_piece, "piece")
-            if int_piece != "":
-                print("piece there cant do it UL")
-                return False
-            else:
-                print("empty good to go UL")
-                return
+        #moving down the board (y is increasing)
+        if x2 == x1 and y2 > y1:
+            spaces = (y2 - y1) #- 1 #Spaces to check between y1 and y2
+            coord_y = y1 + 1 #will start at the next coordinate from start
+            for i in range(1, spaces):
+                int_piece = self._board[coord_y][x1]
+                print(int_piece, "piece")
+                if int_piece != "":
+                    print("piece there cant do it")
+                    return False
+                else:
+                    print("empty good to go for this square", coord_y)
+                    coord_y += 1
+            return
+
+        # moving right across the board (x is increasing)
+        if x2 > x1 and y2 == y1:
+            spaces = (x2 - x1)  #Spaces to check between x1 and x2
+            coord_x = x1 + 1  # will start at the next coordinate from start
+            for i in range(1, spaces):
+                int_piece = self._board[y1][coord_x]
+                print(int_piece, "piece")
+                if int_piece != "":
+                    print("piece there cant do it")
+                    return False
+                else:
+                    print("empty good to go for this square", coord_x)
+                    coord_x += 1
+            return
+
+        # moving left across the board (x is decreasing)
+        if x2 < x1 and y2 == y1:
+            spaces = (x1 - x2)  # Spaces to check between x1 and x2
+            coord_x = x1 - 1  # will start at the next coordinate from start
+            for i in range(1, spaces):
+                int_piece = self._board[y1][coord_x]
+                print(int_piece, "piece")
+                if int_piece != "":
+                    print("piece there cant do it")
+                    return False
+                else:
+                    print("empty good to go for this square", coord_x)
+                    coord_x -= 1
+            return
+
+        # moving up the board (y is decreasing)
+        if x2 == x1 and y2 < y1:
+            spaces = (y1 - y2)  # Spaces to check between y1 and y2
+            coord_y = y1 - 1  # will start at the next coordinate from start
+            for i in range(1, spaces):
+                int_piece = self._board[coord_y][x1]
+                print(int_piece, "piece")
+                if int_piece != "":
+                    print("piece there cant do it")
+                    return False
+                else:
+                    print("empty good to go for this square", coord_y)
+                    coord_y -= 1
+            return
+
+
+
 
     def make_move(self, begin_coord, end_coord):
         """
@@ -1134,6 +1186,60 @@ game = XiangqiGame()
 ################# ALL BOARD SPECIFIC PIECE TESTING BELOW  ######################
 ################################################################################
 
+################     ROOK INTERVENING PIECE  #################################
+
+
+
+
+"""
+#x is decreasing---moving to left 
+game.make_move("i1", "i3") #rook proper
+game.print_board()
+
+game.make_move("i3", "g3") #rook improper cannon in way
+game.print_board()
+
+game.make_move("h3", "h4") #moves the cannon
+game.print_board()
+
+
+game.make_move("i3", "g3") #rook proper
+game.print_board()
+
+#tries to move past the far cannon
+game.make_move("g3", "a3") #rook improper
+game.print_board()
+"""
+
+"""
+# x increasing----moving rook right across board
+game.make_move("a1", "a3") #rook proper
+game.print_board()
+
+#game.make_move("a3", "e3") #rook improper cannon in way
+#game.print_board()
+
+game.make_move("b3", "b4") #moves the cannon
+game.print_board()
+
+#tries to move past the far cannon
+game.make_move("a3", "i3") #rook proper
+game.print_board()
+"""
+"""
+# y increasing....moving rook down the board
+game.make_move("a10", "a8") #rook proper
+game.print_board()
+
+game.make_move("a8", "a7") #on pawn invalid
+game.print_board()
+
+game.make_move("a8", "a10") #rook proper back to start
+game.print_board()
+
+game.make_move("a10", "a6") #past pawn invalid
+game.print_board()
+"""
 
 
 
