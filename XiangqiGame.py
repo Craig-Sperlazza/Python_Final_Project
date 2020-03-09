@@ -712,7 +712,159 @@ class XiangqiGame:
                     coord_y -= 1
             return
 
+    def special_cannon_move(self, x1, y1, x2, y2, piece):
+        """Checks to ensure there is no intervening piece blocking the cannons
+        desired move, unless the cannon is taking, which should have exactly
+        one intervening piece"""
+        end_piece = self._board[y2][x2]
+        piece_count = 0 #number of pieces between start and end
 
+        if end_piece == "":     #should be no intervening pieces
+            #moving down the board (y is increasing)
+            if x2 == x1 and y2 > y1:
+                spaces = (y2 - y1) #- 1 #Spaces to check between y1 and y2
+                coord_y = y1 + 1 #will start at the next coordinate from start
+                for i in range(1, spaces):
+                    int_piece = self._board[coord_y][x1]
+                    print(int_piece, "piece")
+                    if int_piece != "":
+                        print("piece there cant do it")
+                        return False
+                    else:
+                        print("empty good to go for this square", coord_y)
+                        coord_y += 1
+                return
+
+            # moving right across the board (x is increasing)
+            if x2 > x1 and y2 == y1:
+                spaces = (x2 - x1)  #Spaces to check between x1 and x2
+                coord_x = x1 + 1  # will start at the next coordinate from start
+                for i in range(1, spaces):
+                    int_piece = self._board[y1][coord_x]
+                    print(int_piece, "piece")
+                    if int_piece != "":
+                        print("piece there cant do it")
+                        return False
+                    else:
+                        print("empty good to go for this square", coord_x)
+                        coord_x += 1
+                return
+
+            # moving left across the board (x is decreasing)
+            if x2 < x1 and y2 == y1:
+                spaces = (x1 - x2)  # Spaces to check between x1 and x2
+                coord_x = x1 - 1  # will start at the next coordinate from start
+                for i in range(1, spaces):
+                    int_piece = self._board[y1][coord_x]
+                    print(int_piece, "piece")
+                    if int_piece != "":
+                        print("piece there cant do it")
+                        return False
+                    else:
+                        print("empty good to go for this square", coord_x)
+                        coord_x -= 1
+                return
+
+            # moving up the board (y is decreasing)
+            if x2 == x1 and y2 < y1:
+                spaces = (y1 - y2)  # Spaces to check between y1 and y2
+                coord_y = y1 - 1  # will start at the next coordinate from start
+                for i in range(1, spaces):
+                    int_piece = self._board[coord_y][x1]
+                    print(int_piece, "piece")
+                    if int_piece != "":
+                        print("piece there cant do it")
+                        return False
+                    else:
+                        print("empty good to go for this square", coord_y)
+                        coord_y -= 1
+                return
+
+        elif end_piece != "":
+            # have a piece at end, so need exactly one intervening piece
+            # moving down the board (y is increasing)
+            if x2 == x1 and y2 > y1:
+                spaces = (y2 - y1)  # - 1 #Spaces to check between y1 and y2
+                coord_y = y1 + 1  # will start at the next coordinate from start
+                for i in range(1, spaces):
+                    int_piece = self._board[coord_y][x1]
+                    print(int_piece, "piece")
+                    if int_piece != "":
+                        piece_count += 1
+                        coord_y += 1
+                        print("piece, piece count = ", piece_count)
+                    else:
+                        print("empty square, piece count", piece_count)
+                        coord_y += 1
+                if piece_count != 1:
+                    print(piece_count, "False")
+                    return False
+                else:
+                    print(piece_count, "True")
+                    return
+
+            # moving right across the board (x is increasing)
+            if x2 > x1 and y2 == y1:
+                spaces = (x2 - x1)  # Spaces to check between x1 and x2
+                coord_x = x1 + 1  # will start at the next coordinate from start
+                for i in range(1, spaces):
+                    int_piece = self._board[y1][coord_x]
+                    print(int_piece, "piece")
+                    if int_piece != "":
+                        piece_count += 1
+                        coord_x += 1
+                        print("piece, piece count = ", piece_count)
+                    else:
+                        print("empty square, piece count", piece_count)
+                        coord_x += 1
+                if piece_count != 1:
+                    print(piece_count, "False")
+                    return False
+                else:
+                    print(piece_count, "True")
+                    return
+
+            # moving left across the board (x is decreasing)
+            if x2 < x1 and y2 == y1:
+                spaces = (x1 - x2)  # Spaces to check between x1 and x2
+                coord_x = x1 - 1  # will start at the next coordinate from start
+                for i in range(1, spaces):
+                    int_piece = self._board[y1][coord_x]
+                    print(int_piece, "piece")
+                    if int_piece != "":
+                        piece_count += 1
+                        coord_x -= 1
+                        print("piece, piece count = ", piece_count)
+                    else:
+                        print("empty square, piece count", piece_count)
+                        coord_x -= 1
+                if piece_count != 1:
+                    print(piece_count, "False")
+                    return False
+                else:
+                    print(piece_count, "True")
+                    return
+
+            # moving up the board (y is decreasing)
+            if x2 == x1 and y2 < y1:
+                spaces = (y1 - y2)  # Spaces to check between y1 and y2
+                coord_y = y1 - 1  # will start at the next coordinate from start
+                for i in range(1, spaces):
+                    int_piece = self._board[coord_y][x1]
+                    print(int_piece, "piece")
+                    if int_piece != "":
+                        piece_count += 1
+                        coord_y -= 1
+                        print("piece, piece count = ", piece_count)
+                    else:
+                        print("empty good to go for this square", coord_y)
+                        coord_y -= 1
+                if piece_count != 1:
+                    print(piece_count, "False")
+                    return False
+                else:
+                    print(piece_count, "True")
+                    return
 
 
     def make_move(self, begin_coord, end_coord):
@@ -824,8 +976,14 @@ class XiangqiGame:
                 if valid == False:
                     return False
                 else:
-                    # print(piece.get_color(), "cannon valid move")
-                    self.set_board(x, y, x_end, y_end, piece)
+                    # Call this function to ensure there is no intervening piece
+                    special_cannon = self.special_cannon_move(x, y, x_end, y_end, piece)
+                    if special_cannon == False:
+                        print("coming back false")
+                        return False
+                    else:
+                        print("coming back valid")
+                        self.set_board(x, y, x_end, y_end, piece)
 
             elif piece.get_type() == "king":
                 valid = piece.king_valid_move(x, y, x_end, y_end, piece)
@@ -1186,9 +1344,74 @@ game = XiangqiGame()
 ################# ALL BOARD SPECIFIC PIECE TESTING BELOW  ######################
 ################################################################################
 
+
+
+
+
+
+
 ################     CANNON INTERVENING PIECE  #################################
+"""
+#x is decreasing, cannon moving left across board
 
+game.make_move("h8", "h4") #cannon proper
+game.print_board()
 
+game.make_move("h4", "g4") #cannon improper, take but no intervening piece
+game.print_board()
+
+game.make_move("h4", "f4") #cannon improper, 1 piece in way and no take
+game.print_board()
+
+game.make_move("h4", "c4") #cannon improper, 2 piece in way and take
+game.print_board()
+
+game.make_move("h4", "e4") #cannon proper, 1 piece in way and no take
+game.print_board()
+"""
+
+"""
+#x is increasing, cannon moving right across board
+
+game.make_move("b8", "b4") #cannon proper
+game.print_board()
+
+game.make_move("b4", "c4") #cannon improper, take but no intervening piece
+game.print_board()
+
+game.make_move("b4", "d4") #cannon improper, 1 piece in way and no take
+game.print_board()
+
+game.make_move("b4", "g4") #cannon improper, 2 piece in way and take
+game.print_board()
+
+game.make_move("b4", "e4") #cannon proper, 1 piece in way and no take
+game.print_board()
+"""
+"""
+#y is decreasing, cannon moving up board
+
+game.make_move("b3", "b8") #cannon improper, take but no intervening
+game.print_board()
+
+game.make_move("b3", "b9") #cannon improper, piece in way but no take
+game.print_board()
+
+game.make_move("b3", "b10") #cannon proper, 1 piece in way and take
+game.print_board()
+"""
+"""
+#y is increasing, cannon moving down board
+
+game.make_move("b8", "c8") #cannon proper
+game.print_board()
+
+game.make_move("c8", "c5") #cannon improper, piece in way but no take
+game.print_board()
+
+game.make_move("c8", "c4") #cannon proper, 1 piece in way and take
+game.print_board()
+"""
 
 ################     ROOK INTERVENING PIECE  #################################
 """
