@@ -712,6 +712,64 @@ class XiangqiGame:
                     coord_y -= 1
             return
 
+
+    def special_king_move(self, x1, y1, x2, y2, piece):
+        """Checks to ensure that the two generals will never face each other.
+        That means that this function will check the piece being moved on the
+        x coordinates and make sure there is at least one intervening piece
+        between the two kings if that piece is moving off the x file it is
+        starting on"""
+
+        if x2 != x1:
+            if x1 == 3 or x1 == 4 or x1 == 5:
+                print("test x1 y1 x2", x1, y1, x2)
+                #y decreasing side of board----BLACK KING
+                spaces_dec = (y1 - 0) + 1 #Spaces to check between y1 row 0
+                coord_y_dec = y1 - 1 #will start at the next coordinate from start
+                black_king_open = False
+                for i in range(1, spaces_dec):
+                    int_piece = self._board[coord_y_dec][x1]
+                    print(int_piece, "decpiece")
+                    if int_piece == "":
+                        coord_y_dec -= 1
+                    else:
+                        if int_piece.get_type() == "king":
+                            print(int_piece.get_type(), "black king")
+                            black_king_open = True
+                            break
+                        else:
+                            print(int_piece.get_type(), "other piece")
+                            black_king_open = False
+                            break
+
+                #y increasing side of board---RED KING
+                spaces_inc = (9 - y1) + 1  # Spaces to check between y1 row 0
+                coord_y_inc = y1 + 1  # will start at the next coordinate from start
+                red_king_open = False
+                for i in range(1, spaces_dec):
+                    int_piece = self._board[coord_y_inc][x1]
+                    print(int_piece, "incpiece")
+                    if int_piece == "":
+                        coord_y_inc += 1
+                    else:
+                        print(int_piece)
+                        if int_piece.get_type() == "king":
+                            print(int_piece.get_type(), "red king")
+                            red_king_open = True
+                            break
+                        else:
+                            print(int_piece.get_type(), "Other Type of Piece")
+                            red_king_open = False
+                            break
+                if red_king_open == True and black_king_open == True:
+                    return False
+                else:
+                    return
+            else:
+                return
+        else:
+            return
+
     def special_cannon_move(self, x1, y1, x2, y2, piece):
         """Checks to ensure there is no intervening piece blocking the cannons
         desired move, unless the cannon is taking, which should have exactly
@@ -932,10 +990,10 @@ class XiangqiGame:
             #have to run this before the color check below
             special_move = self.special_move_check(x, y, x_end, y_end, piece, end_spot)
             if special_move == False:
-                print("Hello")
+                print("elephantCannon exchange FALSE")
                 pass
             else:
-                print("step2")
+                print("elephantCannon exachange Engaged")
                 self.engage_special_move(x, y, x_end, y_end, piece, end_spot)
             #TODO: MUST ADD IN COLOR CHANGE FOR TURN
 
@@ -946,6 +1004,13 @@ class XiangqiGame:
             if same_color == False:
                 return False
 
+            #This will ensure that the two kings will not face each other
+            special_king = self.special_king_move(x, y, x_end, y_end, piece)
+            if special_king == False:
+                print("Two Kings cant face each other FALSE")
+                return False
+            else:
+                pass
 
             if piece.get_type() == "rook":
                 valid = piece.rook_valid_move(x, y, x_end, y_end, piece)
@@ -1344,9 +1409,50 @@ game = XiangqiGame()
 ################# ALL BOARD SPECIFIC PIECE TESTING BELOW  ######################
 ################################################################################
 
+#############     TESTING TWO KINGS NOT FACING EACH OTHER  #####################
+"""
+#Basically we are moving the two pawns forward and then out of the way
+#red pawn
+game.make_move("e4", "e5")
+game.print_board()
+
+game.make_move("e5", "e6")
+game.print_board()
+
+game.make_move("e6", "d6")
+game.print_board()
+
+#black pawn
+game.make_move("e7", "e6")
+game.print_board()
+
+game.make_move("e6", "e5")
+game.print_board()
 
 
+#moving the pawn out of the way----should be invalid
+game.make_move("e5", "d5")
+game.print_board()
 
+#moving the rook in the way to make for a valid pawn move
+
+game.make_move("a1", "a2") #rook
+game.print_board()
+
+game.make_move("a2", "e2") #move rook in fron of king
+game.print_board()
+
+game.make_move("e5", "d5") #now this pawn move should be valid
+game.print_board()
+
+
+game.make_move("e2", "e3") #rook move should be valid
+game.print_board()
+
+
+game.make_move("e3", "d3") #rook move should be invalid
+game.print_board()
+"""
 
 
 
