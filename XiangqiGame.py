@@ -1186,11 +1186,42 @@ game = XiangqiGame()
 ################# ALL BOARD SPECIFIC PIECE TESTING BELOW  ######################
 ################################################################################
 
+################     CANNON INTERVENING PIECE  #################################
+
+
+
 ################     ROOK INTERVENING PIECE  #################################
+"""
+# y decreasing....moving rook up the board
+game.make_move("a1", "a3") #rook proper
+game.print_board()
 
+game.make_move("a3", "a4") #on pawn invalid
+game.print_board()
 
+game.make_move("a3", "a1") #rook proper back to start
+game.print_board()
 
+game.make_move("a1", "a6") #past pawn invalid
+game.print_board()
+"""
+"""
+#want to move and take with black pawn and then try to go past black pawn
+game.make_move("a7", "a6")
+game.print_board()
 
+game.make_move("a6", "a5")
+game.print_board()
+
+game.make_move("a5", "a4")
+game.print_board()
+
+game.make_move("a1", "a6") #past black pawn invalid
+game.print_board()
+
+game.make_move("a1", "a4") #take black pawn
+game.print_board()
+"""
 """
 #x is decreasing---moving to left 
 game.make_move("i1", "i3") #rook proper
