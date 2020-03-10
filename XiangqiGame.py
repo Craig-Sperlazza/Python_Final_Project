@@ -62,8 +62,6 @@ class XiangqiGame:
         self._red_move = True
         self._game_state = "UNFINISHED"
         self._is_in_check = False
-        self._black_is_in_check = False
-        self._red_is_in_check = False
 
         def get_game_state(self):
             """Method that returns the current state of the game,
@@ -90,6 +88,18 @@ class XiangqiGame:
             else:
                 self._red_move = True
 
+        """
+        def get_is_in_check(self):
+            Method that returns state of check as either true or false
+            return self._is_in_check
+
+        def set_is_in_check(self):
+            Method that kepps track of check
+            if color == "BLACK":
+                self._game_state = "BLACK_WON"
+            elif color == "RED":
+                self._game_state = "RED_WON"
+        """
 
         #####We now initialize the piece objects and place on Board##############
 
@@ -981,10 +991,12 @@ class XiangqiGame:
             elif piece.get_color() == "black" and self._red_move == True:
                 return False
                 #print(False)
+            """
+
+            """
+            #NEED TO ADD IN A REQUIREMENT TO CHECK IF THE PLAYER IS IN CHECK 
+            #CAN ONLY ALLOW THE KING TO MOVE
             
-            #THis is just a throwaway to get the it from above
-            if piece == piece:
-                red = "blue"
             """
             # special elephant cannon exchange move
             #have to run this before the color check below
@@ -1067,10 +1079,10 @@ class XiangqiGame:
                     #Call this function to ensure there is no intervening piece
                     special_bishop = self.special_bishop_move(x, y, x_end, y_end, piece)
                     if special_bishop == False:
-                        print("coming back false")
+                        #print("coming back false")
                         return False
                     else:
-                        print("coming back valid")
+                        #print("coming back valid")
                         self.set_board(x, y, x_end, y_end, piece)
 
             elif piece.get_type() == "guard":
@@ -1089,11 +1101,184 @@ class XiangqiGame:
                     # Call this function to ensure there is no intervening piece
                     special_knight = self.special_knight_move(x, y, x_end, y_end, piece)
                     if special_knight == False:
-                        print("coming back false")
+                        #print("coming back false")
                         return False
                     else:
-                        print("coming back valid")
+                        #print("coming back valid")
                         self.set_board(x, y, x_end, y_end, piece)
+
+    def is_in_check(self, color):
+        """
+        :param color: This will be a string representation of a color which will
+        be used to determine if that color's king is in check
+        :return:
+        If the king of the chosen color is in check, it will return True
+        Otherwise, it will return False
+        """
+
+        #Initialize both the king and the attacking piece to y=0, and x=0.
+        #This will place each piece in the top left corner
+        #Remember Y is the first coordinate because it does row first in the
+        #nested lists and then column (since it is the element in nested list
+        king_piece = self._board[0][0]
+        attack_piece = self._board[0][0]
+        king_color = color
+        attack_color = ""
+
+        #sets the attack piece color opposite of color
+        if king_color == "red":
+            attack_color = "black"
+        elif king_color == "black":
+            attack_color = "red"
+
+
+        #First we need to locate the king of the appropriate color
+        for coord_y in range(0, 10): #traverses the y coordinates
+            for coord_x in range(0, 9): #traverses the x coordinates
+                int_piece = self._board[coord_y][coord_x]
+                if int_piece == "":
+                    piece = coord_y
+                    #print("string", coord_y, coord_x)
+                else:
+                    #print(int_piece.get_type())
+                    if int_piece.get_color() == king_color and int_piece.get_type() == "king":
+                        king_piece = self._board[coord_y][coord_x]
+                        king_y = coord_y
+                        king_x = coord_x
+                        #print(king_piece.get_name(), king_piece.get_color(), king_y, king_x)
+                        break
+
+        # Next we need to test each piece of the opposite color for a valid
+        # move to the king's location. So the king's location is used as the end
+        # coordinates, it it is a valid move the king is in check
+
+        for coord_y in range(0, 10):  # traverses the y coordinates
+            for coord_x in range(0, 9):  # traverses the x coordinates
+                int_piece = self._board[coord_y][coord_x]
+                if int_piece == "":
+                    piece = coord_y
+                else:
+                    if int_piece.get_color() == attack_color:
+                        special_check = self.special_check_move(coord_x, coord_y, king_x, king_y, int_piece)
+                        if special_check == True:
+                            print("King is in check", int_piece.get_name())
+                            print(True)
+                            return True
+                        else:
+                            pass
+        print(False)
+        return False
+
+    def special_check_move(self, coord_x, coord_y, king_x, king_y, int_piece):
+        x = coord_x
+        y = coord_y
+        x_end = king_x
+        y_end = king_y
+        piece = self._board[y][x]
+        king = self._board[y_end][x_end]
+        print("SPECIAL", piece.get_type(), king.get_type())
+
+        if piece.get_type() == "rook":
+            valid = piece.rook_valid_move(x, y, x_end, y_end, piece)
+            if valid == False:
+                print("rook false")
+                return False
+            else:
+                # Call this function to ensure there is no intervening piece
+                special_rook = self.special_rook_move(x, y, x_end, y_end, piece)
+                if special_rook == False:
+                    print("rook false")
+                    return False
+                else:
+                    print("rook True")
+                    return True
+                    #self.set_board(x, y, x_end, y_end, piece)
+
+
+        elif piece.get_type() == "pawn":
+            valid = piece.pawn_valid_move(x, y, x_end, y_end, piece)
+            if valid == False:
+                print("pawn false")
+                return False
+            else:
+                # print(piece.get_color(), "pawn valid move")
+                #self.set_board(x, y, x_end, y_end, piece)
+                print("pawn true")
+                return True
+
+        elif piece.get_type() == "cannon":
+            valid = piece.cannon_valid_move(x, y, x_end, y_end, piece)
+            if valid == False:
+                print("cannon false")
+                return False
+            else:
+                # Call this function to ensure there is no intervening piece
+                special_cannon = self.special_cannon_move(x, y, x_end, y_end, piece)
+                if special_cannon == False:
+                    print("cannon false")
+                    return False
+                else:
+                    print("cannon true")
+                    return True
+                    #self.set_board(x, y, x_end, y_end, piece)
+
+        elif piece.get_type() == "king":
+            valid = piece.king_valid_move(x, y, x_end, y_end, piece)
+            if valid == False:
+                print("King False")
+                return False
+            else:
+                # print(piece.get_color(), "king valid move")
+                #self.set_board(x, y, x_end, y_end, piece)
+                print("KIng True")
+                return True
+
+        elif piece.get_type() == "bishop":
+            valid = piece.bishop_valid_move(x, y, x_end, y_end, piece)
+            if valid == False:
+                print("bishop false")
+                return False
+
+            else:
+                # print(piece.get_color(), "bishop valid move")
+                # Call this function to ensure there is no intervening piece
+                special_bishop = self.special_bishop_move(x, y, x_end, y_end, piece)
+                if special_bishop == False:
+                    print("bishop false")
+                    return False
+                else:
+                    print("bishop true")
+                    return True
+                    #self.set_board(x, y, x_end, y_end, piece)
+
+        elif piece.get_type() == "guard":
+            valid = piece.guard_valid_move(x, y, x_end, y_end, piece)
+            if valid == False:
+                print("guard false")
+                return False
+            else:
+                # print(piece.get_color(), "guard valid move")
+                #self.set_board(x, y, x_end, y_end, piece)
+                print("guard true")
+                return True
+
+        elif piece.get_type() == "knight":
+            valid = piece.knight_valid_move(x, y, x_end, y_end, piece)
+            if valid == False:
+                print("knight false")
+                return False
+
+            else:
+                # Call this function to ensure there is no intervening piece
+                special_knight = self.special_knight_move(x, y, x_end, y_end, piece)
+                if special_knight == False:
+                    print("knight false")
+                    return False
+                else:
+                    print("knight valid")
+                    #self.set_board(x, y, x_end, y_end, piece)
+                    print("knight true")
+                    return True
 
 class Piece:
     """NEED TO UPDATE--WORK IN PROGRESS"""
@@ -1143,46 +1328,48 @@ class Pawn(Piece):
 
     def pawn_valid_move(self, x1, y1, x2, y2, piece):
         if piece.get_color() == "red":
-            print(x1, y1, x2, y2, "red")
+            #print(x1, y1, x2, y2, "red")
             if y1 == 5 or y1 == 6: #precrossing the river
                 if y2 != (y1 - 1) or x1 != x2:
-                    print("cant move preriver")
+                    #print("cant move preriver")
                     return False
                 else:
-                    print("valid Pre-river")
+                    throwaway = 2
+                    #print("valid Pre-river")
             else: #after the pawn crosses the river
                 if y2 == (y1 - 1) and x2 == x1:
-                    print("validpostY")
+                    #print("validpostY")
                     return
                 elif x2 == (x1 - 1) and y2 == y1:
-                    print("validpostX-1")
+                    #print("validpostX-1")
                     return
                 elif x2 == (x1 + 1) and y2 == y1:
-                    print("validpostX+1")
+                    #print("validpostX+1")
                     return
                 else:
-                    print("cant move postriver")
+                    #print("cant move postriver")
                     return False
         if piece.get_color() == "black":
-            print(x1, y1, x2, y2, "black")
+            #print(x1, y1, x2, y2, "black")
             if y1 == 3 or y1 == 4: #precrossing the river
                 if y2 != (y1 + 1) or x1 != x2:
-                    print("cant move preriver")
+                    #print("cant move preriver")
                     return False
                 else:
-                    print("valid Pre-river")
+                    #print("valid Pre-river")
+                    throw = 2 #throwaway
             else: #after the pawn crosses the river
                 if y2 == (y1 + 1) and x2 == x1:
-                    print("validpostY")
+                    #print("validpostY")
                     return
                 elif x2 == (x1 - 1) and y2 == y1:
-                    print("validpostX-1")
+                    #print("validpostX-1")
                     return
                 elif x2 == (x1 + 1) and y2 == y1:
-                    print("validpostX+1")
+                    #print("validpostX+1")
                     return
                 else:
-                    print("cant move postriver")
+                    #print("cant move postriver")
                     return False
 
 class Knight(Piece):
@@ -1192,31 +1379,31 @@ class Knight(Piece):
 
     def knight_valid_move(self, x1, y1, x2, y2, piece):
         #print(piece.get_color())
-        print(x1, y1, x2, y2, "knight")
+        #print(x1, y1, x2, y2, "knight")
         if x2 == (x1 - 1) and y2 == (y1 - 2):
-            print("UL")
+            #print("UL")
             return
         elif x2 == (x1 + 1) and y2 == (y1 - 2):
-            print("UR")
+            #print("UR")
             return
         elif x2 == (x1 + 2) and y2 == (y1 - 1):
-            print("RU")
+            #print("RU")
             return
         elif x2 == (x1 + 2) and y2 == (y1 + 1):
-            print("RD")
+            #print("RD")
             return
         ###########################
         elif x2 == (x1 + 1) and y2 == (y1 + 2):
-            print("DR")
+            #print("DR")
             return
         elif x2 == (x1 - 1) and y2 == (y1 + 2):
-            print("DL")
+            #print("DL")
             return
         elif x2 == (x1 - 2) and y2 == (y1 + 1):
-            print("LD")
+            #print("LD")
             return
         elif x2 == (x1 - 2) and y2 == (y1 - 1):
-            print("LU")
+            #print("LU")
             return
         else:
             return False
@@ -1229,52 +1416,52 @@ class Bishop(Piece):
 
     def bishop_valid_move(self, x1, y1, x2, y2, piece):
         #print(piece.get_color())
-        print(x1, y1, x2, y2)
+        #print(x1, y1, x2, y2)
         if piece.get_color() == "red":
-            print(x1, y1, x2, y2, "red")
+            #print(x1, y1, x2, y2, "red")
             if y2 <= 4:  # can not cross the river
-                print("can't cross river")
+                #print("can't cross river")
                 return False
             else:
-                print(x1, y1, x2, y2, "diagonal")
+                #print(x1, y1, x2, y2, "diagonal")
                 if x2 == x1 or y2 == y1: #cant go stright in either direction
-                    print("cant go straight")
+                    #print("cant go straight")
                     return False
                 elif x2 == (x1 - 2) and y2 == (y1 - 2):
-                    print("TL")
+                    #print("TL")
                     return
                 elif x2 == (x1 + 2) and y2 == (y1 - 2):
-                    print("TR")
+                    #print("TR")
                     return
                 elif x2 == (x1 - 2) and y2 == (y1 + 2):
-                    print("BL")
+                    #print("BL")
                     return
                 elif x2 == (x1 + 2) and y2 == (y1 + 2):
-                    print("BR")
+                    #print("BR")
                     return
                 else:
                     return False
         elif piece.get_color() == "black":
-            print(x1, y1, x2, y2, "black")
+            #print(x1, y1, x2, y2, "black")
             if y2 >= 5:  # can not cross the river
-                print("can't cross river")
+                #print("can't cross river")
                 return False
             else:
-                print(x1, y1, x2, y2, "diagonal")
+                #print(x1, y1, x2, y2, "diagonal")
                 if x2 == x1 or y2 == y1: #cant go stright in either direction
-                    print("cant go straight")
+                    #print("cant go straight")
                     return False
                 elif x2 == (x1 - 2) and y2 == (y1 - 2):
-                    print("TL")
+                    #print("TL")
                     return
                 elif x2 == (x1 + 2) and y2 == (y1 - 2):
-                    print("TR")
+                    #print("TR")
                     return
                 elif x2 == (x1 - 2) and y2 == (y1 + 2):
-                    print("BL")
+                    #print("BL")
                     return
                 elif x2 == (x1 + 2) and y2 == (y1 + 2):
-                    print("BR")
+                    #print("BR")
                     return
                 else:
                     return False
@@ -1286,17 +1473,17 @@ class King(Piece):
 
     def king_valid_move(self, x1, y1, x2, y2, piece):
         #print(piece.get_color())
-        print(x1, y1, x2, y2)
+        #print(x1, y1, x2, y2)
         if piece.get_color() == "red":
-            print(x1, y1, x2, y2, "red king")
+            #print(x1, y1, x2, y2, "red king")
             if x2 <= 2 or x2 >= 6:  # can not leave palace left or right
-                print("can't leave palace x")
+                #print("can't leave palace x")
                 return False
             elif y2 <= 6:  # can not leave palace up
-                print("can't leave palace y")
+                #print("can't leave palace y")
                 return False
             else:
-                print(x1, y1, x2, y2, "valid move")
+                #print(x1, y1, x2, y2, "valid move")
                 if y2 == (y1 - 1) and x2 == x1:
                     return
                 elif y2 == (y1 + 1) and x2 == x1:
@@ -1308,15 +1495,15 @@ class King(Piece):
                 else:
                     return False
         if piece.get_color() == "black":
-            print(x1, y1, x2, y2, "black king")
+            #print(x1, y1, x2, y2, "black king")
             if x2 <= 2 or x2 >= 6:  # can not leave palace left or right
-                print("can't leave palace x")
+                #print("can't leave palace x")
                 return False
             elif y2 >= 3:  # can not leave palace down
-                print("can't leave palace y")
+                #print("can't leave palace y")
                 return False
             else:
-                print(x1, y1, x2, y2, "valid move")
+                #print(x1, y1, x2, y2, "valid move")
                 if y2 == (y1 - 1) and x2 == x1:
                     return
                 elif y2 == (y1 + 1) and x2 == x1:
@@ -1334,53 +1521,53 @@ class Guard(Piece):
         super().__init__(name, color, type, position)
 
     def guard_valid_move(self, x1, y1, x2, y2, piece):
-        print(x1, y1, x2, y2)
+        #print(x1, y1, x2, y2)
         if piece.get_color() == "red":
-            print(x1, y1, x2, y2, "red guard")
+            #print(x1, y1, x2, y2, "red guard")
             if x2 <= 2 or x2 >= 6:  # can not leave palace left or right
-                print("can't leave palace x")
+                #print("can't leave palace x")
                 return False
             elif y2 <= 6:  # can not leave palace up
-                print("can't leave palace y")
+                #print("can't leave palace y")
                 return False
             else:
-                print(x1, y1, x2, y2, "valid move")
+                #print(x1, y1, x2, y2, "valid move")
                 if x2 == (x1 - 1) and y2 == (y1 - 1):
-                    print("TL")
+                    #print("TL")
                     return
                 elif x2 == (x1 + 1) and y2 == (y1 - 1):
-                    print("TR")
+                    #print("TR")
                     return
                 elif x2 == (x1 - 1) and y2 == (y1 + 1):
-                    print("BL")
+                    #print("BL")
                     return
                 elif x2 == (x1 + 1) and y2 == (y1 + 1):
-                    print("BR")
+                    #print("BR")
                     return
                 else:
                     return False
 
         if piece.get_color() == "black":
-            print(x1, y1, x2, y2, "black guard")
+            #print(x1, y1, x2, y2, "black guard")
             if x2 <= 2 or x2 >= 6:  # can not leave palace left or right
-                print("can't leave palace x")
+                #print("can't leave palace x")
                 return False
             elif y2 >= 3:  # can not leave palace down
-                print("can't leave palace y")
+                #print("can't leave palace y")
                 return False
             else:
-                print(x1, y1, x2, y2, "valid move")
+                #print(x1, y1, x2, y2, "valid move")
                 if x2 == (x1 - 1) and y2 == (y1 - 1):
-                    print("TL")
+                    #print("TL")
                     return
                 elif x2 == (x1 + 1) and y2 == (y1 - 1):
-                    print("TR")
+                    #print("TR")
                     return
                 elif x2 == (x1 - 1) and y2 == (y1 + 1):
-                    print("BL")
+                    #print("BL")
                     return
                 elif x2 == (x1 + 1) and y2 == (y1 + 1):
-                    print("BR")
+                    #print("BR")
                     return
                 else:
                     return False
@@ -1391,8 +1578,7 @@ class Cannon(Piece):
         super().__init__(name, color, type, position)
 
     def cannon_valid_move(self, x1, y1, x2, y2, piece):
-        print(piece.get_color())
-        print(x1, y1, x2, y2)
+        #print(x1, y1, x2, y2)
         if x1 != x2 and y1 != y2:
             #print("cant move")
             return False
@@ -1403,7 +1589,66 @@ class Cannon(Piece):
 
 
 game = XiangqiGame()
-#game.print_board() #starting board
+game.print_board() #starting board
+
+
+"""
+################################################################################
+#################      TESTING CHECK      ######################################
+################################################################################
+
+game.is_in_check('black')
+
+game.make_move("e4", "e5")
+game.print_board()
+
+game.make_move("e5", "e6")
+game.print_board()
+
+game.make_move("e6", "d6")
+game.print_board()
+
+#black pawn
+game.make_move("e7", "e6")
+game.print_board()
+
+game.make_move("e6", "e5")
+game.print_board()
+
+
+#moving the pawn out of the way----should be invalid
+game.make_move("e5", "d5")
+game.print_board()
+
+#moving the rook in the way to make for a valid pawn move
+
+game.make_move("a1", "a2") #rook
+game.print_board()
+
+game.make_move("a2", "e2") #move rook in fron of king
+game.print_board()
+
+game.make_move("e5", "d5") #now this pawn move should be valid
+game.print_board()
+
+game.is_in_check('black') #returns True
+
+#Now I am going to move my black rook into the middle and change color
+
+game.make_move("a10", "a9") #black rook
+game.print_board()
+
+game.make_move("a9", "e9") #black rook in front of king
+game.print_board()
+
+game.is_in_check('red') #returns False
+
+game.make_move("e2", "a2") #moves the red rook over
+game.print_board()
+
+game.is_in_check('red') #returns True
+"""
+
 
 ################################################################################
 ################# ALL BOARD SPECIFIC PIECE TESTING BELOW  ######################
