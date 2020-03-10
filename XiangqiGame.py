@@ -63,43 +63,6 @@ class XiangqiGame:
         self._game_state = "UNFINISHED"
         self._is_in_check = False
 
-        def get_game_state(self):
-            """Method that returns the current state of the game,
-            which is one of three states RED_WON, BLACK_WON, or UNFINISHED"""
-            return self._game_state
-
-        def set_game_state(self, color):
-            """Method that sets the current state of the game,
-            which is one of three states RED_WON, BLACK_WON, or UNFINISHED"""
-            if color == "BLACK":
-                self._game_state = "BLACK_WON"
-            elif color == "RED":
-                self._game_state = "RED_WON"
-
-        def get_red_move(self):
-            """Method that returns True if it is Red's move"""
-            return self.get_red_move()
-
-        def set_red_move(self):
-            """Method to set whether it is red's move (True) or blacks
-            This will be called after every successful move"""
-            if self._red_move == True:
-                self._red_move = False
-            else:
-                self._red_move = True
-
-        """
-        def get_is_in_check(self):
-            Method that returns state of check as either true or false
-            return self._is_in_check
-
-        def set_is_in_check(self):
-            Method that kepps track of check
-            if color == "BLACK":
-                self._game_state = "BLACK_WON"
-            elif color == "RED":
-                self._game_state = "RED_WON"
-        """
 
         #####We now initialize the piece objects and place on Board##############
 
@@ -352,7 +315,43 @@ class XiangqiGame:
         y = list_coord[1]
         self._board[y][x] = black_pawn5  # have to do y first because nested list
 
+    def get_game_state(self):
+        """Method that returns the current state of the game,
+        which is one of three states RED_WON, BLACK_WON, or UNFINISHED"""
+        return self._game_state
 
+    def set_game_state(self, color):
+        """Method that sets the current state of the game,
+        which is one of three states RED_WON, BLACK_WON, or UNFINISHED"""
+        if color == "BLACK":
+            self._game_state = "BLACK_WON"
+        elif color == "RED":
+            self._game_state = "RED_WON"
+
+    def get_red_move(self):
+        """Method that returns True if it is Red's move"""
+        return self._red_move()
+
+    def set_red_move(self):
+        """Method to set whether it is red's move (True) or blacks
+        This will be called after every successful move"""
+        if self._red_move == True:
+            self._red_move = False
+        else:
+            self._red_move = True
+
+    """
+    def get_is_in_check(self):
+        Method that returns state of check as either true or false
+        return self._is_in_check
+
+    def set_is_in_check(self):
+        Method that kepps track of check
+        if color == "BLACK":
+            self._game_state = "BLACK_WON"
+        elif color == "RED":
+            self._game_state = "RED_WON"
+    """
     def convert_coord(self, str_pos):
         """
         Method to convert string move to a list of integer coordinates on board.
@@ -417,6 +416,13 @@ class XiangqiGame:
         to an empty string"""
         self._board[y1][x1] = piece
         self._board[y][x] = ""
+
+    def set_board_reverse(self, x, y, x1, y1, start_piece, end_piece):
+        """Reverses the board if an otherwise legal move would have put the
+        moving color's king in check. This will put the  original starting piece
+         and the original ending piece back into their original positions"""
+        self._board[y1][x1] = end_piece
+        self._board[y][x] = start_piece
 
     def print_board(self):
         """return the board in a 9x10 grid"""
@@ -983,21 +989,23 @@ class XiangqiGame:
             if x == x_end and y == y_end:
                 return False
 
-            """ THIS IS WORKING BUT WE NEED A PORTION TO UPDATE THE MOVE
+            #TODO: THIS IS WORKING BUT WE NEED A PORTION TO UPDATE THE MOVE
             #black is trying to move a red piece
             if piece.get_color() == "red" and self._red_move == False:
+                print("wrongcolor--black cant move red")
                 return False
             # red is trying to move a black piece
             elif piece.get_color() == "black" and self._red_move == True:
+                print("wrongcolor--red cant move black")
                 return False
                 #print(False)
-            """
+
 
             """
             #NEED TO ADD IN A REQUIREMENT TO CHECK IF THE PLAYER IS IN CHECK 
             #CAN ONLY ALLOW THE KING TO MOVE
-            
             """
+
             # special elephant cannon exchange move
             #have to run this before the color check below
             special_move = self.special_move_check(x, y, x_end, y_end, piece, end_spot)
@@ -1005,7 +1013,7 @@ class XiangqiGame:
                 print("elephantCannon exchange FALSE")
                 pass
             else:
-                print("elephantCannon exachange Engaged")
+                print("elephantCannon exchange Engaged")
                 self.engage_special_move(x, y, x_end, y_end, piece, end_spot)
             #TODO: MUST ADD IN COLOR CHANGE FOR TURN
 
@@ -1032,12 +1040,35 @@ class XiangqiGame:
                     # Call this function to ensure there is no intervening piece
                     special_rook = self.special_rook_move(x, y, x_end, y_end, piece)
                     if special_rook == False:
-                        print("coming back false")
+                        #print("coming back false")
                         return False
                     else:
-                        print("coming back valid")
-                        self.set_board(x, y, x_end, y_end, piece)
-                    #TODO: NEED TO ACCOUNT FOR THE TURN CHANGE, BUT NEED TO DEAL WITH CHECK FIRST
+                        print("rook coming back valid")
+                        prev_start = self._board[y][x] #save the previous piece start
+                        prev_end = self._board[y_end][x_end] #save the previous piece end
+                        self.set_board(x, y, x_end, y_end, piece) #execute move
+
+                        if self._red_move == True:
+                            color = "red"
+                        else:
+                            color = "black"
+
+                        #now we need to check and see if the move moved the
+                        # player into check so we will update the board (above)
+                        # and then check to see if that color is in check 
+                        # so if black moved, we check to see whether black is in
+                        # check as if it is red's next move.
+                        # If black moved into check, we will reverse the move
+
+                        in_check = self.is_in_check(color)
+                        if in_check == True:
+                            print("can't move into check")
+                            self.set_board_reverse(x, y, x_end, y_end, prev_start, prev_end)
+                            print("board should be reversed")                         
+                            return False
+                        else:
+                            #updates the color
+                            self.set_red_move()
 
 
             elif piece.get_type() == "pawn":
@@ -1047,6 +1078,7 @@ class XiangqiGame:
                 else:
                     #print(piece.get_color(), "pawn valid move")
                     self.set_board(x, y, x_end, y_end, piece)
+                    self.set_red_move()  # TODO: NEED TO ACCOUNT FOR THE TURN CHANGE COLOR
 
             elif piece.get_type() == "cannon":
                 valid = piece.cannon_valid_move(x, y, x_end, y_end, piece)
@@ -1592,6 +1624,83 @@ game = XiangqiGame()
 game.print_board() #starting board
 
 
+################################################################################
+#################      TESTING MOVING INTO CHECK      ##########################
+################################################################################
+
+game.make_move("e4", "e5")
+game.print_board()
+
+
+game.make_move("c7", "c6")
+game.print_board()
+
+game.make_move("e5", "e6")
+game.print_board()
+
+game.make_move("e7", "e6")
+game.print_board()
+
+game.make_move("a1", "a2")
+game.print_board()
+
+game.make_move("e6", "e5")
+game.print_board()
+
+game.make_move("a2", "e2")
+game.print_board()
+
+game.make_move("a10", "a9")
+game.print_board()
+
+game.make_move("i4", "i5")
+game.print_board()
+
+game.make_move("a9", "e9")
+game.print_board()
+
+game.make_move("i5", "i6")
+game.print_board()
+
+game.make_move("e5", "d5")
+game.print_board()
+
+game.make_move("e2", "f2")
+game.print_board()
+
+game.make_move("e2", "e3")
+game.print_board()
+
+
+"""
+game.make_move("e6", "d6")
+game.print_board()
+
+#black pawn
+game.make_move("e7", "e6")
+game.print_board()
+
+game.make_move("e6", "e5")
+game.print_board()
+
+
+#moving the pawn out of the way----should be invalid
+game.make_move("e5", "d5")
+game.print_board()
+
+#moving the rook in the way to make for a valid pawn move
+
+game.make_move("a1", "a2") #rook
+game.print_board()
+
+game.make_move("a2", "e2") #move rook in fron of king
+game.print_board()
+
+game.make_move("e5", "d5") #now this pawn move should be valid
+game.print_board()
+
+game.is_in_check('black') #returns True
+"""
 """
 ################################################################################
 #################      TESTING CHECK      ######################################
