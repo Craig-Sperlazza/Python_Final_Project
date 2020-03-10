@@ -48,7 +48,8 @@ class XiangqiGame:
     def __init__(self):
         """Initializes a board as a list made of ten list elements, all of
         which are initially set as an empty string.
-         The init function also creates and sets the current state of the game to UNFINISHED"""
+        The init function also creates and sets the current state of the game to
+        UNFINISHED, sets the initial move to red and sets in_check to False"""
         self._board = [["", "", "", "", "", "", "", "", ""],
                        ["", "", "", "", "", "", "", "", ""],
                        ["", "", "", "", "", "", "", "", ""],
@@ -63,8 +64,7 @@ class XiangqiGame:
         self._game_state = "UNFINISHED"
         self._is_in_check = False
 
-
-        #####We now initialize the piece objects and place on Board##############
+        #####Initialize the piece objects and place on Board####################
 
         ########################################################################
         ####################   RED PIECES  #####################################
@@ -330,7 +330,7 @@ class XiangqiGame:
 
     def get_red_move(self):
         """Method that returns True if it is Red's move"""
-        return self._red_move()
+        return self._red_move
 
     def set_red_move(self):
         """Method to set whether it is red's move (True) or blacks
@@ -436,12 +436,12 @@ class XiangqiGame:
 
     def color_check(self, start, end):
         """This method ensures that the player is not trying to move a
-        piece of one coloe to a spot that has the same color piece"""
+        piece of one color to a spot that has the same color piece"""
         if end == "":
-            print("OK")
+            #print("OK")
             return
         elif start.get_color() == end.get_color():
-            print("same color")
+            #print("same color")
             return False
         else:
             return
@@ -531,47 +531,47 @@ class XiangqiGame:
         desired move"""
         #TOP LEFT
         if x2 == (x1 - 2) and y2 == (y1 - 2):
-            print("TL")
+            #print("TL")
             int_piece = self._board[y1-1][x1-1]
-            print(int_piece, "piece")
+            #print(int_piece, "piece")
             if int_piece != "":
-                print("piece there cant do itTL")
+                #print("piece there cant do itTL")
                 return False
             else:
-                print("empty good to goTL")
+                #print("empty good to goTL")
                 return
         #Bishop is trying to move to the TOP RIGHT diagonal
         elif x2 == (x1 + 2) and y2 == (y1 - 2):
-            print("TR")
+            #print("TR")
             int_piece = self._board[y1 - 1][x1 + 1]
-            print(int_piece, "piece")
+            #print(int_piece, "piece")
             if int_piece != "":
-                print("piece there cant do itTR")
+                #print("piece there cant do itTR")
                 return False
             else:
-                print("empty good to goTR")
+                #print("empty good to goTR")
                 return
         #BOTTOM LEFT
         elif x2 == (x1 - 2) and y2 == (y1 + 2):
-            print("BL")
+            #print("BL")
             int_piece = self._board[y1 + 1][x1 - 1]
-            print(int_piece, "piece")
+            #print(int_piece, "piece")
             if int_piece != "":
-                print("piece there cant do itBL")
+                #print("piece there cant do itBL")
                 return False
             else:
-                print("empty good to goBL")
+                #print("empty good to goBL")
                 return
         #BOTTOM RIGHT
         elif x2 == (x1 + 2) and y2 == (y1 + 2):
-            print("BR")
+            #print("BR")
             int_piece = self._board[y1 + 1][x1 + 1]
-            print(int_piece, "piece")
+            #print(int_piece, "piece")
             if int_piece != "":
-                print("piece there cant do itBR")
+                #print("piece there cant do itBR")
                 return False
             else:
-                print("empty good to goBR")
+                #print("empty good to goBR")
                 return
         else:
             return False
@@ -582,85 +582,85 @@ class XiangqiGame:
         #TOP LEFT (Top left and top right depend on same intevening piece)
         if x2 == (x1 - 1) and y2 == (y1 - 2):
             int_piece = self._board[y1 - 1][x1]
-            print(int_piece, "piece")
+            #print(int_piece, "piece")
             if int_piece != "":
-                print("piece there cant do it UL")
+                #print("piece there cant do it UL")
                 return False
             else:
-                print("empty good to go UL")
+                #print("empty good to go UL")
                 return
         #Top Right
         elif x2 == (x1 + 1) and y2 == (y1 - 2):
             int_piece = self._board[y1 - 1][x1]
-            print(int_piece, "piece")
+            #print(int_piece, "piece")
             if int_piece != "":
-                print("piece there cant do it UR")
+                #print("piece there cant do it UR")
                 return False
             else:
-                print("empty good to go UR")
+                #print("empty good to go UR")
                 return
         #Right up and right down depend on same piece
         #right up
         elif x2 == (x1 + 2) and y2 == (y1 - 1):
             int_piece = self._board[y1][x1+1]
-            print(int_piece, "piece")
+            #print(int_piece, "piece")
             if int_piece != "":
-                print("piece there cant do it RU")
+                #print("piece there cant do it RU")
                 return False
             else:
-                print("empty good to go RU")
+                #print("empty good to go RU")
                 return
         elif x2 == (x1 + 2) and y2 == (y1 + 1):
             int_piece = self._board[y1][x1 + 1]
-            print(int_piece, "piece")
+            #print(int_piece, "piece")
             if int_piece != "":
-                print("piece there cant do it RD")
+                #print("piece there cant do it RD")
                 return False
             else:
-                print("empty good to go RD")
+                #print("empty good to go RD")
                 return
         ###########################
         # down right and down left depend on same piece
         # down right
         elif x2 == (x1 + 1) and y2 == (y1 + 2):
             int_piece = self._board[y1+1][x1]
-            print(int_piece, "piece")
+            #print(int_piece, "piece")
             if int_piece != "":
-                print("piece there cant do it DR")
+                #print("piece there cant do it DR")
                 return False
             else:
-                print("empty good to go DR")
+                #print("empty good to go DR")
                 return
         #down left
         elif x2 == (x1 - 1) and y2 == (y1 + 2):
             int_piece = self._board[y1 + 1][x1]
-            print(int_piece, "piece")
+            #print(int_piece, "piece")
             if int_piece != "":
-                print("piece there cant do it DR")
+                #print("piece there cant do it DR")
                 return False
             else:
-                print("empty good to go DR")
+                #print("empty good to go DR")
                 return
         #Left down and left up both depend on same piece
         #left down
         elif x2 == (x1 - 2) and y2 == (y1 + 1):
             int_piece = self._board[y1][x1-1]
-            print(int_piece, "piece")
+            #print(int_piece, "piece")
             if int_piece != "":
-                print("piece there cant do it LD")
+                #print("piece there cant do it LD")
                 return False
             else:
-                print("empty good to go LD")
+                #print("empty good to go LD")
                 return
         #left up
         elif x2 == (x1 - 2) and y2 == (y1 - 1):
             int_piece = self._board[y1][x1 - 1]
-            print(int_piece, "piece")
+            #print(int_piece, "piece")
             if int_piece != "":
-                print("piece there cant do it LD")
+                #print("piece there cant do it LD")
                 return False
             else:
-                print("empty good to go LD")
+                #print("empty good to go LD")
                 return
         else:
             return
@@ -674,12 +674,12 @@ class XiangqiGame:
             coord_y = y1 + 1 #will start at the next coordinate from start
             for i in range(1, spaces):
                 int_piece = self._board[coord_y][x1]
-                print(int_piece, "piece")
+                #print(int_piece, "piece")
                 if int_piece != "":
-                    print("piece there cant do it")
+                    #print("piece there cant do it")
                     return False
                 else:
-                    print("empty good to go for this square", coord_y)
+                    #print("empty good to go for this square", coord_y)
                     coord_y += 1
             return
 
@@ -689,12 +689,12 @@ class XiangqiGame:
             coord_x = x1 + 1  # will start at the next coordinate from start
             for i in range(1, spaces):
                 int_piece = self._board[y1][coord_x]
-                print(int_piece, "piece")
+                #print(int_piece, "piece")
                 if int_piece != "":
-                    print("piece there cant do it")
+                    #print("piece there cant do it")
                     return False
                 else:
-                    print("empty good to go for this square", coord_x)
+                    #print("empty good to go for this square", coord_x)
                     coord_x += 1
             return
 
@@ -704,12 +704,12 @@ class XiangqiGame:
             coord_x = x1 - 1  # will start at the next coordinate from start
             for i in range(1, spaces):
                 int_piece = self._board[y1][coord_x]
-                print(int_piece, "piece")
+                #print(int_piece, "piece")
                 if int_piece != "":
-                    print("piece there cant do it")
+                    #print("piece there cant do it")
                     return False
                 else:
-                    print("empty good to go for this square", coord_x)
+                    #print("empty good to go for this square", coord_x)
                     coord_x -= 1
             return
 
@@ -719,12 +719,12 @@ class XiangqiGame:
             coord_y = y1 - 1  # will start at the next coordinate from start
             for i in range(1, spaces):
                 int_piece = self._board[coord_y][x1]
-                print(int_piece, "piece")
+                #print(int_piece, "piece")
                 if int_piece != "":
-                    print("piece there cant do it")
+                    #print("piece there cant do it")
                     return False
                 else:
-                    print("empty good to go for this square", coord_y)
+                    #print("empty good to go for this square", coord_y)
                     coord_y -= 1
             return
 
@@ -738,23 +738,23 @@ class XiangqiGame:
 
         if x2 != x1:
             if x1 == 3 or x1 == 4 or x1 == 5:
-                print("test x1 y1 x2", x1, y1, x2)
+                #print("test x1 y1 x2", x1, y1, x2)
                 #y decreasing side of board----BLACK KING
                 spaces_dec = (y1 - 0) + 1 #Spaces to check between y1 row 0
                 coord_y_dec = y1 - 1 #will start at the next coordinate from start
                 black_king_open = False
                 for i in range(1, spaces_dec):
                     int_piece = self._board[coord_y_dec][x1]
-                    print(int_piece, "decpiece")
+                    #print(int_piece, "decpiece")
                     if int_piece == "":
                         coord_y_dec -= 1
                     else:
                         if int_piece.get_type() == "king":
-                            print(int_piece.get_type(), "black king")
+                            #print(int_piece.get_type(), "black king")
                             black_king_open = True
                             break
                         else:
-                            print(int_piece.get_type(), "other piece")
+                            #print(int_piece.get_type(), "other piece")
                             black_king_open = False
                             break
 
@@ -764,17 +764,17 @@ class XiangqiGame:
                 red_king_open = False
                 for i in range(1, spaces_dec):
                     int_piece = self._board[coord_y_inc][x1]
-                    print(int_piece, "incpiece")
+                    #print(int_piece, "incpiece")
                     if int_piece == "":
                         coord_y_inc += 1
                     else:
-                        print(int_piece)
+                        #print(int_piece)
                         if int_piece.get_type() == "king":
-                            print(int_piece.get_type(), "red king")
+                            #print(int_piece.get_type(), "red king")
                             red_king_open = True
                             break
                         else:
-                            print(int_piece.get_type(), "Other Type of Piece")
+                            #print(int_piece.get_type(), "Other Type of Piece")
                             red_king_open = False
                             break
                 if red_king_open == True and black_king_open == True:
@@ -800,12 +800,12 @@ class XiangqiGame:
                 coord_y = y1 + 1 #will start at the next coordinate from start
                 for i in range(1, spaces):
                     int_piece = self._board[coord_y][x1]
-                    print(int_piece, "piece")
+                    #print(int_piece, "piece")
                     if int_piece != "":
-                        print("piece there cant do it")
+                        #print("piece there cant do it")
                         return False
                     else:
-                        print("empty good to go for this square", coord_y)
+                        #print("empty good to go for this square", coord_y)
                         coord_y += 1
                 return
 
@@ -815,12 +815,12 @@ class XiangqiGame:
                 coord_x = x1 + 1  # will start at the next coordinate from start
                 for i in range(1, spaces):
                     int_piece = self._board[y1][coord_x]
-                    print(int_piece, "piece")
+                    #print(int_piece, "piece")
                     if int_piece != "":
-                        print("piece there cant do it")
+                        #print("piece there cant do it")
                         return False
                     else:
-                        print("empty good to go for this square", coord_x)
+                        #print("empty good to go for this square", coord_x)
                         coord_x += 1
                 return
 
@@ -830,12 +830,12 @@ class XiangqiGame:
                 coord_x = x1 - 1  # will start at the next coordinate from start
                 for i in range(1, spaces):
                     int_piece = self._board[y1][coord_x]
-                    print(int_piece, "piece")
+                    #print(int_piece, "piece")
                     if int_piece != "":
-                        print("piece there cant do it")
+                        #print("piece there cant do it")
                         return False
                     else:
-                        print("empty good to go for this square", coord_x)
+                        #print("empty good to go for this square", coord_x)
                         coord_x -= 1
                 return
 
@@ -845,12 +845,12 @@ class XiangqiGame:
                 coord_y = y1 - 1  # will start at the next coordinate from start
                 for i in range(1, spaces):
                     int_piece = self._board[coord_y][x1]
-                    print(int_piece, "piece")
+                    #print(int_piece, "piece")
                     if int_piece != "":
-                        print("piece there cant do it")
+                        #print("piece there cant do it")
                         return False
                     else:
-                        print("empty good to go for this square", coord_y)
+                        #print("empty good to go for this square", coord_y)
                         coord_y -= 1
                 return
 
@@ -862,19 +862,19 @@ class XiangqiGame:
                 coord_y = y1 + 1  # will start at the next coordinate from start
                 for i in range(1, spaces):
                     int_piece = self._board[coord_y][x1]
-                    print(int_piece, "piece")
+                    #print(int_piece, "piece")
                     if int_piece != "":
                         piece_count += 1
                         coord_y += 1
-                        print("piece, piece count = ", piece_count)
+                        #print("piece, piece count = ", piece_count)
                     else:
-                        print("empty square, piece count", piece_count)
+                        #print("empty square, piece count", piece_count)
                         coord_y += 1
                 if piece_count != 1:
-                    print(piece_count, "False")
+                    #print(piece_count, "False")
                     return False
                 else:
-                    print(piece_count, "True")
+                    #print(piece_count, "True")
                     return
 
             # moving right across the board (x is increasing)
@@ -883,19 +883,19 @@ class XiangqiGame:
                 coord_x = x1 + 1  # will start at the next coordinate from start
                 for i in range(1, spaces):
                     int_piece = self._board[y1][coord_x]
-                    print(int_piece, "piece")
+                    #print(int_piece, "piece")
                     if int_piece != "":
                         piece_count += 1
                         coord_x += 1
-                        print("piece, piece count = ", piece_count)
+                        #print("piece, piece count = ", piece_count)
                     else:
-                        print("empty square, piece count", piece_count)
+                        #print("empty square, piece count", piece_count)
                         coord_x += 1
                 if piece_count != 1:
-                    print(piece_count, "False")
+                    #print(piece_count, "False")
                     return False
                 else:
-                    print(piece_count, "True")
+                    #print(piece_count, "True")
                     return
 
             # moving left across the board (x is decreasing)
@@ -904,19 +904,19 @@ class XiangqiGame:
                 coord_x = x1 - 1  # will start at the next coordinate from start
                 for i in range(1, spaces):
                     int_piece = self._board[y1][coord_x]
-                    print(int_piece, "piece")
+                    #print(int_piece, "piece")
                     if int_piece != "":
                         piece_count += 1
                         coord_x -= 1
-                        print("piece, piece count = ", piece_count)
+                        #print("piece, piece count = ", piece_count)
                     else:
-                        print("empty square, piece count", piece_count)
+                        #print("empty square, piece count", piece_count)
                         coord_x -= 1
                 if piece_count != 1:
-                    print(piece_count, "False")
+                    #print(piece_count, "False")
                     return False
                 else:
-                    print(piece_count, "True")
+                    #print(piece_count, "True")
                     return
 
             # moving up the board (y is decreasing)
@@ -925,19 +925,19 @@ class XiangqiGame:
                 coord_y = y1 - 1  # will start at the next coordinate from start
                 for i in range(1, spaces):
                     int_piece = self._board[coord_y][x1]
-                    print(int_piece, "piece")
+                    #print(int_piece, "piece")
                     if int_piece != "":
                         piece_count += 1
                         coord_y -= 1
-                        print("piece, piece count = ", piece_count)
+                        #print("piece, piece count = ", piece_count)
                     else:
-                        print("empty good to go for this square", coord_y)
+                        #print("empty good to go for this square", coord_y)
                         coord_y -= 1
                 if piece_count != 1:
-                    print(piece_count, "False")
+                    #print(piece_count, "False")
                     return False
                 else:
-                    print(piece_count, "True")
+                    #print(piece_count, "True")
                     return
 
 
@@ -989,33 +989,27 @@ class XiangqiGame:
             if x == x_end and y == y_end:
                 return False
 
-            #TODO: THIS IS WORKING BUT WE NEED A PORTION TO UPDATE THE MOVE
             #black is trying to move a red piece
             if piece.get_color() == "red" and self._red_move == False:
-                print("wrongcolor--black cant move red")
+                #print("wrongcolor--black cant move red")
                 return False
             # red is trying to move a black piece
             elif piece.get_color() == "black" and self._red_move == True:
-                print("wrongcolor--red cant move black")
+                #print("wrongcolor--red cant move black")
                 return False
-                #print(False)
 
-
-            """
-            #NEED TO ADD IN A REQUIREMENT TO CHECK IF THE PLAYER IS IN CHECK 
-            #CAN ONLY ALLOW THE KING TO MOVE
-            """
 
             # special elephant cannon exchange move
             #have to run this before the color check below
             special_move = self.special_move_check(x, y, x_end, y_end, piece, end_spot)
             if special_move == False:
-                print("elephantCannon exchange FALSE")
-                pass
+                throwaway2 = 3
+                #print("elephantCannon exchange FALSE")
+                #pass
             else:
-                print("elephantCannon exchange Engaged")
+                #print("elephantCannon exchange Engaged")
                 self.engage_special_move(x, y, x_end, y_end, piece, end_spot)
-            #TODO: MUST ADD IN COLOR CHANGE FOR TURN
+                self.set_red_move()
 
             #This will return False if the end coordinate is the same color as
             #the piece. It will call the color_check function defined in this
@@ -1027,7 +1021,7 @@ class XiangqiGame:
             #This will ensure that the two kings will not face each other
             special_king = self.special_king_move(x, y, x_end, y_end, piece)
             if special_king == False:
-                print("Two Kings cant face each other FALSE")
+                #print("Two Kings cant face each other FALSE")
                 return False
             else:
                 pass
@@ -1043,7 +1037,7 @@ class XiangqiGame:
                         #print("coming back false")
                         return False
                     else:
-                        print("rook coming back valid")
+                        #print("rook coming back valid")
                         prev_start = self._board[y][x] #save the previous piece start
                         prev_end = self._board[y_end][x_end] #save the previous piece end
                         self.set_board(x, y, x_end, y_end, piece) #execute move
@@ -1062,9 +1056,9 @@ class XiangqiGame:
 
                         in_check = self.is_in_check(color)
                         if in_check == True:
-                            print("can't move into check")
+                            #print("can't move into check")
                             self.set_board_reverse(x, y, x_end, y_end, prev_start, prev_end)
-                            print("board should be reversed")                         
+                            #print("board should be reversed")
                             return False
                         else:
                             #updates the color
@@ -1076,7 +1070,7 @@ class XiangqiGame:
                 if valid == False:
                     return False
                 else:
-                    print("pawn coming back valid")
+                    #print("pawn coming back valid")
                     prev_start = self._board[y][x]  # save the previous piece start
                     prev_end = self._board[y_end][x_end]  # save the previous piece end
                     self.set_board(x, y, x_end, y_end, piece)  # execute move
@@ -1095,9 +1089,9 @@ class XiangqiGame:
 
                     in_check = self.is_in_check(color)
                     if in_check == True:
-                        print("can't move into check")
+                        #print("can't move into check")
                         self.set_board_reverse(x, y, x_end, y_end, prev_start, prev_end)
-                        print("board should be reversed")
+                        #print("board should be reversed")
                         return False
                     else:
                         # updates the color
@@ -1111,19 +1105,67 @@ class XiangqiGame:
                     # Call this function to ensure there is no intervening piece
                     special_cannon = self.special_cannon_move(x, y, x_end, y_end, piece)
                     if special_cannon == False:
-                        print("coming back false")
+                        #print("coming back false")
                         return False
                     else:
-                        print("coming back valid")
-                        self.set_board(x, y, x_end, y_end, piece)
+                        # print("cannon coming back valid")
+                        prev_start = self._board[y][x]  # save the previous piece start
+                        prev_end = self._board[y_end][x_end]  # save the previous piece end
+                        self.set_board(x, y, x_end, y_end, piece)  # execute move
+
+                        if self._red_move == True:
+                            color = "red"
+                        else:
+                            color = "black"
+
+                        # now we need to check and see if the move moved the
+                        # player into check so we will update the board (above)
+                        # and then check to see if that color is in check
+                        # so if black moved, we check to see whether black is in
+                        # check as if it is red's next move.
+                        # If black moved into check, we will reverse the move
+
+                        in_check = self.is_in_check(color)
+                        if in_check == True:
+                            # print("can't move into check")
+                            self.set_board_reverse(x, y, x_end, y_end, prev_start, prev_end)
+                            # print("board should be reversed")
+                            return False
+                        else:
+                            # updates the color
+                            self.set_red_move()
 
             elif piece.get_type() == "king":
                 valid = piece.king_valid_move(x, y, x_end, y_end, piece)
                 if valid == False:
                     return False
                 else:
-                    # print(piece.get_color(), "king valid move")
-                    self.set_board(x, y, x_end, y_end, piece)
+                    # print("king coming back valid")
+                    prev_start = self._board[y][x]  # save the previous piece start
+                    prev_end = self._board[y_end][x_end]  # save the previous piece end
+                    self.set_board(x, y, x_end, y_end, piece)  # execute move
+
+                    if self._red_move == True:
+                        color = "red"
+                    else:
+                        color = "black"
+
+                    # now we need to check and see if the move moved the
+                    # player into check so we will update the board (above)
+                    # and then check to see if that color is in check
+                    # so if black moved, we check to see whether black is in
+                    # check as if it is red's next move.
+                    # If black moved into check, we will reverse the move
+
+                    in_check = self.is_in_check(color)
+                    if in_check == True:
+                        # print("can't move into check")
+                        self.set_board_reverse(x, y, x_end, y_end, prev_start, prev_end)
+                        # print("board should be reversed")
+                        return False
+                    else:
+                        # updates the color
+                        self.set_red_move()
 
             elif piece.get_type() == "bishop":
                 valid = piece.bishop_valid_move(x, y, x_end, y_end, piece)
@@ -1137,16 +1179,64 @@ class XiangqiGame:
                         #print("coming back false")
                         return False
                     else:
-                        #print("coming back valid")
-                        self.set_board(x, y, x_end, y_end, piece)
+                        # print("bishop coming back valid")
+                        prev_start = self._board[y][x]  # save the previous piece start
+                        prev_end = self._board[y_end][x_end]  # save the previous piece end
+                        self.set_board(x, y, x_end, y_end, piece)  # execute move
+
+                        if self._red_move == True:
+                            color = "red"
+                        else:
+                            color = "black"
+
+                        # now we need to check and see if the move moved the
+                        # player into check so we will update the board (above)
+                        # and then check to see if that color is in check
+                        # so if black moved, we check to see whether black is in
+                        # check as if it is red's next move.
+                        # If black moved into check, we will reverse the move
+
+                        in_check = self.is_in_check(color)
+                        if in_check == True:
+                            # print("can't move into check")
+                            self.set_board_reverse(x, y, x_end, y_end, prev_start, prev_end)
+                            # print("board should be reversed")
+                            return False
+                        else:
+                            # updates the color
+                            self.set_red_move()
 
             elif piece.get_type() == "guard":
                 valid = piece.guard_valid_move(x, y, x_end, y_end, piece)
                 if valid == False:
                     return False
                 else:
-                    # print(piece.get_color(), "guard valid move")
-                    self.set_board(x, y, x_end, y_end, piece)
+                    # print("guard coming back valid")
+                    prev_start = self._board[y][x]  # save the previous piece start
+                    prev_end = self._board[y_end][x_end]  # save the previous piece end
+                    self.set_board(x, y, x_end, y_end, piece)  # execute move
+
+                    if self._red_move == True:
+                        color = "red"
+                    else:
+                        color = "black"
+
+                    # now we need to check and see if the move moved the
+                    # player into check so we will update the board (above)
+                    # and then check to see if that color is in check
+                    # so if black moved, we check to see whether black is in
+                    # check as if it is red's next move.
+                    # If black moved into check, we will reverse the move
+
+                    in_check = self.is_in_check(color)
+                    if in_check == True:
+                        # print("can't move into check")
+                        self.set_board_reverse(x, y, x_end, y_end, prev_start, prev_end)
+                        # print("board should be reversed")
+                        return False
+                    else:
+                        # updates the color
+                        self.set_red_move()
 
             elif piece.get_type() == "knight":
                 valid = piece.knight_valid_move(x, y, x_end, y_end, piece)
@@ -1159,8 +1249,32 @@ class XiangqiGame:
                         #print("coming back false")
                         return False
                     else:
-                        #print("coming back valid")
-                        self.set_board(x, y, x_end, y_end, piece)
+                        # print("rook coming back valid")
+                        prev_start = self._board[y][x]  # save the previous piece start
+                        prev_end = self._board[y_end][x_end]  # save the previous piece end
+                        self.set_board(x, y, x_end, y_end, piece)  # execute move
+
+                        if self._red_move == True:
+                            color = "red"
+                        else:
+                            color = "black"
+
+                        # now we need to check and see if the move moved the
+                        # player into check so we will update the board (above)
+                        # and then check to see if that color is in check
+                        # so if black moved, we check to see whether black is in
+                        # check as if it is red's next move.
+                        # If black moved into check, we will reverse the move
+
+                        in_check = self.is_in_check(color)
+                        if in_check == True:
+                            # print("can't move into check")
+                            self.set_board_reverse(x, y, x_end, y_end, prev_start, prev_end)
+                            # print("board should be reversed")
+                            return False
+                        else:
+                            # updates the color
+                            self.set_red_move()
 
     def is_in_check(self, color):
         """
@@ -1216,12 +1330,13 @@ class XiangqiGame:
                     if int_piece.get_color() == attack_color:
                         special_check = self.special_check_move(coord_x, coord_y, king_x, king_y, int_piece)
                         if special_check == True:
-                            print("King is in check", int_piece.get_name())
-                            print(True)
+                            #print("King is in check", int_piece.get_name())
+                            #print(True)
                             return True
                         else:
+                            king = 3
                             pass
-        print(False)
+        #print(False)
         return False
 
     def special_check_move(self, coord_x, coord_y, king_x, king_y, int_piece):
@@ -1231,21 +1346,21 @@ class XiangqiGame:
         y_end = king_y
         piece = self._board[y][x]
         king = self._board[y_end][x_end]
-        print("SPECIAL", piece.get_type(), king.get_type())
+        #print("SPECIAL", piece.get_type(), king.get_type())
 
         if piece.get_type() == "rook":
             valid = piece.rook_valid_move(x, y, x_end, y_end, piece)
             if valid == False:
-                print("rook false")
+                #print("rook false")
                 return False
             else:
                 # Call this function to ensure there is no intervening piece
                 special_rook = self.special_rook_move(x, y, x_end, y_end, piece)
                 if special_rook == False:
-                    print("rook false")
+                    #print("rook false")
                     return False
                 else:
-                    print("rook True")
+                    #print("rook True")
                     return True
                     #self.set_board(x, y, x_end, y_end, piece)
 
@@ -1253,45 +1368,45 @@ class XiangqiGame:
         elif piece.get_type() == "pawn":
             valid = piece.pawn_valid_move(x, y, x_end, y_end, piece)
             if valid == False:
-                print("pawn false")
+                #print("pawn false")
                 return False
             else:
                 # print(piece.get_color(), "pawn valid move")
                 #self.set_board(x, y, x_end, y_end, piece)
-                print("pawn true")
+                #print("pawn true")
                 return True
 
         elif piece.get_type() == "cannon":
             valid = piece.cannon_valid_move(x, y, x_end, y_end, piece)
             if valid == False:
-                print("cannon false")
+                #print("cannon false")
                 return False
             else:
                 # Call this function to ensure there is no intervening piece
                 special_cannon = self.special_cannon_move(x, y, x_end, y_end, piece)
                 if special_cannon == False:
-                    print("cannon false")
+                    #print("cannon false")
                     return False
                 else:
-                    print("cannon true")
+                    #print("cannon true")
                     return True
                     #self.set_board(x, y, x_end, y_end, piece)
 
         elif piece.get_type() == "king":
             valid = piece.king_valid_move(x, y, x_end, y_end, piece)
             if valid == False:
-                print("King False")
+                #print("King False")
                 return False
             else:
                 # print(piece.get_color(), "king valid move")
                 #self.set_board(x, y, x_end, y_end, piece)
-                print("KIng True")
+                #print("KIng True")
                 return True
 
         elif piece.get_type() == "bishop":
             valid = piece.bishop_valid_move(x, y, x_end, y_end, piece)
             if valid == False:
-                print("bishop false")
+                #print("bishop false")
                 return False
 
             else:
@@ -1299,40 +1414,38 @@ class XiangqiGame:
                 # Call this function to ensure there is no intervening piece
                 special_bishop = self.special_bishop_move(x, y, x_end, y_end, piece)
                 if special_bishop == False:
-                    print("bishop false")
+                    #print("bishop false")
                     return False
                 else:
-                    print("bishop true")
+                    #print("bishop true")
                     return True
                     #self.set_board(x, y, x_end, y_end, piece)
 
         elif piece.get_type() == "guard":
             valid = piece.guard_valid_move(x, y, x_end, y_end, piece)
             if valid == False:
-                print("guard false")
+                #print("guard false")
                 return False
             else:
                 # print(piece.get_color(), "guard valid move")
                 #self.set_board(x, y, x_end, y_end, piece)
-                print("guard true")
+                #print("guard true")
                 return True
 
         elif piece.get_type() == "knight":
             valid = piece.knight_valid_move(x, y, x_end, y_end, piece)
             if valid == False:
-                print("knight false")
+                #print("knight false")
                 return False
 
             else:
                 # Call this function to ensure there is no intervening piece
                 special_knight = self.special_knight_move(x, y, x_end, y_end, piece)
                 if special_knight == False:
-                    print("knight false")
+                    #print("knight false")
                     return False
                 else:
-                    print("knight valid")
-                    #self.set_board(x, y, x_end, y_end, piece)
-                    print("knight true")
+                    #print("knight valid")
                     return True
 
 class Piece:
@@ -1650,6 +1763,7 @@ game.print_board() #starting board
 ################################################################################
 #################      TESTING MOVING INTO CHECK      ##########################
 ################################################################################
+
 #ROOK
 game.make_move("e4", "e5")
 game.print_board()
@@ -1695,7 +1809,7 @@ game.print_board()
 #gives red a new turn, works
 game.make_move("e2", "e3")
 game.print_board()
-
+"""
 #PAWN
 #test pawn by moving blacks pawn back into the way
 game.make_move("d5", "e5")
@@ -1718,7 +1832,7 @@ game.print_board()
 #throwaway black move to make sure it is still blacks turn
 game.make_move("a7", "a6")
 game.print_board()
-
+"""
 
 """
 game.make_move("e6", "d6")
