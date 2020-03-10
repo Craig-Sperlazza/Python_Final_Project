@@ -766,7 +766,7 @@ class XiangqiGame:
                 spaces_inc = (9 - y1) + 1  # Spaces to check between y1 row 0
                 coord_y_inc = y1 + 1  # will start at the next coordinate from start
                 red_king_open = False
-                for i in range(1, spaces_dec):
+                for i in range(1, spaces_inc):
                     if y1 == 9 or y1 == 0:
                         #int_piece = self._board[y1][x1]
                         break
@@ -1800,7 +1800,7 @@ game.print_board()
 game.make_move('d1', 'e2')
 game.print_board()
 
-"""
+
 game.make_move('b8', 'd8')
 game.print_board()
 game.make_move('a1', 'd1')
@@ -1823,8 +1823,10 @@ game.make_move('d1', 'd4')
 game.print_board()
 game.make_move('a10', 'b10')
 game.print_board()
+
 game.make_move('d4', 'e4')
 game.print_board()
+
 game.make_move('i8', 'i4')
 game.print_board()
 game.make_move('e1', 'd1')
@@ -1859,7 +1861,7 @@ game.make_move('b1', 'd1')
 game.print_board()
 game.make_move('e1', 'e2')
 game.print_board()
-"""
+
 
 """
 ################################################################################
