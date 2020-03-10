@@ -1,13 +1,12 @@
-from typing import List, Optional, Any
 
 # Portfolio Project
 # Author: Craig Sperlazza
 # Date: 2/26/2020
-# Description: Creates
+# Description: Creates a game of Xiangi, also know as Chinese chess.
+
 
 class XiangqiGame:
-    """Class named XiangiGame which initializes the Game and Board. INSERT
-    DESCRIPTION HERE.
+    """Class named XiangiGame which initializes the Game and Board.
     Data Members:
         The board which is initialized as a list with 10 nested lists and
             each nested list is initialized as 9 empty strings.
@@ -27,6 +26,9 @@ class XiangqiGame:
             This will take the string coordinates given and convert them to
             integers to use as list coordinates.
         Print board method: prints the board in readable format.
+        It also has an in check method that will determine if a given move
+        is invalid due to placing the king in check or if it is a valid move,
+        it will check if the other side is in check
 
         Make move method
             Takes a current location and next location as parameter
@@ -65,7 +67,6 @@ class XiangqiGame:
         self._is_in_check = False
 
         #####Initialize the piece objects and place on Board####################
-
         ########################################################################
         ####################   RED PIECES  #####################################
         ########################################################################
@@ -744,7 +745,10 @@ class XiangqiGame:
                 coord_y_dec = y1 - 1 #will start at the next coordinate from start
                 black_king_open = False
                 for i in range(1, spaces_dec):
-                    int_piece = self._board[coord_y_dec][x1]
+                    if y1 == 0:
+                        int_piece = self._board[y1][x1]
+                    else:
+                        int_piece = self._board[coord_y_dec][x1]
                     #print(int_piece, "decpiece")
                     if int_piece == "":
                         coord_y_dec -= 1
@@ -763,7 +767,10 @@ class XiangqiGame:
                 coord_y_inc = y1 + 1  # will start at the next coordinate from start
                 red_king_open = False
                 for i in range(1, spaces_dec):
-                    int_piece = self._board[coord_y_inc][x1]
+                    if y1 == 9:
+                        int_piece = self._board[y1][x1]
+                    else:
+                        int_piece = self._board[coord_y_inc][x1]
                     #print(int_piece, "incpiece")
                     if int_piece == "":
                         coord_y_inc += 1
@@ -1010,6 +1017,7 @@ class XiangqiGame:
                 #print("elephantCannon exchange Engaged")
                 self.engage_special_move(x, y, x_end, y_end, piece, end_spot)
                 self.set_red_move()
+                return True
 
             #This will return False if the end coordinate is the same color as
             #the piece. It will call the color_check function defined in this
@@ -1063,6 +1071,7 @@ class XiangqiGame:
                         else:
                             #updates the color
                             self.set_red_move()
+                            return True
 
 
             elif piece.get_type() == "pawn":
@@ -1096,6 +1105,7 @@ class XiangqiGame:
                     else:
                         # updates the color
                         self.set_red_move()
+                        return True
 
             elif piece.get_type() == "cannon":
                 valid = piece.cannon_valid_move(x, y, x_end, y_end, piece)
@@ -1134,6 +1144,7 @@ class XiangqiGame:
                         else:
                             # updates the color
                             self.set_red_move()
+                            return True
 
             elif piece.get_type() == "king":
                 valid = piece.king_valid_move(x, y, x_end, y_end, piece)
@@ -1166,6 +1177,7 @@ class XiangqiGame:
                     else:
                         # updates the color
                         self.set_red_move()
+                        return True
 
             elif piece.get_type() == "bishop":
                 valid = piece.bishop_valid_move(x, y, x_end, y_end, piece)
@@ -1205,6 +1217,7 @@ class XiangqiGame:
                         else:
                             # updates the color
                             self.set_red_move()
+                            return True
 
             elif piece.get_type() == "guard":
                 valid = piece.guard_valid_move(x, y, x_end, y_end, piece)
@@ -1237,6 +1250,7 @@ class XiangqiGame:
                     else:
                         # updates the color
                         self.set_red_move()
+                        return True
 
             elif piece.get_type() == "knight":
                 valid = piece.knight_valid_move(x, y, x_end, y_end, piece)
@@ -1275,6 +1289,7 @@ class XiangqiGame:
                         else:
                             # updates the color
                             self.set_red_move()
+                            return True
 
     def is_in_check(self, color):
         """
@@ -1362,8 +1377,6 @@ class XiangqiGame:
                 else:
                     #print("rook True")
                     return True
-                    #self.set_board(x, y, x_end, y_end, piece)
-
 
         elif piece.get_type() == "pawn":
             valid = piece.pawn_valid_move(x, y, x_end, y_end, piece)
@@ -1371,8 +1384,6 @@ class XiangqiGame:
                 #print("pawn false")
                 return False
             else:
-                # print(piece.get_color(), "pawn valid move")
-                #self.set_board(x, y, x_end, y_end, piece)
                 #print("pawn true")
                 return True
 
@@ -1390,7 +1401,6 @@ class XiangqiGame:
                 else:
                     #print("cannon true")
                     return True
-                    #self.set_board(x, y, x_end, y_end, piece)
 
         elif piece.get_type() == "king":
             valid = piece.king_valid_move(x, y, x_end, y_end, piece)
@@ -1398,8 +1408,6 @@ class XiangqiGame:
                 #print("King False")
                 return False
             else:
-                # print(piece.get_color(), "king valid move")
-                #self.set_board(x, y, x_end, y_end, piece)
                 #print("KIng True")
                 return True
 
@@ -1408,9 +1416,7 @@ class XiangqiGame:
             if valid == False:
                 #print("bishop false")
                 return False
-
             else:
-                # print(piece.get_color(), "bishop valid move")
                 # Call this function to ensure there is no intervening piece
                 special_bishop = self.special_bishop_move(x, y, x_end, y_end, piece)
                 if special_bishop == False:
@@ -1419,7 +1425,6 @@ class XiangqiGame:
                 else:
                     #print("bishop true")
                     return True
-                    #self.set_board(x, y, x_end, y_end, piece)
 
         elif piece.get_type() == "guard":
             valid = piece.guard_valid_move(x, y, x_end, y_end, piece)
@@ -1427,8 +1432,6 @@ class XiangqiGame:
                 #print("guard false")
                 return False
             else:
-                # print(piece.get_color(), "guard valid move")
-                #self.set_board(x, y, x_end, y_end, piece)
                 #print("guard true")
                 return True
 
@@ -1437,7 +1440,6 @@ class XiangqiGame:
             if valid == False:
                 #print("knight false")
                 return False
-
             else:
                 # Call this function to ensure there is no intervening piece
                 special_knight = self.special_knight_move(x, y, x_end, y_end, piece)
@@ -1447,6 +1449,7 @@ class XiangqiGame:
                 else:
                     #print("knight valid")
                     return True
+
 
 class Piece:
     """NEED TO UPDATE--WORK IN PROGRESS"""
@@ -1471,6 +1474,7 @@ class Piece:
     def get_position(self):
         return self._position
 
+
 class Rook(Piece):
     """NEED TO UPDATE--WORK IN PROGRESS"""
     def __init__(self, name, color, type, position = None):
@@ -1487,10 +1491,8 @@ class Rook(Piece):
         return
 
 
-
 class Pawn(Piece):
     """NEED TO UPDATE--WORK IN PROGRESS"""
-
     def __init__(self, name, color, type, position=None):
         super().__init__(name, color, type, position)
 
@@ -1539,6 +1541,7 @@ class Pawn(Piece):
                 else:
                     #print("cant move postriver")
                     return False
+
 
 class Knight(Piece):
     """NEED TO UPDATE--WORK IN PROGRESS"""
@@ -1634,6 +1637,7 @@ class Bishop(Piece):
                 else:
                     return False
 
+
 class King(Piece):
     """NEED TO UPDATE--WORK IN PROGRESS"""
     def __init__(self, name, color, type, position = None):
@@ -1682,6 +1686,7 @@ class King(Piece):
                     return
                 else:
                     return False
+
 
 class Guard(Piece):
     """NEED TO UPDATE--WORK IN PROGRESS"""
@@ -1740,6 +1745,7 @@ class Guard(Piece):
                 else:
                     return False
 
+
 class Cannon(Piece):
     """NEED TO UPDATE--WORK IN PROGRESS"""
     def __init__(self, name, color, type, position = None):
@@ -1753,13 +1759,108 @@ class Cannon(Piece):
         elif x1 == x2 and y1 == y2:
             #print("not ok")
             return False
-        return
+        return True
 
 
 game = XiangqiGame()
 game.print_board() #starting board
 
 
+################################################################################
+#################      TESTING GAME      ##########################
+################################################################################
+
+game.make_move('c1', 'e3')
+game.print_board()
+game.make_move('e7', 'e6')
+game.print_board()
+game.make_move('b1', 'd2')
+game.print_board()
+game.make_move('h10', 'g8')
+game.print_board()
+game.make_move('h1', 'i3')
+game.print_board()
+game.make_move('g10', 'e8')
+game.print_board()
+game.make_move('h3', 'g3')
+game.print_board()
+game.make_move('i7', 'i6')
+game.print_board()
+game.make_move('i1', 'h1')
+game.print_board()
+game.make_move('g7', 'g6')
+game.print_board()
+game.make_move('d2', 'f3')
+game.print_board()
+game.make_move('h8', 'i8')
+game.print_board()
+
+
+game.make_move('d1', 'e2')
+game.print_board()
+
+"""
+game.make_move('b8', 'd8')
+game.print_board()
+game.make_move('a1', 'd1')
+game.print_board()
+game.make_move('b10', 'c8')
+game.print_board()
+game.make_move('g4', 'g5')
+game.print_board()
+game.make_move('d10', 'e9')
+game.print_board()
+game.make_move('g5', 'g6')
+game.print_board()
+game.make_move('g8', 'f6')
+game.print_board()
+game.make_move('g3', 'g2')
+game.print_board()
+game.make_move('f6', 'e4')
+game.print_board()
+game.make_move('d1', 'd4')
+game.print_board()
+game.make_move('a10', 'b10')
+game.print_board()
+game.make_move('d4', 'e4')
+game.print_board()
+game.make_move('i8', 'i4')
+game.print_board()
+game.make_move('e1', 'd1')
+game.print_board()
+game.make_move('b10', 'b3')
+game.print_board()
+game.make_move('f3', 'e5')
+game.print_board()
+game.make_move('i10', 'i7')
+game.print_board()
+game.make_move('h1', 'h10')
+game.print_board()
+game.make_move('e6', 'e5')
+game.print_board()
+game.make_move('h10', 'f10')
+game.print_board()
+game.make_move('e10', 'f10')
+game.print_board()
+game.make_move('e4', 'i4')
+game.print_board()
+game.make_move('d1', 'e1')
+game.print_board()
+game.make_move('i7', 'd7')
+game.print_board()
+game.make_move('c4','c5')
+game.print_board()
+game.make_move('b3', 'b1')
+game.print_board()
+game.make_move('e2', 'd1')
+game.print_board()
+game.make_move('b1', 'd1')
+game.print_board()
+game.make_move('e1', 'e2')
+game.print_board()
+"""
+
+"""
 ################################################################################
 #################      TESTING MOVING INTO CHECK      ##########################
 ################################################################################
@@ -1810,6 +1911,7 @@ game.print_board()
 game.make_move("e2", "e3")
 game.print_board()
 """
+"""
 #PAWN
 #test pawn by moving blacks pawn back into the way
 game.make_move("d5", "e5")
@@ -1832,9 +1934,7 @@ game.print_board()
 #throwaway black move to make sure it is still blacks turn
 game.make_move("a7", "a6")
 game.print_board()
-"""
 
-"""
 game.make_move("e6", "d6")
 game.print_board()
 
@@ -1863,6 +1963,8 @@ game.print_board()
 
 game.is_in_check('black') #returns True
 """
+
+
 """
 ################################################################################
 #################      TESTING CHECK      ######################################
