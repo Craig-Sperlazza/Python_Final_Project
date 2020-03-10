@@ -1762,7 +1762,7 @@ class Cannon(Piece):
             return False
         return True
 
-
+"""
 game = XiangqiGame()
 game.print_board() #starting board
 
@@ -1861,7 +1861,7 @@ game.make_move('b1', 'd1')
 game.print_board()
 game.make_move('e1', 'e2')
 game.print_board()
-
+"""
 
 """
 ################################################################################
