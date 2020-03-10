@@ -745,8 +745,8 @@ class XiangqiGame:
                 coord_y_dec = y1 - 1 #will start at the next coordinate from start
                 black_king_open = False
                 for i in range(1, spaces_dec):
-                    if y1 == 0:
-                        int_piece = self._board[y1][x1]
+                    if y1 == 0 or y1 == 9:
+                        break
                     else:
                         int_piece = self._board[coord_y_dec][x1]
                     #print(int_piece, "decpiece")
@@ -767,8 +767,9 @@ class XiangqiGame:
                 coord_y_inc = y1 + 1  # will start at the next coordinate from start
                 red_king_open = False
                 for i in range(1, spaces_dec):
-                    if y1 == 9:
-                        int_piece = self._board[y1][x1]
+                    if y1 == 9 or y1 == 0:
+                        #int_piece = self._board[y1][x1]
+                        break
                     else:
                         int_piece = self._board[coord_y_inc][x1]
                     #print(int_piece, "incpiece")
