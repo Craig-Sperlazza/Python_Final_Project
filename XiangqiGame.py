@@ -1076,9 +1076,32 @@ class XiangqiGame:
                 if valid == False:
                     return False
                 else:
-                    #print(piece.get_color(), "pawn valid move")
-                    self.set_board(x, y, x_end, y_end, piece)
-                    self.set_red_move()  # TODO: NEED TO ACCOUNT FOR THE TURN CHANGE COLOR
+                    print("pawn coming back valid")
+                    prev_start = self._board[y][x]  # save the previous piece start
+                    prev_end = self._board[y_end][x_end]  # save the previous piece end
+                    self.set_board(x, y, x_end, y_end, piece)  # execute move
+
+                    if self._red_move == True:
+                        color = "red"
+                    else:
+                        color = "black"
+
+                    # now we need to check and see if the move moved the
+                    # player into check so we will update the board (above)
+                    # and then check to see if that color is in check
+                    # so if black moved, we check to see whether black is in
+                    # check as if it is red's next move.
+                    # If black moved into check, we will reverse the move
+
+                    in_check = self.is_in_check(color)
+                    if in_check == True:
+                        print("can't move into check")
+                        self.set_board_reverse(x, y, x_end, y_end, prev_start, prev_end)
+                        print("board should be reversed")
+                        return False
+                    else:
+                        # updates the color
+                        self.set_red_move()
 
             elif piece.get_type() == "cannon":
                 valid = piece.cannon_valid_move(x, y, x_end, y_end, piece)
@@ -1627,7 +1650,7 @@ game.print_board() #starting board
 ################################################################################
 #################      TESTING MOVING INTO CHECK      ##########################
 ################################################################################
-
+#ROOK
 game.make_move("e4", "e5")
 game.print_board()
 
@@ -1665,10 +1688,35 @@ game.print_board()
 game.make_move("e5", "d5")
 game.print_board()
 
+#try to move into check by moving red rook out of way, fails
 game.make_move("e2", "f2")
 game.print_board()
 
+#gives red a new turn, works
 game.make_move("e2", "e3")
+game.print_board()
+
+#PAWN
+#test pawn by moving blacks pawn back into the way
+game.make_move("d5", "e5")
+game.print_board()
+
+game.make_move("e3", "e2")
+game.print_board()
+
+#move the black rook out of the way
+game.make_move("e9", "d9")
+game.print_board()
+
+game.make_move("e2", "e4")
+game.print_board()
+
+#test pawn by moving blacks pawn and putting black in check
+game.make_move("e5", "d5")
+game.print_board()
+
+#throwaway black move to make sure it is still blacks turn
+game.make_move("a7", "a6")
 game.print_board()
 
 
