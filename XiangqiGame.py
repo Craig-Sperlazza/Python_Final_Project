@@ -957,6 +957,9 @@ class XiangqiGame:
         :param end_coord: This will be a string representation of a coordinate
         move using algebraic notation. This will be the position the player
         wishes to move to
+        :Helper: This function calls numerous helper functions. Each is called
+        below together with detailed comments as to what that helper function
+        will do
         :return:
         If the game has been won, it will Return False
         If there is no piece at the coordinates, it will return False
@@ -1299,6 +1302,11 @@ class XiangqiGame:
         :return:
         If the king of the chosen color is in check, it will return True
         Otherwise, it will return False
+        Action: Once this function determines where the king is, it will then
+        loop through each piece of the opposite color to determine if that piece
+        has a valid move to the king (i.e. ending coordinates). If it does, the
+        king is in check. It will call the special_is_in_check helper function
+        to actually validate each move
         """
 
         #Initialize both the king and the attacking piece to y=0, and x=0.
@@ -1356,6 +1364,17 @@ class XiangqiGame:
         return False
 
     def special_check_move(self, coord_x, coord_y, king_x, king_y, int_piece):
+        """
+        :param coord_x: Opposite color piece starting x
+        :param coord_y: Opposite color piece starting y
+        :param king_x: location of king x
+        :param king_y: location of king y
+        :return: This helper function is given the ending coordinates of a king,
+        and a piece of the opposite color as starting coordinates. This function
+        will determine if that piece has a valid move to the king
+        (i.e. ending coordinates). If it does, the king is in check and It will
+        return True to the is_in_check function
+        """
         x = coord_x
         y = coord_y
         x_end = king_x
@@ -1453,7 +1472,15 @@ class XiangqiGame:
 
 
 class Piece:
-    """NEED TO UPDATE--WORK IN PROGRESS"""
+    """The Piece class is the parent class for all individual pieces. It will
+    initiate each piece with a name (such as RK for red king, BP for black pawn,
+    etc.),  a color of "red" or "black", a distinct type, such as "rook" or
+     "bishop" which will be used to put it into the proper subclass. Finally,
+     each piece must be initialized with a distinct location in algebraic
+     notation. This will be used tp initialize the piece and place it on the
+     board in the game class.
+     The piece class will also have get methods for color, type, name, and
+     position. This will be inherited by all piece subclasses. """
     def __init__(self, name, color, type, position = None):
         self._name = name
         self._color = color
@@ -1464,24 +1491,44 @@ class Piece:
         return self._name
 
     def get_name(self):
+        """returns the name of the selected piece (RK, BK, etc.). All names
+        will be initialized to being with R for Red or B for Black and then
+        one letter for the piece K-King, P-pawn, B-Bishop, C-Cannon, R-Rook,
+         G-guard, K-knight"""
         return self._name
 
     def get_color(self):
+        """returns the color of the selected piece ("red" or black")."""
         return self._color
 
     def get_type(self):
+        """returns the type of the selected piece: "king", "pawn", "bishop",
+         "cannon", "rook", "guard", and  "knight"   """
         return self._type
 
     def get_position(self):
+        """returns the position of the piece"""
         return self._position
 
 
 class Rook(Piece):
-    """NEED TO UPDATE--WORK IN PROGRESS"""
+    """This piece subclass inherits all methods and members from Piece. The sole
+    purpose of this subclass is to validate that the rook move is legal,
+    without any reference to the board. The legality of the move in relation
+    to other pieces will be dealt with in the Game Class, which creates and
+    manages the board.
+    Rook's legal moves:  move and capture any distance orthongonally
+    Rooks's Special Move: may not  jump an intervening piece. This will be
+        dealt with in the Game Class, NOT HERE"""
     def __init__(self, name, color, type, position = None):
         super().__init__(name, color, type, position)
 
     def rook_valid_move(self, x1, y1, x2, y2, piece):
+        """
+        Rook's legal moves:  move and capture any distance orthongonally
+        :input: starting x,y, ending x2, y2, and piece
+        :return: False if any move violates legal move
+        """
         #print(x1, y1, x2, y2)
         if x1 != x2 and y1 != y2:
             #print("cant move")
@@ -1493,11 +1540,28 @@ class Rook(Piece):
 
 
 class Pawn(Piece):
-    """NEED TO UPDATE--WORK IN PROGRESS"""
+    """This piece subclass inherits all methods and members from Piece. The sole
+    purpose of this subclass is to validate that the pawn move is legal,
+    without any reference to the board. The legality of the move in relation
+    to other pieces will be dealt with in the Game Class, which creates and
+    manages the board.
+    Pawns's legal moves:  They move and capture by advancing one point.
+        Once they have crossed the river, they may also move and capture
+        one point horizontally. Pawns cannot move backward
+
+    Pawns's Special Move: See change after crossing river. This will be
+        dealt with in this subclass"""
     def __init__(self, name, color, type, position=None):
         super().__init__(name, color, type, position)
 
     def pawn_valid_move(self, x1, y1, x2, y2, piece):
+        """
+        Legal moves:  move and capture by advancing one point.
+        Once they have crossed the river, they may also move and capture
+        one point horizontally. Soldiers cannot move backward
+        :input: starting x,y, ending x2, y2, and piece
+        :return: False if any move violates legal move
+        """
         if piece.get_color() == "red":
             #print(x1, y1, x2, y2, "red")
             if y1 == 5 or y1 == 6: #precrossing the river
@@ -1545,13 +1609,25 @@ class Pawn(Piece):
 
 
 class Knight(Piece):
-    """NEED TO UPDATE--WORK IN PROGRESS"""
+    """This piece subclass inherits all methods and members from Piece. The sole
+    purpose of this subclass is to validate that the knight move is legal,
+    without any reference to the board. The legality of the move in relation
+    to other pieces will be dealt with in the Game Class, which creates and
+    manages the board.
+    Knights's legal moves:  moves and captures one point orthogonally and
+            then one point diagonally
+    Knight's Special Move: may not jump an intervening piece. This will be
+        dealt with in the Game Class, NOT HERE"""
     def __init__(self, name, color, type, position = None):
         super().__init__(name, color, type, position)
 
     def knight_valid_move(self, x1, y1, x2, y2, piece):
-        #print(piece.get_color())
-        #print(x1, y1, x2, y2, "knight")
+        """
+        Legal moves:  moves and captures one point orthogonally and
+            then one point diagonally
+        :input: starting x,y, ending x2, y2, and piece
+        :return: False if any move violates legal move
+        """
         if x2 == (x1 - 1) and y2 == (y1 - 2):
             #print("UL")
             return
@@ -1582,13 +1658,24 @@ class Knight(Piece):
 
 
 class Bishop(Piece):
-    """NEED TO UPDATE--WORK IN PROGRESS"""
+    """This piece subclass inherits all methods and members from Piece. The sole
+    purpose of this subclass is to validate that the bishop move is legal,
+    without any reference to the board. The legality of the move in relation
+    to other pieces will be dealt with in the Game Class, which creates and
+    manages the board.
+    Bishop's legal moves:  move and capture exactly two points diagonally
+    Bishop's Special Move: may not  jump an intervening piece. This will be
+        dealt with in the Game Class, NOT HERE"""
     def __init__(self, name, color, type, position = None):
         super().__init__(name, color, type, position)
 
     def bishop_valid_move(self, x1, y1, x2, y2, piece):
-        #print(piece.get_color())
-        #print(x1, y1, x2, y2)
+        """
+        Legal moves:  moves and captures two points diagonally. May not jump an
+        intervening piece but that will be dealt with in Game Class
+        :input: starting x,y, ending x2, y2, and piece
+        :return: False if any move violates legal move
+        """
         if piece.get_color() == "red":
             #print(x1, y1, x2, y2, "red")
             if y2 <= 4:  # can not cross the river
@@ -1640,13 +1727,22 @@ class Bishop(Piece):
 
 
 class King(Piece):
-    """NEED TO UPDATE--WORK IN PROGRESS"""
+    """This piece subclass inherits all methods and members from Piece. The sole
+    purpose of this subclass is to validate that the king move is legal.
+    The legality of the move in relation to other pieces will be dealt with
+        in the Game Class, which creates and manages the board.
+    king's legal moves:  move and capture one point orthongonally
+        and may not leave the palace"""
     def __init__(self, name, color, type, position = None):
         super().__init__(name, color, type, position)
 
     def king_valid_move(self, x1, y1, x2, y2, piece):
-        #print(piece.get_color())
-        #print(x1, y1, x2, y2)
+        """
+        Legal moves:  moves and captures one point orthongonally. May not leave
+        the palace, that is dealt with here
+        :input: starting x,y, ending x2, y2, and piece
+        :return: False if any move violates legal move
+        """
         if piece.get_color() == "red":
             #print(x1, y1, x2, y2, "red king")
             if x2 <= 2 or x2 >= 6:  # can not leave palace left or right
@@ -1690,11 +1786,23 @@ class King(Piece):
 
 
 class Guard(Piece):
-    """NEED TO UPDATE--WORK IN PROGRESS"""
+    """This piece subclass inherits all methods and members from Piece. The sole
+    purpose of this subclass is to validate that the guard move is legal.
+    The legality of the move in relation to other pieces will be dealt with
+        in the Game Class, which creates and manages the board.
+    Guard's legal moves:  move and capture one point diagonally
+        and may not leave the palace.
+    """
     def __init__(self, name, color, type, position = None):
         super().__init__(name, color, type, position)
 
     def guard_valid_move(self, x1, y1, x2, y2, piece):
+        """
+        Legal moves:  moves and captures one point diagonally. May not leave
+        the palace. That is dealt with here
+        :input: starting x,y, ending x2, y2, and piece
+        :return: False if any move violates legal move
+        """
         #print(x1, y1, x2, y2)
         if piece.get_color() == "red":
             #print(x1, y1, x2, y2, "red guard")
@@ -1748,11 +1856,25 @@ class Guard(Piece):
 
 
 class Cannon(Piece):
-    """NEED TO UPDATE--WORK IN PROGRESS"""
+    """This piece subclass inherits all methods and members from Piece. The sole
+    purpose of this subclass is to validate that the cannon move is legal,
+    without any reference to the board. The legality of the move in relation
+    to other pieces will be dealt with in the Game Class, which creates and
+    manages the board.
+    Cannon's legal moves:  any distance orthogonally without jumping.
+    Cannon Special Move: must jump a single piece to capture. This will be
+        dealt with in the Game Class, NOT HERE"""
     def __init__(self, name, color, type, position = None):
         super().__init__(name, color, type, position)
 
     def cannon_valid_move(self, x1, y1, x2, y2, piece):
+        """
+        Legal moves:  any distance orthogonally without jumping.
+        Cannon Special Move: must jump a single piece to capture. This will be
+        dealt with in the Game Class, NOT HERE
+        :input: starting x,y, ending x2, y2, and piece
+        :return: False if any move violates legal move
+        """
         #print(x1, y1, x2, y2)
         if x1 != x2 and y1 != y2:
             #print("cant move")
@@ -1762,7 +1884,7 @@ class Cannon(Piece):
             return False
         return True
 
-"""
+
 game = XiangqiGame()
 game.print_board() #starting board
 
@@ -1847,6 +1969,9 @@ game.make_move('e10', 'f10')
 game.print_board()
 game.make_move('e4', 'i4')
 game.print_board()
+game.make_move('a7', 'a6')
+game.print_board()
+
 game.make_move('d1', 'e1')
 game.print_board()
 game.make_move('i7', 'd7')
@@ -1859,9 +1984,19 @@ game.make_move('e2', 'd1')
 game.print_board()
 game.make_move('b1', 'd1')
 game.print_board()
+#king is in check
+#try to move something else
+game.make_move('i4', 'i6')
+game.print_board()
+
+#try to move king but into other check
+game.make_move('e1', 'd1')
+game.print_board()
+
+#moves the king out of check
 game.make_move('e1', 'e2')
 game.print_board()
-"""
+
 
 """
 ################################################################################
