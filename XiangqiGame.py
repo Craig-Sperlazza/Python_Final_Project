@@ -2,7 +2,10 @@
 # Portfolio Project
 # Author: Craig Sperlazza
 # Date: 2/26/2020
-# Description: Creates a game of Xiangi, also know as Chinese chess.
+# Description: Creates a game of Xiangi, also know as Chinese chess. This game
+#   will be set up primarily through the XiangqiGame class and will use pieces
+#   created in a Piece Class and various sub-classes (one for each piece type)
+#   that inherits through the Piece class.
 
 
 class XiangqiGame:
@@ -66,7 +69,7 @@ class XiangqiGame:
         self._game_state = "UNFINISHED"
         self._is_in_check = False
 
-        #####Initialize the piece objects and place on Board####################
+        ############  INITIALIZE PIECES AND PLACE ON BOARD     #################
         ########################################################################
         ####################   RED PIECES  #####################################
         ########################################################################
@@ -142,20 +145,20 @@ class XiangqiGame:
         self._board[y][x] = red_king  # have to do y first because nested list
 
 
-        ####################   RED CANNONS   ####################################
+        ####################   RED CANNONS   ###################################
         red_cannon1 = Cannon('RC', 'red', 'cannon', 'b3')
         str_coord = 'b3'
         list_coord = self.convert_coord(str_coord)
         x = list_coord[0]
         y = list_coord[1]
-        self._board[y][x] = red_cannon1  # have to do y first because nested list
+        self._board[y][x] = red_cannon1  #have to do y first because nested list
 
         red_cannon2 = Cannon('RC', 'red', 'cannon', 'h3')
         str_coord = 'h3'
         list_coord = self.convert_coord(str_coord)
         x = list_coord[0]
         y = list_coord[1]
-        self._board[y][x] = red_cannon2  # have to do y first because nested list
+        self._board[y][x] = red_cannon2  #have to do y first because nested list
 
         ####################   RED PAWNS   #####################################
         red_pawn1 = Pawn('RP', 'red', 'pawn', 'a4')
@@ -194,70 +197,70 @@ class XiangqiGame:
         self._board[y][x] = red_pawn5  # have to do y first because nested list
 
         ########################################################################
-        ####################   BLACK PIECES  #####################################
+        ####################   BLACK PIECES  ###################################
         ########################################################################
 
-        ####################   BLACK ROOKS   #####################################
+        ####################   BLACK ROOKS   ###################################
         black_rook1 = Rook('BR', 'black', 'rook', 'a10')
         str_coord = 'a10'
         list_coord = self.convert_coord(str_coord)
         x = list_coord[0]
         y = list_coord[1]
-        self._board[y][x] = black_rook1  # have to do y first because nested list
+        self._board[y][x] = black_rook1  #have to do y first because nested list
 
         black_rook2 = Rook('BR', 'black', 'rook', 'i10')
         str_coord = 'i10'
         list_coord = self.convert_coord(str_coord)
         x = list_coord[0]
         y = list_coord[1]
-        self._board[y][x] = black_rook2  # have to do y first because nested list
+        self._board[y][x] = black_rook2  #have to do y first because nested list
 
-        ####################   BLACK KNIGHTS/HORSES  #############################
+        ####################   BLACK KNIGHTS/HORSES  ###########################
         black_knight1 = Knight('BN', 'black', 'knight', 'b10')
         str_coord = 'b10'
         list_coord = self.convert_coord(str_coord)
         x = list_coord[0]
         y = list_coord[1]
-        self._board[y][x] = black_knight1  # have to do y first because nested list
+        self._board[y][x] = black_knight1  #have to do y first--nested list
 
         black_knight2 = Knight('BN', 'black', 'knight', 'h10')
         str_coord = 'h10'
         list_coord = self.convert_coord(str_coord)
         x = list_coord[0]
         y = list_coord[1]
-        self._board[y][x] = black_knight2  # have to do y first because nested list
+        self._board[y][x] = black_knight2  # have to do y first--nested list
 
-        ####################   BLACK BISHOPS/ELEPHANTS  ##########################
+        ####################   BLACK BISHOPS/ELEPHANTS  ########################
         black_bishop1 = Bishop('BB', 'black', 'bishop', 'c10')
         str_coord = 'c10'
         list_coord = self.convert_coord(str_coord)
         x = list_coord[0]
         y = list_coord[1]
-        self._board[y][x] = black_bishop1  # have to do y first because nested list
+        self._board[y][x] = black_bishop1  # have to do y first--nested list
 
         black_bishop2 = Bishop('BB', 'black', 'bishop', 'g10')
         str_coord = 'g10'
         list_coord = self.convert_coord(str_coord)
         x = list_coord[0]
         y = list_coord[1]
-        self._board[y][x] = black_bishop2  # have to do y first because nested list
+        self._board[y][x] = black_bishop2  # have to do y first--nested list
 
-        ####################   BLACK GUARDS   ####################################
+        ####################   BLACK GUARDS   ##################################
         black_guard1 = Guard('BG', 'black', 'guard', 'd10')
         str_coord = 'd10'
         list_coord = self.convert_coord(str_coord)
         x = list_coord[0]
         y = list_coord[1]
-        self._board[y][x] = black_guard1  # have to do y first because nested list
+        self._board[y][x] = black_guard1  # have to do y first--nested list
 
         black_guard2 = Guard('BG', 'black', 'guard', 'f10')
         str_coord = 'f10'
         list_coord = self.convert_coord(str_coord)
         x = list_coord[0]
         y = list_coord[1]
-        self._board[y][x] = black_guard2  # have to do y first because nested list
+        self._board[y][x] = black_guard2  # have to do y first--nested list
 
-        ####################   BLACK KING    #####################################
+        ####################   BLACK KING    ###################################
         black_king = King('BK', 'black', 'king', 'e10')
         str_coord = 'e10'
         list_coord = self.convert_coord(str_coord)
@@ -265,56 +268,56 @@ class XiangqiGame:
         y = list_coord[1]
         self._board[y][x] = black_king  # have to do y first because nested list
 
-        ####################   BLACK CANNONS   ####################################
+        ####################   BLACK CANNONS   #################################
         black_cannon1 = Cannon('BC', 'black', 'cannon', 'b8')
         str_coord = 'b8'
         list_coord = self.convert_coord(str_coord)
         x = list_coord[0]
         y = list_coord[1]
-        self._board[y][x] = black_cannon1  # have to do y first because nested list
+        self._board[y][x] = black_cannon1  # have to do y first--nested list
 
         black_cannon2 = Cannon('BC', 'black', 'cannon', 'h8')
         str_coord = 'h8'
         list_coord = self.convert_coord(str_coord)
         x = list_coord[0]
         y = list_coord[1]
-        self._board[y][x] = black_cannon2  # have to do y first because nested list
+        self._board[y][x] = black_cannon2  # have to do y first--nested list
 
-        ####################   BLACK PAWNS   #####################################
+        ####################   BLACK PAWNS   ##################################
         black_pawn1 = Pawn('BP', 'black', 'pawn', 'a7')
         str_coord = 'a7'
         list_coord = self.convert_coord(str_coord)
         x = list_coord[0]
         y = list_coord[1]
-        self._board[y][x] = black_pawn1  # have to do y first because nested list
+        self._board[y][x] = black_pawn1  # have to do y first--nested list
 
         black_pawn2 = Pawn('BP', 'black', 'pawn', 'c7')
         str_coord = 'c7'
         list_coord = self.convert_coord(str_coord)
         x = list_coord[0]
         y = list_coord[1]
-        self._board[y][x] = black_pawn2  # have to do y first because nested list
+        self._board[y][x] = black_pawn2  # have to do y first--nested list
 
         black_pawn3 = Pawn('BP', 'black', 'pawn', 'e7')
         str_coord = 'e7'
         list_coord = self.convert_coord(str_coord)
         x = list_coord[0]
         y = list_coord[1]
-        self._board[y][x] = black_pawn3  # have to do y first because nested list
+        self._board[y][x] = black_pawn3  # have to do y first--nested list
 
         black_pawn4 = Pawn('BP', 'black', 'pawn', 'g7')
         str_coord = 'g7'
         list_coord = self.convert_coord(str_coord)
         x = list_coord[0]
         y = list_coord[1]
-        self._board[y][x] = black_pawn4  # have to do y first because nested list
+        self._board[y][x] = black_pawn4  # have to do y first--nested list
 
         black_pawn5 = Pawn('BP', 'black', 'pawn', 'i7')
         str_coord = 'i7'
         list_coord = self.convert_coord(str_coord)
         x = list_coord[0]
         y = list_coord[1]
-        self._board[y][x] = black_pawn5  # have to do y first because nested list
+        self._board[y][x] = black_pawn5  # have to do y first--nested list
 
     def get_game_state(self):
         """Method that returns the current state of the game,
@@ -341,18 +344,6 @@ class XiangqiGame:
         else:
             self._red_move = True
 
-    """
-    def get_is_in_check(self):
-        Method that returns state of check as either true or false
-        return self._is_in_check
-
-    def set_is_in_check(self):
-        Method that kepps track of check
-        if color == "BLACK":
-            self._game_state = "BLACK_WON"
-        elif color == "RED":
-            self._game_state = "RED_WON"
-    """
     def convert_coord(self, str_pos):
         """
         Method to convert string move to a list of integer coordinates on board.
@@ -421,7 +412,9 @@ class XiangqiGame:
     def set_board_reverse(self, x, y, x1, y1, start_piece, end_piece):
         """Reverses the board if an otherwise legal move would have put the
         moving color's king in check. This will put the  original starting piece
-         and the original ending piece back into their original positions"""
+        and the original ending piece back into their original positions
+        This is used for when a piece moves into check and must be reversed
+         to the original position"""
         self._board[y1][x1] = end_piece
         self._board[y][x] = start_piece
 
@@ -448,9 +441,10 @@ class XiangqiGame:
             return
 
     def special_move_check(self, x, y, x2, y2, start, end):
-        """x, y, x_end, y_end, piece, end_spot
+        """ input: start(x, y), end(x2, y2), start piece, end piece
         This is the function that will check to see if the knight cannon
-        is being called. IF it passes all the requirements (see comments below)
+        special move is being called. IF it passes all the requirements
+        (see comments below)
         it will return True and the main code will call the engage_special_move
         method to actually perform the swap"""
         #check that there is a piece there
@@ -528,8 +522,11 @@ class XiangqiGame:
         self._board[y][x] = end
 
     def special_bishop_move(self, x1, y1, x2, y2, piece):
-        """Checks to ensure there is no intervening piece blocking the bishops
-        desired move"""
+        """
+        Helper function for the make-move method. This method:
+        Checks to ensure there is no intervening piece blocking the bishops
+        desired move
+        :return False if move rule is violated"""
         #TOP LEFT
         if x2 == (x1 - 2) and y2 == (y1 - 2):
             #print("TL")
@@ -578,8 +575,11 @@ class XiangqiGame:
             return False
 
     def special_knight_move(self, x1, y1, x2, y2, piece):
-        """Checks to ensure there is no intervening piece blocking the knights
-        desired move"""
+        """
+        Helper function for the make-move method. This method:
+        Checks to ensure there is no intervening piece blocking the knights
+        desired move
+        :return False if move rule is violated"""
         #TOP LEFT (Top left and top right depend on same intevening piece)
         if x2 == (x1 - 1) and y2 == (y1 - 2):
             int_piece = self._board[y1 - 1][x1]
@@ -667,8 +667,11 @@ class XiangqiGame:
             return
 
     def special_rook_move(self, x1, y1, x2, y2, piece):
-        """Checks to ensure there is no intervening piece blocking the rooks
-        desired move"""
+        """
+        helper function for the make-move method. This method:
+        Checks to ensure there is no intervening piece blocking the rooks
+        desired move
+        :return False if move rule is violated"""
         #moving down the board (y is increasing)
         if x2 == x1 and y2 > y1:
             spaces = (y2 - y1) #- 1 #Spaces to check between y1 and y2
@@ -731,18 +734,21 @@ class XiangqiGame:
 
 
     def special_king_move(self, x1, y1, x2, y2, piece):
-        """Checks to ensure that the two generals will never face each other.
+        """
+        Helper function for the make-move method. This method:
+        Checks to ensure that the two generals will never face each other.
         That means that this function will check the piece being moved on the
         x coordinates and make sure there is at least one intervening piece
         between the two kings if that piece is moving off the x file it is
-        starting on"""
+        starting on
+        :return False if move rule is violated"""
 
         if x2 != x1:
             if x1 == 3 or x1 == 4 or x1 == 5:
                 #print("test x1 y1 x2", x1, y1, x2)
                 #y decreasing side of board----BLACK KING
                 spaces_dec = (y1 - 0) + 1 #Spaces to check between y1 row 0
-                coord_y_dec = y1 - 1 #will start at the next coordinate from start
+                coord_y_dec = y1 - 1 #will start at next coordinate from start
                 black_king_open = False
                 for i in range(1, spaces_dec):
                     if y1 == 0 or y1 == 9:
@@ -764,7 +770,7 @@ class XiangqiGame:
 
                 #y increasing side of board---RED KING
                 spaces_inc = (9 - y1) + 1  # Spaces to check between y1 row 0
-                coord_y_inc = y1 + 1  # will start at the next coordinate from start
+                coord_y_inc = y1 + 1  # will start at next coordinate from start
                 red_king_open = False
                 for i in range(1, spaces_inc):
                     if y1 == 9 or y1 == 0:
@@ -795,9 +801,11 @@ class XiangqiGame:
             return
 
     def special_cannon_move(self, x1, y1, x2, y2, piece):
-        """Checks to ensure there is no intervening piece blocking the cannons
-        desired move, unless the cannon is taking, which should have exactly
-        one intervening piece"""
+        """Helper Function for make_move. Checks to ensure there is
+        no intervening piece blocking the cannons desired move,
+        unless the cannon is taking, which should have exactly
+        one intervening piece
+        :return: False if the move rules are violated"""
         end_piece = self._board[y2][x2]
         piece_count = 0 #number of pieces between start and end
 
@@ -1050,8 +1058,8 @@ class XiangqiGame:
                         return False
                     else:
                         #print("rook coming back valid")
-                        prev_start = self._board[y][x] #save the previous piece start
-                        prev_end = self._board[y_end][x_end] #save the previous piece end
+                        prev_start = self._board[y][x] #save previous start
+                        prev_end = self._board[y_end][x_end] #save previous end
                         self.set_board(x, y, x_end, y_end, piece) #execute move
 
                         if self._red_move == True:
@@ -1084,9 +1092,9 @@ class XiangqiGame:
                     return False
                 else:
                     #print("pawn coming back valid")
-                    prev_start = self._board[y][x]  # save the previous piece start
-                    prev_end = self._board[y_end][x_end]  # save the previous piece end
-                    self.set_board(x, y, x_end, y_end, piece)  # execute move
+                    prev_start = self._board[y][x]  #save previous piece start
+                    prev_end = self._board[y_end][x_end]  #save previous end
+                    self.set_board(x, y, x_end, y_end, piece)  #execute move
 
                     if self._red_move == True:
                         color = "red"
@@ -1123,9 +1131,9 @@ class XiangqiGame:
                         return False
                     else:
                         # print("cannon coming back valid")
-                        prev_start = self._board[y][x]  # save the previous piece start
-                        prev_end = self._board[y_end][x_end]  # save the previous piece end
-                        self.set_board(x, y, x_end, y_end, piece)  # execute move
+                        prev_start = self._board[y][x]  #save previous start
+                        prev_end = self._board[y_end][x_end]  #save previous end
+                        self.set_board(x, y, x_end, y_end, piece)  #execute move
 
                         if self._red_move == True:
                             color = "red"
@@ -1156,8 +1164,8 @@ class XiangqiGame:
                     return False
                 else:
                     # print("king coming back valid")
-                    prev_start = self._board[y][x]  # save the previous piece start
-                    prev_end = self._board[y_end][x_end]  # save the previous piece end
+                    prev_start = self._board[y][x]  # save previous piece start
+                    prev_end = self._board[y_end][x_end]  # save previous end
                     self.set_board(x, y, x_end, y_end, piece)  # execute move
 
                     if self._red_move == True:
@@ -1196,9 +1204,9 @@ class XiangqiGame:
                         return False
                     else:
                         # print("bishop coming back valid")
-                        prev_start = self._board[y][x]  # save the previous piece start
-                        prev_end = self._board[y_end][x_end]  # save the previous piece end
-                        self.set_board(x, y, x_end, y_end, piece)  # execute move
+                        prev_start = self._board[y][x]  #save previous start
+                        prev_end = self._board[y_end][x_end]  #save previous end
+                        self.set_board(x, y, x_end, y_end, piece)  #execute move
 
                         if self._red_move == True:
                             color = "red"
@@ -1229,9 +1237,9 @@ class XiangqiGame:
                     return False
                 else:
                     # print("guard coming back valid")
-                    prev_start = self._board[y][x]  # save the previous piece start
-                    prev_end = self._board[y_end][x_end]  # save the previous piece end
-                    self.set_board(x, y, x_end, y_end, piece)  # execute move
+                    prev_start = self._board[y][x]  #save the previous start
+                    prev_end = self._board[y_end][x_end]  #save previous end
+                    self.set_board(x, y, x_end, y_end, piece)  #execute move
 
                     if self._red_move == True:
                         color = "red"
@@ -1268,9 +1276,9 @@ class XiangqiGame:
                         return False
                     else:
                         # print("rook coming back valid")
-                        prev_start = self._board[y][x]  # save the previous piece start
-                        prev_end = self._board[y_end][x_end]  # save the previous piece end
-                        self.set_board(x, y, x_end, y_end, piece)  # execute move
+                        prev_start = self._board[y][x]  #save previous start
+                        prev_end = self._board[y_end][x_end]  #save prev. end
+                        self.set_board(x, y, x_end, y_end, piece)  #execute move
 
                         if self._red_move == True:
                             color = "red"
@@ -1338,7 +1346,6 @@ class XiangqiGame:
                         king_piece = self._board[coord_y][coord_x]
                         king_y = coord_y
                         king_x = coord_x
-                        #print(king_piece.get_name(), king_piece.get_color(), king_y, king_x)
                         break
 
         # Next we need to test each piece of the opposite color for a valid
@@ -1884,7 +1891,7 @@ class Cannon(Piece):
             return False
         return True
 
-
+"""
 game = XiangqiGame()
 game.print_board() #starting board
 
@@ -1996,7 +2003,7 @@ game.print_board()
 #moves the king out of check
 game.make_move('e1', 'e2')
 game.print_board()
-
+"""
 
 """
 ################################################################################
