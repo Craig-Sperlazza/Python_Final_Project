@@ -42,7 +42,7 @@ class XiangqiGame:
             Then it will call a method in the piece subclass to
                 make sure that is a valid move for the piece
             If that returns True
-                It will then call various sub-methods within the Game class
+                It will then call various helper methods within the Game class
                 to further analyze if that is a legal move
             If all of these returns True
                 It will then call a final method to make the move which
@@ -88,8 +88,6 @@ class XiangqiGame:
         x = list_coord[0]
         y = list_coord[1]
         self._board[y][x] = red_rook2  #have to do y first because nested list
-
-        #print(red_rook2.get_type())
 
         ####################   RED KNIGHTS/HORSES  #############################
         red_knight1 = Knight('RN', 'red', 'knight', 'b1')
@@ -397,7 +395,6 @@ class XiangqiGame:
         # new = [x, y]
         # print(new)
 
-
     def get_board(self):
         """return the board in list form in its current position"""
         return self._board
@@ -426,7 +423,6 @@ class XiangqiGame:
             print(x, item)
             x -= 1
         print("   A   B   C   D   E   F   G   H   I")
-
 
     def color_check(self, start, end):
         """This method ensures that the player is not trying to move a
@@ -956,7 +952,6 @@ class XiangqiGame:
                     #print(piece_count, "True")
                     return
 
-
     def make_move(self, begin_coord, end_coord):
         """
         :param begin_coord: This will be a string representation of a coordinate
@@ -1331,7 +1326,6 @@ class XiangqiGame:
             attack_color = "black"
         elif king_color == "black":
             attack_color = "red"
-
 
         #First we need to locate the king of the appropriate color
         for coord_y in range(0, 10): #traverses the y coordinates
