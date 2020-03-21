@@ -1885,11 +1885,33 @@ class Cannon(Piece):
             return False
         return True
 
-"""
 game = XiangqiGame()
 game.print_board() #starting board
 
+game.make_move('c4', 'c5')
+game.print_board()
+game.make_move('e4', 'e5')
+game.print_board()
+game.make_move('c7', 'c6')
+game.print_board()
+game.make_move('b1', 'b3')
+game.print_board()
+game.make_move('e4', 'e5')
+game.print_board()
+game.make_move('h10', 'h8')
+game.print_board()
+game.make_move('g7', 'g6')
+game.print_board()
+game.make_move('i4', 'i5')
+game.print_board()
 
+"""
+game.make_move('b1', 'd2')
+game.print_board()
+game.make_move('h10', 'g8')
+game.print_board()
+"""
+"""
 ################################################################################
 #################      TESTING GAME      ##########################
 ################################################################################
